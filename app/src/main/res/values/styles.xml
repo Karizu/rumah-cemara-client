@@ -1,0 +1,42 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="loginInputStyle" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorControlNormal">@color/DarkGray</item>
+        <item name="colorControlActivated">@color/DarkOrange</item>
+        <item name="colorControlHighlight">@color/DarkOrange</item>
+        <item name="android:background">@drawable/edit_text</item>
+        <item name="android:textColorHighlight">@color/Blue</item>
+        <item name="android:paddingRight">@dimen/margin_padding_size_large</item>
+        <item name="android:paddingLeft">@dimen/margin_padding_size_large</item>
+        <item name="android:paddingTop">@dimen/margin_padding_size_medium</item>
+        <item name="android:paddingBottom">@dimen/margin_padding_size_medium</item>
+        <item name="android:paddingEnd">@dimen/margin_padding_size_large</item>
+        <item name="android:paddingStart">@dimen/margin_padding_size_large</item>
+        <item name="android:drawablePadding">@dimen/margin_padding_size_small</item>
+    </style>
+    <style name="loginInputTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorControlNormal">@color/DarkGray</item>
+        <item name="colorControlActivated">@color/DarkOrange</item>
+        <item name="colorControlHighlight">@color/DarkOrange</item>
+        <item name="android:textColorHint">@color/DarkGray</item>
+    </style>
+    <style name="button" parent="Theme.AppCompat">
+        <item name="android:background">@color/DarkOrange</item>
+        <item name="android:paddingLeft">@dimen/margin_padding_size_small</item>
+        <item name="listPreferredItemPaddingRight">@dimen/margin_padding_size_small</item>
+        <item name="android:bottomLeftRadius">10dp</item>
+        <item name="android:bottomRightRadius">10dp</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textColor">@color/White</item>
+    </style>
+
+</resources>

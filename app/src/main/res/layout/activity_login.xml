@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".LoginActivity">
+
+    <!-- Login progress -->
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:id="@+id/login_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/email_login_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="@dimen/margin_padding_size_small"
+                android:background="#000000"
+                android:theme="@style/loginInputTheme">
+
+                <ImageView
+                    android:id="@+id/bannerLogin"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:alpha="0.4"
+                    android:contentDescription="background login"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_news" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/margin_padding_size_large"
+                    android:layout_marginLeft="@dimen/margin_padding_size_medium"
+                    android:layout_marginStart="@dimen/margin_padding_size_medium"
+                    android:contentDescription="logo rumah cemara"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/logo_login"
+                    tools:ignore="RtlHardcoded" />
+            </RelativeLayout>
+
+            <AutoCompleteTextView
+                android:id="@+id/email"
+                style="@style/loginInputStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/icon_username"
+                android:drawableStart="@drawable/icon_username"
+                android:hint="@string/prompt_email"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:singleLine="true"
+                tools:ignore="RtlHardcoded,RtlSymmetry" />
+            <EditText
+                android:id="@+id/password"
+                style="@style/loginInputStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/icon_password"
+                android:drawableStart="@drawable/icon_password"
+                android:hint="@string/prompt_password"
+                android:imeActionId="6"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:imeOptions="actionUnspecified"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true"
+                tools:ignore="RtlHardcoded,RtlSymmetry" />dd
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginEnd="@dimen/margin_padding_size_medium"
+                android:layout_marginTop="@dimen/margin_padding_size_large"
+                android:text="@string/forgot_password"
+                tools:ignore="RtlHardcoded" />
+
+            <Button
+                android:id="@+id/email_sign_in_button"
+                style="@style/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="@dimen/margin_padding_size_medium"
+                android:background="@drawable/btn_rounded_blackyellow"
+                android:text="@string/action_sign_in"
+                android:textStyle="bold"
+                tools:ignore="RtlHardcoded" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
