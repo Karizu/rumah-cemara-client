@@ -15,4 +15,12 @@
         completions."
     </string>
     <string name="forgot_password">Forgot Password?</string>
+    <string name="structural">Ajukan pertemuan dengan\nService Provider atau Outreach\nWorker yang dipilih atau\nmengajukan perlindungan hukum\ndan melaporkan pelanggaran</string>
+    <string name="purpose">Purpose Legal Counseling\nAppoinment</string>
+    <string name="legal_aid">Legal Aid</string>
+    <string name="violation">Violation Report</string>
+    <string name="dsc_material">Brief Description of Material</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -23,7 +23,12 @@
         </activity>
         <activity
             android:name=".HomeActivity"
-            android:label="@string/title_activity_login"></activity>LoginActivity
+            android:label="@string/title_activity_login" />
+        LoginActivity
+        <activity android:name=".Structural.StructuralActivity" />
+        <activity android:name=".Structural.StructuralLegalAidActivity" />
+        <activity android:name=".Structural.StructuralViolationActivity" />
+        <activity android:name=".Structural.StructuralPurposeActivity"></activity>
     </application>
 
 </manifest>
