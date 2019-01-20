@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".home.fragment.HomeFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:theme="@style/quicksandTheme"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/img_news">
+
+            <LinearLayout
+                android:id="@+id/layoutHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#AF000000"
+                android:gravity="center_vertical|center_horizontal"
+                android:paddingBottom="@dimen/margin_padding_size_small"
+                android:paddingTop="@dimen/margin_padding_size_medium">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/logo_header" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layoutHeader"
+                android:background="#AF000000"
+                android:orientation="vertical"
+                android:padding="@dimen/text_size_small">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_service"
+                    android:textColor="@color/White"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/box_radius_white"
+                        android:orientation="vertical"
+                        android:padding="@dimen/margin_padding_size_small">
+
+                        <ImageView
+                            android:id="@+id/btn_biomedical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="Biomedical Menu"
+                            android:src="@drawable/icon_behavioral" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btn_behavioral"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/box_radius_white"
+                        android:orientation="vertical"
+                        android:padding="@dimen/margin_padding_size_small">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="Biomedical Menu"
+                            android:src="@drawable/icon_behavioral" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/box_radius_white"
+                        android:orientation="vertical"
+                        android:padding="@dimen/margin_padding_size_small">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="Biomedical Menu"
+                            android:src="@drawable/icon_behavioral" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/box_radius_white"
+                        android:orientation="vertical"
+                        android:padding="@dimen/margin_padding_size_small">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="Ask the Expert Menu"
+                            android:src="@drawable/icon_askexpert" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                style="@style/buttonMediumPadding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shadow_bottom">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/highlight_title"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/btn_highlight_menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:contentDescription="@string/icon_menu_highlight_text"
+                    android:src="@drawable/list_menu_icon_unselected" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/highlight_menu_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    style="@style/buttonSmallPadding"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/item_highlight_menu_color">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/margin_padding_size_small"
+                        android:drawableStart="@drawable/icon_highnews"
+                        android:gravity="center_vertical"
+                        android:text="News"
+                        android:textSize="@dimen/text_size_small" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/border_color" />
+
+                <LinearLayout
+                    style="@style/buttonSmallPadding"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/item_highlight_menu_color">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/margin_padding_size_small"
+                        android:drawableStart="@drawable/icon_highartikel"
+                        android:gravity="center_vertical"
+                        android:text="Articles"
+                        android:textSize="@dimen/text_size_small" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/border_color" />
+
+                <LinearLayout
+                    style="@style/buttonSmallPadding"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/item_highlight_menu_color">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/margin_padding_size_small"
+                        android:drawableStart="@drawable/icon_highevent"
+                        android:gravity="center_vertical"
+                        android:text="Events"
+                        android:textSize="@dimen/text_size_small" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/border_color" />
+            </LinearLayout>
+
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+
+            </ScrollView>
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

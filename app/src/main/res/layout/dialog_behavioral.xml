@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:theme="@style/DialogTheme">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_padding_size_small"
+        android:src="@drawable/icon_searc_close"
+        android:layout_alignParentEnd="true"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_padding_size_medium"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/margin_padding_size_small"
+            android:paddingLeft="@dimen/margin_padding_size_medium"
+            android:paddingRight="@dimen/margin_padding_size_medium"
+            android:paddingBottom="@dimen/margin_padding_size_medium"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="73.33dp"
+                android:layout_height="57.67dp"
+                android:layout_margin="@dimen/margin_padding_size_micro"
+                android:src="@drawable/icon_behavioral" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/margin_padding_size_small"
+                android:layout_marginEnd="@dimen/margin_padding_size_medium"
+                android:background="@drawable/shadow_line"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="6"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/text_size_medium"
+                    android:text="@string/behavioral" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/NormalGreyText"
+                    android:textSize="@dimen/text_size_micro"
+                    android:text="@string/behavioral_description_text" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/margin_padding_size_small"
+            android:layout_marginBottom="@dimen/margin_padding_size_small"
+            android:background="@drawable/shadow_line"/>
+        <android.support.v7.widget.CardView
+            android:id="@+id/btn_behavioral_appointment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="5dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/rounded_orange_transparent">
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/icon_purpose_bkg"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/margin_padding_size_medium"
+                        android:paddingRight="@dimen/margin_padding_size_medium"
+                        android:paddingTop="@dimen/margin_padding_size_micro"
+                        android:paddingBottom="@dimen/margin_padding_size_micro"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_size_medium"
+                        android:text="@string/purpose_behavioral_appointment"/>
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+</RelativeLayout>

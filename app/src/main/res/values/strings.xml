@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">RumahCemara</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Login</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_mylist">My List</string>
+    <string name="title_options">Options</string>
+    <string name="title_service">Service</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="icon_menu_highlight_text">icon menu highlights</string>
+    <string name="highlight_title">Highlights</string>
+    <string name="example_news_title">Kebijakan Ganja Kanada Gerus Triliunan Rupiah keuntungan Tahunan Bandar Narkoba</string>
+    <string name="example_author">Media dan Data RC</string>
+    <string name="example_date_created">June 9 2018</string>
+    <string name="example_imagenews_description">news image description</string>
+    <string name="mark_description">mark news description</string>
+    <string name="share_description">share description</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_up_description">Please fill this form to create an account!</string>
+    <string name="select_photo_description">select photo description</string>
+    <string name="birth_date">Birth Date</string>
+    <string name="email">Email</string>
+    <string name="gender">Gender</string>
+    <string name="type_of_treatment">Type of treatment</string>
+    <string name="password">Password</string>
+    <string name="name">Name</string>
+    <string name="have_an_account">Have an account?</string>
+    <string name="select_display_picture">Select Display Picture</string>
+
+    <!--TODO : Scructural-->
+    <string name="structural">Ajukan pertemuan dengan\nService Provider atau Outreach\nWorker yang dipilih atau\nmengajukan perlindungan hukum\ndan melaporkan pelanggaran</string>
+    <string name="purpose">Purpose Legal Counseling\nAppoinment</string>
+    <string name="legal_aid">Legal Aid</string>
+    <string name="violation">Violation Report</string>
+    <string name="dsc_material">Brief Description of Material</string>
+    <string name="biomedical_description_text">Pengecekan kesehatan dengan mengajukan pertemuan dengan Service Provider atau Outreach Worker.</string>
+    <string name="purpose_biomedical_appointment">Purpose Biomedical Appointment</string>
+    <string name="behavioral">Behavioral</string>
+    <string name="behavioral_description_text">Konsultan dengan Service Provider atau Outreach Worker yang dipilih mengenai cara pencegahan ataupun penyembuhan penyakit</string>
+    <string name="purpose_behavioral_appointment">Purpose Counseling Appointment</string>
+</resources>
