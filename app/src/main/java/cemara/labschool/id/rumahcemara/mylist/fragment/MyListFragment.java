@@ -42,11 +42,13 @@ public class MyListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_my_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_my_list, parent, false);
         ButterKnife.bind(this, rootView);
         setHasOptionsMenu(true);
+
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         MyListAdapter tabAdapter = new MyListAdapter(getFragmentManager(), getActivity(),id);
         viewPager.setAdapter(tabAdapter);
@@ -58,14 +60,15 @@ public class MyListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.navigation, menu);
+        super.onCreateOptionsMenu(menu,inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        switch (item.getItemId()){
             case R.id.navigation_mylist:
-                break;
+                default:
+                    return super.onOptionsItemSelected(item);
         }
-        return false;
     }
 }
