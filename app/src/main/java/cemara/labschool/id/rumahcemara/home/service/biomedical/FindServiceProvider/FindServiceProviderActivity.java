@@ -119,6 +119,7 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
             }
         });
     }
+
     @Override
     public void onBackPressed() {
 
@@ -132,4 +133,5 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
         }
 
     }
+
 }

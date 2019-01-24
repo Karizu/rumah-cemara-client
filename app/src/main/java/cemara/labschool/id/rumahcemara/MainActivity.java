@@ -33,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
+                    try {
+                        Objects.requireNonNull(getSupportActionBar()).hide(); //<< this
+                    } catch (Exception ignored) {
+                    }
                     viewPager.setCurrentItem(0);
 //                    mTextMessage.setText(R.string.title_home);
                     break;
@@ -64,10 +68,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try {
-            Objects.requireNonNull(getSupportActionBar()).hide(); //<< this
-        } catch (Exception ignored) {
-        }
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         viewPager = (NoSwipePager) findViewById(R.id.viewpager);

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".mylist.fragment.MyListFragment">
 
@@ -12,14 +12,31 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/Black">
-        <TextView
-            android:id="@+id/text_toolbar_title"
-            android:layout_width="wrap_content"
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="My List"
-            android:textColor="@android:color/white"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/text_toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="My List"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/white" />
+
+            <ImageView
+                android:id="@+id/toolbar_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
+                android:src="@drawable/icon_history"/>
+
+        </RelativeLayout>
+
     </android.support.v7.widget.Toolbar>
 
     <android.support.design.widget.TabLayout
@@ -37,7 +54,7 @@
         app:tabPaddingTop="10dp"
         app:tabSelectedTextColor="@color/FocusColorText"
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-        app:tabTextColor="@color/Black"/>
+        app:tabTextColor="@color/Black" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view"
