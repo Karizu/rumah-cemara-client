@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
@@ -66,19 +67,26 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
         EditText editTextAutocomplete = ((EditText) Objects.requireNonNull(autocompleteFragment.getView()).findViewById(R.id.place_autocomplete_search_input));
         editTextAutocomplete.setTextSize(14.0f);
         editTextAutocomplete.setPadding(0,1,1,1);
+        editTextAutocomplete.setTextColor(getResources().getColor(R.color.White));
         editTextAutocomplete.setGravity(Gravity.CENTER_VERTICAL|Gravity.START);
+
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @SuppressLint("LongLogTag")
             @Override
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
                 Log.i(TAG, "Place: " + place.getName());
+                Toast toast = Toast.makeText(getApplicationContext(), String.valueOf(place.getAddress()), Toast.LENGTH_SHORT);
+                toast.show();
+
             }
 
             @SuppressLint("LongLogTag")
             @Override
             public void onError(Status status) {
                 // TODO: Handle the error.
+                Toast toast = Toast.makeText(getApplicationContext(), String.valueOf(status), Toast.LENGTH_SHORT);
+                toast.show();
                 Log.i(TAG, "An error occurred: " + status);
             }
         });
