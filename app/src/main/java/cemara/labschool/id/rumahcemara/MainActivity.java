@@ -4,13 +4,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import java.util.Objects;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cemara.labschool.id.rumahcemara.util.adapter.NoSwipePager;
 import cemara.labschool.id.rumahcemara.util.adapter.ViewPagerAdapter;
@@ -25,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     HomeFragment fragmentHome;
     MyListFragment fragmentMyList;
     OptionsFragment fragmentOptions;
+    private Menu menu;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -33,18 +37,23 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    try {
-                        Objects.requireNonNull(getSupportActionBar()).hide(); //<< this
-                    } catch (Exception ignored) {
-                    }
+
                     viewPager.setCurrentItem(0);
 //                    mTextMessage.setText(R.string.title_home);
                     break;
                 case R.id.navigation_mylist:
+//                    try {
+//                        Objects.requireNonNull(getSupportActionBar()).show(); //<< this
+//                    } catch (Exception ignored) {
+//                    }
                     viewPager.setCurrentItem(1);
 //                    mTextMessage.setText(R.string.title_mylist);
                     break;
                 case R.id.navigation_options:
+//                    try {
+//                        Objects.requireNonNull(getSupportActionBar()).show(); //<< this
+//                    } catch (Exception ignored) {
+//                    }
                     viewPager.setCurrentItem(3);
 //                    mTextMessage.setText(R.string.title_options);
                     break;
@@ -68,7 +77,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        try {
+            Objects.requireNonNull(getSupportActionBar()).hide(); //<< this
+        } catch (Exception ignored) {
+        }
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         viewPager = (NoSwipePager) findViewById(R.id.viewpager);
@@ -102,5 +114,17 @@ public class MainActivity extends AppCompatActivity {
         });
         setupViewPager(viewPager);
     }
+
+//    public void setToolbar() {
+//        setSupportActionBar(toolbar);
+//        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+//        toolbar.setNavigationIcon(R.drawable.icon_back);
+//        toolbarTitle.setText("Biomedical Appointment");
+//        toolbarImg.setImageResource(R.drawable.icon_biomedical_white);
+//        toolbar.setNavigationOnClickListener(v -> {
+//            //What to do on back clicked
+//            onBackPressed();
+//        });
+//    }
 
 }

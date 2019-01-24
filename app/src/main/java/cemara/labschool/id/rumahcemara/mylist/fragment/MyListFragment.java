@@ -16,11 +16,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cemara.labschool.id.rumahcemara.MainActivity;
 import cemara.labschool.id.rumahcemara.R;
 import cemara.labschool.id.rumahcemara.mylist.fragment.Adapter.MyListAdapter;
 
@@ -40,6 +42,10 @@ public class MyListFragment extends Fragment {
     public MyListFragment() {
         // Required empty public constructor
     }
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent,
@@ -48,7 +54,7 @@ public class MyListFragment extends Fragment {
         ButterKnife.bind(this, rootView);
         setHasOptionsMenu(true);
 
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((MainActivity)getActivity()).setSupportActionBar(toolbar);
 
         MyListAdapter tabAdapter = new MyListAdapter(getFragmentManager(), getActivity(),id);
         viewPager.setAdapter(tabAdapter);
@@ -59,14 +65,16 @@ public class MyListFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.navigation, menu);
+        inflater.inflate(R.menu.mylist_history, menu);
         super.onCreateOptionsMenu(menu,inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.navigation_mylist:
+            case R.id.history:
+                Toast toast = Toast.makeText(getContext(), "On Progress", Toast.LENGTH_SHORT);
+                toast.show();
                 default:
                     return super.onOptionsItemSelected(item);
         }

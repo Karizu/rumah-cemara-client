@@ -9,6 +9,15 @@
         <item name="bottomNavigationStyle">@style/Widget.Design.BottomNavigationView</item>
         <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
     </style>
+    <!-- Base application theme NoActionBar. -->
+    <style name="AppThemeNoBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="bottomNavigationStyle">@style/Widget.Design.BottomNavigationView</item>
+        <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
+    </style>
     <style name="loginInputStyle" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorControlNormal">@color/DarkGray</item>
