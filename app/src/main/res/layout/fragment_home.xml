@@ -65,8 +65,7 @@
                             android:id="@+id/btn_biomedical"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:contentDescription="Biomedical Menu"
-                            android:src="@drawable/icon_behavioral" />
+                            android:src="@drawable/icon_biomedical" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -82,7 +81,6 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:contentDescription="Biomedical Menu"
                             android:src="@drawable/icon_behavioral" />
 
                     </LinearLayout>
@@ -100,8 +98,7 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:contentDescription="Biomedical Menu"
-                            android:src="@drawable/icon_behavioral" />
+                            android:src="@drawable/icon_structural" />
 
                     </LinearLayout>
 
@@ -118,7 +115,6 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:contentDescription="Ask the Expert Menu"
                             android:src="@drawable/icon_askexpert" />
 
                     </LinearLayout>

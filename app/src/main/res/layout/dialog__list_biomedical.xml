@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/White">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginStart="50dp"
+        android:text="Biodemical Appointment"
+        android:textColor="@color/Black"
+        android:textSize="20sp"
+        android:fontFamily="@font/quicksand_reguler"
+        android:textStyle="bold"
+        android:drawableLeft="@drawable/icon_biomedical"
+        android:drawableRight="@drawable/icon_searc_close" />
+
+</LinearLayout>
