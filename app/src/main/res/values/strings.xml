@@ -54,4 +54,12 @@
     <string name="behavioral">Behavioral</string>
     <string name="behavioral_description_text">Konsultan dengan Service Provider atau Outreach Worker yang dipilih mengenai cara pencegahan ataupun penyembuhan penyakit</string>
     <string name="purpose_behavioral_appointment">Purpose Counseling Appointment</string>
+    <string name="stuctural_description_text">Ajukan pertemuan dengan Service Provider atau Outreach Worker yang dipilih atau mengajukan perlindungan hukum dan melaporkan pelanggaran</string>
+    <string name="purpose_legal_counseling_appointment">Purpose Legal Counseling Appointment</string>
+    <string name="violation_report">Violation Report</string>
+    <string name="service_purpose_appointment">serveice_purpose_appointment</string>
+    <string name="find_service_provider">Find Service Provider</string>
+    <string name="find_outreach_worker">Find Outreach Worker</string>
+    <string name="hint_search_locarion">Search Service Provider Name or Location</string>
+    <string name="nearest_service_provider">Nearest Service Provider</string>
 </resources>

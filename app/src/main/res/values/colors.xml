@@ -153,7 +153,7 @@
     <color name="item_highlight_menu_color">#FFF2D8</color>
     <color name="OrangeText">#FC7F3C</color>
     <color name="NormalGreyText">#8E8E93</color>
-
+    <color name="TransparentWhite">#13FFFFFF</color>
     <array name="colors">
         <item name="White">@color/White</item>
         <item name="Ivory">@color/Ivory</item>
@@ -301,6 +301,7 @@
         <item name="NormalColorText">@color/NormalColorText</item>
         <item name="TextOrange">@color/OrangeText</item>
         <item name="NormalTextGrey">@color/NormalGreyText</item>
+        <item name="TransparentWhite">@color/TransparentWhite</item>
     </array>
 
 </resources>

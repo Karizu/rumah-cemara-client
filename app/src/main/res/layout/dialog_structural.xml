@@ -1,97 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:theme="@style/DialogTheme">
+
     <ImageView
+        android:id="@+id/btn_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_margin="@dimen/margin_padding_size_small"
-        android:src="@drawable/icon_searc_close"
-        android:layout_alignParentEnd="true"/>
+        android:src="@drawable/icon_searc_close" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/margin_padding_size_medium"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="@dimen/margin_padding_size_medium">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/margin_padding_size_small"
+            android:orientation="horizontal"
             android:paddingLeft="@dimen/margin_padding_size_medium"
+            android:paddingTop="@dimen/margin_padding_size_small"
             android:paddingRight="@dimen/margin_padding_size_medium"
-            android:paddingBottom="@dimen/margin_padding_size_medium"
-            android:orientation="horizontal">
+            android:paddingBottom="@dimen/margin_padding_size_medium">
 
             <ImageView
                 android:layout_width="73.33dp"
                 android:layout_height="57.67dp"
                 android:layout_margin="@dimen/margin_padding_size_micro"
-                android:src="@drawable/icon_biomedical" />
+                android:src="@drawable/icon_structural" />
+
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/margin_padding_size_small"
                 android:layout_marginEnd="@dimen/margin_padding_size_medium"
-                android:background="@drawable/shadow_line"/>
+                android:background="@drawable/shadow_line" />
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="6"
                 android:layout_height="match_parent"
+                android:layout_weight="6"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
+                    android:text="Structural"
                     android:textSize="@dimen/text_size_medium"
-                    android:text="Biomedical" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="@string/stuctural_description_text"
                     android:textColor="@color/NormalGreyText"
-                    android:textSize="@dimen/text_size_micro"
-                    android:text="@string/biomedical_description_text" />
+                    android:textSize="@dimen/text_size_micro" />
             </LinearLayout>
 
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/margin_padding_size_small"
             android:layout_marginBottom="@dimen/margin_padding_size_small"
-            android:background="@drawable/shadow_line"/>
+            android:background="@drawable/shadow_line" />
+
         <android.support.v7.widget.CardView
+            android:id="@+id/btn_structural_appointment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_padding_size_small"
             app:cardCornerRadius="5dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/rounded_orange_transparent">
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/rounded_orange_transparent"
+                    android:orientation="horizontal">
+
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="match_parent"
                         android:scaleType="fitXY"
-                        android:src="@drawable/icon_purpose_bkg"/>
+                        android:src="@drawable/icon_purpose_bkg" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/margin_padding_size_medium"
-                        android:paddingRight="@dimen/margin_padding_size_medium"
                         android:paddingTop="@dimen/margin_padding_size_micro"
+                        android:paddingRight="@dimen/margin_padding_size_medium"
                         android:paddingBottom="@dimen/margin_padding_size_micro"
-                        android:textStyle="bold"
+                        android:text="@string/purpose_legal_counseling_appointment"
                         android:textSize="@dimen/text_size_medium"
-                        android:text="@string/purpose_biomedical_appointment"/>
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:id="@+id/btn_legal_aid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_padding_size_small"
+            app:cardCornerRadius="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/rounded_orange_transparent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/icon_legal_aid_bkg" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/margin_padding_size_medium"
+                        android:paddingTop="@dimen/margin_padding_size_micro"
+                        android:paddingRight="@dimen/margin_padding_size_medium"
+                        android:paddingBottom="@dimen/margin_padding_size_micro"
+                        android:text="@string/legal_aid"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:id="@+id/btn_violation_report"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_padding_size_small"
+            app:cardCornerRadius="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/rounded_orange_transparent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/icon_violation_bkg" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/margin_padding_size_medium"
+                        android:paddingTop="@dimen/margin_padding_size_micro"
+                        android:paddingRight="@dimen/margin_padding_size_medium"
+                        android:paddingBottom="@dimen/margin_padding_size_micro"
+                        android:text="@string/violation_report"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>

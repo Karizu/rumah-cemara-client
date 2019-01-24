@@ -8,10 +8,13 @@ import android.widget.EditText;
 
 import java.util.Objects;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cemara.labschool.id.rumahcemara.R;
 
 public class StructuralViolationActivity extends AppCompatActivity {
 
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
     EditText DescMaterial;
 
@@ -19,8 +22,13 @@ public class StructuralViolationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.structural_violation_activity);
+        ButterKnife.bind(this);
+//        setSupportActionBar(toolbar);
+        if (getSupportActionBar()!=null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
-        setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Structural - Violation Report");
         toolbar.setNavigationIcon(R.drawable.icon_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -29,5 +37,10 @@ public class StructuralViolationActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

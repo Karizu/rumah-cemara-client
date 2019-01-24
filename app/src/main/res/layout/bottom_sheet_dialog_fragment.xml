@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:padding="@dimen/margin_padding_size_small"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/sheet_btn_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/icon_close"
+        android:layout_alignParentEnd="true"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_padding_size_small"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+        <ImageView
+            android:layout_width="75.37dp"
+            android:layout_height="75.37dp"
+            android:src="@drawable/select_dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_size_medium"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/nearest_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_medium"
+                android:textColor="@color/Black"
+                android:textStyle="bold"
+                android:text="Akmal M kristanto"/>
+            <TextView
+                android:id="@+id/nearest_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jalan Gn Batu no. 8, Cimahi"/>
+            <TextView
+                android:id="@+id/nearest_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+6285694302802"/>
+            <TextView
+                android:id="@+id/nearest_range"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1 km"/>
+        </LinearLayout>
+        <Button
+            android:id="@+id/btn_appointment"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_size_micro"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_rounded_blackyellow"
+            style="@style/button"
+            android:text="Purpose Appointment"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

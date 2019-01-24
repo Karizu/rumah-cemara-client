@@ -8,7 +8,8 @@
     <dimen name="margin_padding_size_small">8dp</dimen>
     <dimen name="margin_padding_size_medium">16dp</dimen>
     <dimen name="margin_padding_size_large">32dp</dimen>
-
+    <!--New Margin from adobe xd-->
+<dimen name="d_13">13dp</dimen>
     <!-- Icon sizes -->
     <dimen name="standard_icon_size">32dp</dimen>
     <dimen name="launcher_icon_size">48dp</dimen>
@@ -34,4 +35,5 @@
     <dimen name="text_size_xxlarge">45sp</dimen>
     <dimen name="text_size_xxxlarge">56sp</dimen>
     <dimen name="text_size_xxxxlarge">112sp</dimen>
+    <dimen name="d_17">17dp</dimen>
 </resources>

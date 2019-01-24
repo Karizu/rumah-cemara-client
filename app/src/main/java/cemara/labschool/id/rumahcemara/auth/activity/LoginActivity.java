@@ -201,7 +201,6 @@ public class LoginActivity extends AppCompatActivity {
             if (success) {
 //                finish();
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(i);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".home.fragment.HomeFragment">
-
+    <include layout="@layout/row_toolbar"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -88,6 +88,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/btn_structural"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
@@ -105,6 +106,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/btn_ask_the_expert"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"

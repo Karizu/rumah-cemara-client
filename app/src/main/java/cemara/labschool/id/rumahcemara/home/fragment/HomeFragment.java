@@ -2,6 +2,7 @@ package cemara.labschool.id.rumahcemara.home.fragment;
 
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,11 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cemara.labschool.id.rumahcemara.home.service.biomedical.BiomedicalAppointmentActivity;
+import cemara.labschool.id.rumahcemara.home.service.structural.StructuralActivity;
+import cemara.labschool.id.rumahcemara.home.service.structural.StructuralLegalAidActivity;
+import cemara.labschool.id.rumahcemara.home.service.structural.StructuralPurposeActivity;
+import cemara.labschool.id.rumahcemara.home.service.structural.StructuralViolationActivity;
 import cemara.labschool.id.rumahcemara.util.news.adapter.NewsAdapter;
 import cemara.labschool.id.rumahcemara.util.news.model.News;
 import cemara.labschool.id.rumahcemara.R;
@@ -63,18 +69,80 @@ public class HomeFragment extends Fragment {
     @OnClick(R.id.btn_biomedical)
     public void dialogBiomedical() {
         showDialog(R.layout.dialog_biomedical);
-        CardView biomedical_appointment = dialog.findViewById(R.id.btn_biomedical_appointment);
+        final CardView biomedical_appointment = dialog.findViewById(R.id.btn_biomedical_appointment);
         biomedical_appointment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                toast();
+                startActivity(new Intent(getContext(), BiomedicalAppointmentActivity.class));
+            }
+        });
+        ImageView closeDialog = dialog.findViewById(R.id.btn_close);
+        closeDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+    @OnClick(R.id.btn_behavioral)
+    public void dialogBehavioral() {
+        showDialog(R.layout.dialog_behavioral);
+        CardView behavioral_appointment = dialog.findViewById(R.id.btn_behavioral_appointment);
+        ImageView closeDialog = dialog.findViewById(R.id.btn_close);
+        closeDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        behavioral_appointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 toast();
             }
         });
-
     }
-
-    @OnClick(R.id.btn_behavioral)
-    public void dialogBehavioral() {
+    @OnClick(R.id.btn_structural)
+    public void dialogStructural() {
+        showDialog(R.layout.dialog_structural);
+        CardView structural_appointment = dialog.findViewById(R.id.btn_structural_appointment);
+        CardView legal_aid = dialog.findViewById(R.id.btn_legal_aid);
+        CardView violation_report = dialog.findViewById(R.id.btn_violation_report);
+        ImageView closeDialog = dialog.findViewById(R.id.btn_close);
+        closeDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        structural_appointment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                toast();
+                Intent intent = new Intent(getContext(), StructuralPurposeActivity.class);
+                startActivity(intent);
+            }
+        });
+        legal_aid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                toast();
+                Intent intent = new Intent(getContext(), StructuralLegalAidActivity.class);
+                startActivity(intent);
+            }
+        });
+        violation_report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                toast();
+                Intent intent = new Intent(getContext(), StructuralViolationActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+    @OnClick(R.id.btn_ask_the_expert)
+    public void toAsktheExpert() {
         showDialog(R.layout.dialog_behavioral);
         CardView biomedical_appointment = dialog.findViewById(R.id.btn_behavioral_appointment);
         biomedical_appointment.setOnClickListener(new View.OnClickListener() {
@@ -83,9 +151,8 @@ public class HomeFragment extends Fragment {
                 toast();
             }
         });
-
-
     }
+
 
 
     private void getListNews() {
