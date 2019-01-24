@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_margin="15dp"
     tools:context=".mylist.fragment.MyListAppointment">
@@ -10,9 +10,8 @@
     <LinearLayout
         android:id="@+id/layout_list_biomedical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="80dp"
+        android:layout_margin="10dp"
         android:background="@drawable/row_shape_background"
         android:elevation="5dp"
         android:orientation="vertical"
@@ -26,16 +25,17 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_weight="0.3">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="100dp"
+                    android:layout_height="75dp"
                     android:src="@drawable/icon_biomedical"
                     android:layout_gravity="center"
-                    android:padding="10dp"/>
+                    android:padding="10dp"
+                    android:scaleType="fitCenter"/>
 
             </LinearLayout>
 
@@ -55,7 +55,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Akmal M Kristanto"
                     android:textColor="@color/NormalColorText"
@@ -63,14 +63,14 @@
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Accepted"
                     android:textColor="@color/Mantis"
                     android:textSize="12sp"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Biomedical Appointment"
                     android:textColor="@color/DimGray"
@@ -89,7 +89,8 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/icon_pesan"/>
+                    android:src="@drawable/icon_pesan"
+                    android:background="@null"/>
 
             </LinearLayout>
 
@@ -100,8 +101,9 @@
     <LinearLayout
         android:id="@+id/layout_counseling"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:background="@drawable/row_shape_background"
         android:elevation="5dp"
         android:orientation="vertical"
@@ -115,16 +117,17 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_weight="0.3">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="100dp"
+                    android:layout_height="75dp"
                     android:src="@drawable/icon_biomedical"
                     android:layout_gravity="center"
-                    android:padding="10dp"/>
+                    android:padding="10dp"
+                    android:scaleType="fitCenter"/>
 
             </LinearLayout>
 
@@ -144,7 +147,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Rumah Sakit Dustira"
                     android:textColor="@color/NormalColorText"
@@ -152,14 +155,14 @@
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="On Progress"
                     android:textColor="@color/NormalGreyText"
                     android:textSize="12sp"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Counseling Appointment"
                     android:textColor="@color/DimGray"
