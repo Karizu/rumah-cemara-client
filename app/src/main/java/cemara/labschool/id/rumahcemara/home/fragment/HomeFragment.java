@@ -201,7 +201,6 @@ public class HomeFragment extends Fragment {
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialog.show();
         dialog.getWindow().setAttributes(lp);
-
     }
 
 }

@@ -77,4 +77,7 @@
     <string name="nama">Nama</string>
     <string name="username">Username</string>
     <string name="simpan">Save</string>
+    <string name="confirm_logout">Apakah anda yakin akan keluar?</string>
+    <string name="ya">Ya</string>
+    <string name="tidak">Tidak</string>
 </resources>
