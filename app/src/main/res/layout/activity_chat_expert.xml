@@ -90,13 +90,55 @@
                     android:id="@+id/topiclist"
                     layout="@layout/row_chat_receive" />
 
-                <include
-                    android:id="@+id/topiclist"
-                    layout="@layout/row_chat_receive" />
+                <!--Start INI SAMA DENGAN row_chat_receive Ditampilkan untuk memperlihatkan-->
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:orientation="horizontal" android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/margin_padding_size_medium">
 
-                <include
-                    android:id="@+id/topiclist"
-                    layout="@layout/row_chat_receive" />
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/select_dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buble_chat_putih_edit"
+                        android:textSize="@dimen/text_size_medium"
+                        android:paddingTop="@dimen/margin_padding_size_small"
+                        android:paddingBottom="@dimen/margin_padding_size_small"
+                        android:paddingLeft="@dimen/margin_padding_size_large"
+                        android:paddingRight="@dimen/margin_padding_size_large"
+                        android:text="dan biasakan untuk menjaga kebersihan"/>
+
+                </LinearLayout>
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:orientation="horizontal" android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/margin_padding_size_medium">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/select_dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buble_chat_putih_edit"
+                        android:textSize="@dimen/text_size_medium"
+                        android:paddingTop="@dimen/margin_padding_size_small"
+                        android:paddingBottom="@dimen/margin_padding_size_small"
+                        android:paddingLeft="@dimen/margin_padding_size_large"
+                        android:paddingRight="@dimen/margin_padding_size_large"
+                        android:text="dan juga...."/>
+
+                </LinearLayout>
+
+                <!--End INI SAMA DENGAN row_chat_receive Ditampilkan untuk memperlihatkan-->
+
 
                 <include
                     android:id="@+id/topiclist"
