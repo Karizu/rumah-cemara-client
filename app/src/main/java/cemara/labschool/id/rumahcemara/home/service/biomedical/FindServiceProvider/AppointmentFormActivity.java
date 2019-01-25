@@ -44,17 +44,20 @@ public class AppointmentFormActivity extends AppCompatActivity {
     EditText appointmentWorkerName;
     @BindView(R.id.description_material)
     EditText descriptionMaterial;
+    EditText changeTo;
     final Calendar myCalendar = Calendar.getInstance();
     DatePickerDialog.OnDateSetListener date = (datePicker, year, month, day) -> {
         myCalendar.set(Calendar.YEAR, year);
         myCalendar.set(Calendar.MONTH, month);
         myCalendar.set(Calendar.DAY_OF_MONTH, day);
+        updateLabel(changeTo);
     };
     private void updateLabel(EditText date) {
         String myFormat = "MM/dd/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         date.setText(sdf.format(myCalendar.getTime()));
+        changeTo = null;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -87,17 +90,17 @@ public class AppointmentFormActivity extends AppCompatActivity {
 
     @OnClick(R.id.appointment_date_start)
     public void openCalenderDateStart(){
-        new DatePickerDialog(this, date, myCalendar
+        changeTo = findViewById(R.id.appointment_date_start);
+         new DatePickerDialog(this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-        updateLabel(findViewById(R.id.appointment_date_start));
     }
     @OnClick(R.id.appointment_date_end)
     public void openCalenderDateEnd(){
+        changeTo = findViewById(R.id.appointment_date_end);
         new DatePickerDialog(this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-        updateLabel(findViewById(R.id.appointment_date_end));
     }
     public void setToolbar() {
         setSupportActionBar(toolbar);

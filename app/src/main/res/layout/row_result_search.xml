@@ -5,7 +5,7 @@
     android:id="@+id/parentCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardElevation="1dp"
+    card_view:cardElevation="2dp"
     card_view:cardCornerRadius="5dp"
     card_view:cardUseCompatPadding="true">
 
@@ -40,13 +40,16 @@
             android:layout_gravity="center_vertical"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/result_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/Black"
                 android:text="Rumah Sakit Hasan Sadikin"/>
             <TextView
+                android:id="@+id/result_range"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/NormalGreyText"
                 android:text="1 km"/>
         </LinearLayout>
 
