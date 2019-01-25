@@ -80,4 +80,8 @@
     <string name="confirm_logout">Apakah anda yakin akan keluar?</string>
     <string name="ya">Ya</string>
     <string name="tidak">Tidak</string>
+    <string name="ask_the_expert">Ask The Expert</string>
+    <string name="desk_ask_the_expert">Buat topic untuk dijadikan pertanyaan yang akan dijawab oleh Expert</string>
+    <string name="create_on">Create on</string>
+    <string name="create_new_topic">Create New Topic</string>
 </resources>

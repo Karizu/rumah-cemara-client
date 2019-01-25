@@ -1,9 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".home.service.asktheexpert.AskTheExpertActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <include
+        android:id="@+id/thistoolbar"
+        layout="@layout/row_toolbar_image" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/thistoolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/Black" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/margin_padding_size_medium"
+                android:paddingTop="@dimen/margin_padding_size_small"
+                android:paddingRight="@dimen/margin_padding_size_medium"
+                android:paddingBottom="@dimen/margin_padding_size_medium">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="@dimen/margin_padding_size_medium"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_padding_size_small"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="57.67dp"
+                            android:layout_height="57.67dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_margin="@dimen/margin_padding_size_medium"
+                            android:src="@drawable/icon_asktheexpert" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/margin_padding_size_small"
+                            android:layout_marginRight="@dimen/margin_padding_size_small"
+                            android:background="@drawable/line" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="top"
+                            android:layout_marginLeft="@dimen/margin_padding_size_small"
+                            android:layout_marginRight="@dimen/margin_padding_size_small"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/sf_pro_display"
+                                android:text="@string/ask_the_expert"
+                                android:textColor="@color/Black"
+                                android:textSize="@dimen/text_size_medium" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/sf_pro_display"
+                                android:text="@string/desk_ask_the_expert"
+                                android:textSize="@dimen/text_size_small" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+                <include
+                    android:id="@+id/thistoolbar"
+                    layout="@layout/row_asktheexpert_topic" />
+
+                <include
+                    android:id="@+id/thistoolbar"
+                    layout="@layout/row_asktheexpert_topic" />
+
+                <include
+                    android:id="@+id/thistoolbar"
+                    layout="@layout/row_asktheexpert_topic" />
+
+            </LinearLayout>
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="@string/create_new_topic"
+        android:fontFamily="@font/sf_pro_display"
+        android:textAllCaps="false"
+        android:textColor="@color/White"
+        android:textSize="@dimen/text_size_large"
+        android:background="@drawable/gradient_orange"
+        android:layout_alignParentBottom="true"
+        />
+
+</RelativeLayout>
