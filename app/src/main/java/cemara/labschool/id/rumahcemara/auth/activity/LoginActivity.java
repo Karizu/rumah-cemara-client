@@ -2,6 +2,7 @@ package cemara.labschool.id.rumahcemara.auth.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -56,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
     private final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 1;
     private final int MY_PERMISSIONS_REQUEST_CAMERA = 100;
 
-
+    Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                Loading.show(LoginActivity.this);
                 attemptLogin();
             }
         });

@@ -66,4 +66,24 @@
     <string name="media_data_rc"><![CDATA[Media & Data RC]]></string>
     <string name="title_saved_ganja">Kebijakan Ganja Kanada Gerus  Triliunan Rupiah Keuntungan  Tahunan Bandar Narkoba</string>
     <string name="title_news_aparat">Keterlibatan Aparat dalam Bisnis  Narkoba Tidak Mengejutkan</string>
+    <string name="edit">Edit</string>
+    <string name="privacy_settings">Privacy Settings</string>
+    <string name="notification">Notification</string>
+    <string name="faq">faq</string>
+    <string name="terms_condition"><![CDATA[Terms & Condition]]></string>
+    <string name="share_app">Share App</string>
+    <string name="rate_app">Rate App</string>
+    <string name="logout">Logout</string>
+    <string name="change_image">Change Image</string>
+    <string name="nama">Nama</string>
+    <string name="username">Username</string>
+    <string name="simpan">Save</string>
+    <string name="confirm_logout">Apakah anda yakin akan keluar?</string>
+    <string name="ya">Ya</string>
+    <string name="tidak">Tidak</string>
+    <string name="ask_the_expert">Ask The Expert</string>
+    <string name="desk_ask_the_expert">Buat topic untuk dijadikan pertanyaan yang akan dijawab oleh Expert</string>
+    <string name="create_on">Create on</string>
+    <string name="create_new_topic">Create New Topic</string>
+    <string name="create_topic">Create Topic</string>
 </resources>
