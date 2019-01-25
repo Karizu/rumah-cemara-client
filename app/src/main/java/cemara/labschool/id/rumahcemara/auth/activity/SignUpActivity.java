@@ -40,6 +40,7 @@ import cemara.labschool.id.rumahcemara.api.TreatmentHelper;
 import cemara.labschool.id.rumahcemara.auth.activity.LoginActivity;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.Treatment;
+import cemara.labschool.id.rumahcemara.util.dialog.Loading;
 import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -162,6 +163,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
     @OnClick(R.id.email_sign_in_button)
     public void doSignUp(){
+        Loading.show(SignUpActivity.this);
         Bitmap bitmap = BitmapFactory.decodeFile(profileImage.getAbsolutePath());
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

@@ -19,14 +19,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.rezkyatinnov.kyandroid.localdata.LocalData;
+import com.rezkyatinnov.kyandroid.reztrofit.ErrorResponse;
+import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
+import com.rezkyatinnov.kyandroid.session.Session;
+
 import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cemara.labschool.id.rumahcemara.R;
+import cemara.labschool.id.rumahcemara.api.AuthHelper;
 import cemara.labschool.id.rumahcemara.auth.activity.LoginActivity;
 import cemara.labschool.id.rumahcemara.home.service.biomedical.FindServiceProvider.FindServiceProviderActivity;
+import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.model.Profile;
+import cemara.labschool.id.rumahcemara.model.User;
 import cemara.labschool.id.rumahcemara.options.fragment.activity.EditAccountActivity;
+import io.realm.Realm;
+import okhttp3.Headers;
 
 public class OptionsFragment extends Fragment {
 
@@ -34,6 +47,18 @@ public class OptionsFragment extends Fragment {
     Toolbar toolbar;
     @BindView (R.id.text_toolbar_title)
     TextView title;
+
+    @BindView(R.id.img_profile)
+    ImageView imgProfile;
+
+    @BindView(R.id.user_name)
+    TextView fullname;
+
+    @BindView(R.id.user_id)
+    TextView email;
+
+    @BindView(R.id.user_phone)
+    TextView phoneNumber;
 
     Dialog dialog;
 
@@ -49,7 +74,37 @@ public class OptionsFragment extends Fragment {
         ButterKnife.bind(this, view);
         title.setText(getString(R.string.title_options));
 
+        init();
+
         return view;
+    }
+
+    private void init() {
+        AuthHelper.myProfile(new RestCallback<ApiResponse<User>>() {
+            @Override
+            public void onSuccess(Headers headers, ApiResponse<User> body) {
+                if (body.isStatus() && body.getData() != null) {
+                    Glide.with(getActivity())
+                            .load(body.getData().getProfile().getPicture())
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(imgProfile);
+
+                    fullname.setText(body.getData().getProfile().getFullname());
+                    email.setText(body.getData().getProfile().getEmail());
+                    phoneNumber.setText(body.getData().getProfile().getPhoneNumber());
+                }
+            }
+
+            @Override
+            public void onFailed(ErrorResponse error) {
+
+            }
+
+            @Override
+            public void onCanceled() {
+
+            }
+        });
     }
 
     @OnClick(R.id.edit)
@@ -84,7 +139,12 @@ public class OptionsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                startActivity(new Intent(getContext(), LoginActivity.class));
+                Session.clear();
+                LocalData.clear();
+
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+                getActivity().finish();
             }
         });
         btn_no.setOnClickListener(new View.OnClickListener() {

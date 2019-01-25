@@ -86,4 +86,7 @@
     <string name="create_on">Create on</string>
     <string name="create_new_topic">Create New Topic</string>
     <string name="create_topic">Create Topic</string>
+    <string name="identity_card">Identity Card Number</string>
+    <string name="address">Address</string>
+    <string name="city">City</string>
 </resources>

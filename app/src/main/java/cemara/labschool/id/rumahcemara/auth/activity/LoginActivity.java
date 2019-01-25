@@ -22,9 +22,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.centrifugal.centrifuge.android.Centrifugo;
-import com.centrifugal.centrifuge.android.credentials.Token;
-import com.centrifugal.centrifuge.android.listener.ConnectionListener;
 import com.rezkyatinnov.kyandroid.localdata.LocalData;
 import com.rezkyatinnov.kyandroid.reztrofit.ErrorResponse;
 import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
@@ -40,6 +37,7 @@ import cemara.labschool.id.rumahcemara.api.AuthHelper;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.LoginRequest;
 import cemara.labschool.id.rumahcemara.model.User;
+import cemara.labschool.id.rumahcemara.util.dialog.Loading;
 import cemara.labschool.id.rumahcemara.util.firebase.MyFirebaseMessagingService;
 import okhttp3.Headers;
 import okhttp3.MultipartBody;
