@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".options.fragment.activity.EditAccountActivity"></activity>
+        <activity android:name=".home.service.asktheexpert.ChatExpertActivity"></activity>
+        <activity android:name=".options.fragment.activity.EditAccountActivity" />
         <activity android:name=".home.service.biomedical.FindServiceProvider.AppointmentFormActivity" />
 
         <meta-data

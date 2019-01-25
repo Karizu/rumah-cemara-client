@@ -84,4 +84,5 @@
     <string name="desk_ask_the_expert">Buat topic untuk dijadikan pertanyaan yang akan dijawab oleh Expert</string>
     <string name="create_on">Create on</string>
     <string name="create_new_topic">Create New Topic</string>
+    <string name="create_topic">Create Topic</string>
 </resources>

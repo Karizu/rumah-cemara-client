@@ -7,13 +7,12 @@
     tools:context=".home.service.asktheexpert.AskTheExpertActivity">
 
     <include
-        android:id="@+id/thistoolbar"
         layout="@layout/row_toolbar_image" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/thistoolbar">
+        android:layout_below="@+id/toolbar">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -99,15 +98,13 @@
                     android:layout_height="match_parent" />
 
                 <include
-                    android:id="@+id/thistoolbar"
+                    android:id="@+id/topiclist"
                     layout="@layout/row_asktheexpert_topic" />
 
                 <include
-                    android:id="@+id/thistoolbar"
                     layout="@layout/row_asktheexpert_topic" />
 
                 <include
-                    android:id="@+id/thistoolbar"
                     layout="@layout/row_asktheexpert_topic" />
 
             </LinearLayout>
@@ -116,6 +113,7 @@
     </ScrollView>
 
     <Button
+        android:id="@+id/create_topic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
