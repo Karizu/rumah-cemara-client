@@ -94,6 +94,11 @@ public class NearestAdapter extends RecyclerView.Adapter<NearestAdapter.NearestV
                 dialog.setContentView(viewSheet);
                 dialog.show();
                 ImageView close = dialog.findViewById(R.id.sheet_btn_close);
+                ImageView imgProfile = dialog.findViewById(R.id.nearest_img);
+                TextView name = dialog.findViewById(R.id.nearest_name);
+                TextView address = dialog.findViewById(R.id.nearest_address);
+                TextView city = dialog.findViewById(R.id.nearest_city);
+                TextView phone = dialog.findViewById(R.id.nearest_phone);
                 if (close != null) {
                     close.setOnClickListener(new View.OnClickListener() {
                         @Override

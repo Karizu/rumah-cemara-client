@@ -1,56 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/parentCardView"
-    android:layout_width="wrap_content"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_article"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardElevation="3dp"
-    card_view:cardCornerRadius="5dp"
-    card_view:cardUseCompatPadding="true">
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="140dp"
-        android:layout_height="53.78dp"
-        android:layout_margin="5dp"
-        android:orientation="horizontal"
-        android:padding="@dimen/margin_padding_size_micro"
-        android:theme="@style/quicksandTheme">
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/parentCardView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="5dp"
+        card_view:cardElevation="3dp"
+        card_view:cardUseCompatPadding="true">
 
-        <ImageView
-            android:id="@+id/nearest_img"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/select_dp"
-            android:scaleType="centerCrop"
-            android:contentDescription="@string/example_imagenews_description" />
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/nearest_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:layout_centerInParent="true"
-                android:paddingLeft="@dimen/margin_padding_size_micro"
-                android:paddingRight="@dimen/margin_padding_size_micro"
-                android:textSize="@dimen/text_size_micro"
-                android:text="Akmal M Kristanto"/>
-            <TextView
-                android:id="@+id/nearest_range"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="1 km"
-                android:textSize="@dimen/text_size_nano"
-                android:gravity="end"/>
-        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="140dp"
+            android:layout_height="53.78dp"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+            android:padding="@dimen/margin_padding_size_micro"
+            android:theme="@style/quicksandTheme">
+
+            <ImageView
+                android:id="@+id/nearest_img"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/example_imagenews_description"
+                android:scaleType="centerCrop"
+                android:src="@drawable/select_dp" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/nearest_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:paddingLeft="@dimen/margin_padding_size_micro"
+                    android:paddingRight="@dimen/margin_padding_size_micro"
+                    android:text="Akmal M Kristanto"
+                    android:textSize="@dimen/text_size_micro"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/nearest_range"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="end"
+                    android:text="1 km"
+                    android:textSize="@dimen/text_size_nano" />
+            </RelativeLayout>
 
 
-    </LinearLayout>
+        </LinearLayout>
 
-</android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>
