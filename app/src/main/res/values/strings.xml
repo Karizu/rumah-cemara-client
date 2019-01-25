@@ -73,4 +73,8 @@
     <string name="share_app">Share App</string>
     <string name="rate_app">Rate App</string>
     <string name="logout">Logout</string>
+    <string name="change_image">Change Image</string>
+    <string name="nama">Nama</string>
+    <string name="username">Username</string>
+    <string name="simpan">Save</string>
 </resources>
