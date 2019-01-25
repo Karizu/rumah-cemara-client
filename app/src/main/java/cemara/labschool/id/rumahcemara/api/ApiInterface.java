@@ -26,4 +26,7 @@ public interface ApiInterface {
 
     @GET("treatment")
     Call<ApiResponse<List<Treatment>>> getAllTreatment();
+
+    @POST("userDevice")
+    Call<ApiResponse> postUserDevice(@Body RequestBody userDeviceRequest);
 }

@@ -39,7 +39,10 @@ import cemara.labschool.id.rumahcemara.api.AuthHelper;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.LoginRequest;
 import cemara.labschool.id.rumahcemara.model.User;
+import cemara.labschool.id.rumahcemara.util.firebase.MyFirebaseMessagingService;
 import okhttp3.Headers;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 
 /**
@@ -170,27 +173,29 @@ public class LoginActivity extends AppCompatActivity {
                         Session.save(new SessionObject("Authorization", "Bearer "+body.getToken(),true));
                         LocalData.saveOrUpdate(body.getData());
 
-//                        UserDevice userDevice = new UserDevice();
-//                        userDevice.setUserId(body.getData().getId());
-//                        userDevice.setType("Android");
-//                        userDevice.setToken(MyFirebaseMessagingService.getToken(getApplicationContext()));
-//
-//                        AuthHelper.registerUserDevice(userDevice, new RestCallback<ApiResponse>() {
-//                            @Override
-//                            public void onSuccess(Headers headers, ApiResponse body) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onFailed(ErrorResponse error) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onCanceled() {
-//
-//                            }
-//                        });
+                        RequestBody requestBody = new MultipartBody.Builder()
+                                .setType(MultipartBody.FORM)
+                                .addFormDataPart("user_id", body.getData().getId())
+                                .addFormDataPart("type", "Android")
+                                .addFormDataPart("token", MyFirebaseMessagingService.getToken(getApplicationContext()))
+                                .build();
+
+                        AuthHelper.registerUserDevice(requestBody, new RestCallback<ApiResponse>() {
+                            @Override
+                            public void onSuccess(Headers headers, ApiResponse body) {
+
+                            }
+
+                            @Override
+                            public void onFailed(ErrorResponse error) {
+
+                            }
+
+                            @Override
+                            public void onCanceled() {
+
+                            }
+                        });
 
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);

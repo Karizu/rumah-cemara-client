@@ -20,4 +20,9 @@ public class AuthHelper {
         service.getEndpoint().postLogin(loginRequest).enqueue(callback);
     }
 
+    public static void registerUserDevice(RequestBody userDeviceRequest, RestCallback<ApiResponse> callback){
+        Reztrofit<ApiInterface> service = Reztrofit.getInstance();
+        service.getEndpoint().postUserDevice(userDeviceRequest).enqueue(callback);
+    }
+
 }
