@@ -195,7 +195,7 @@ public class HomeFragment extends Fragment {
 
         //set content
         dialog.setContentView(layout);
-
+        dialog.setCanceledOnTouchOutside(false);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(Objects.requireNonNull(dialog.getWindow()).getAttributes());
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;

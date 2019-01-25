@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -100,5 +100,10 @@
         <item name="android:fontFamily">@font/quicksand</item>
         <item name="android:windowMinWidthMajor">70%</item>
         <item name="android:windowMinWidthMinor">70%</item>
+    </style>
+    <!--button-->
+    <style name="ButtonDialog" parent="Theme.AppCompat">
+        <item name="colorButtonNormal">@color/Red</item>
+        <item name="colorControlHighlight">@color/Aqua</item>
     </style>
 </resources>

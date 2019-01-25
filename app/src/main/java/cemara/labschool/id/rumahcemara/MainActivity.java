@@ -1,5 +1,6 @@
 package cemara.labschool.id.rumahcemara;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -20,6 +21,7 @@ import cemara.labschool.id.rumahcemara.util.adapter.ViewPagerAdapter;
 import cemara.labschool.id.rumahcemara.home.fragment.HomeFragment;
 import cemara.labschool.id.rumahcemara.mylist.fragment.MyListFragment;
 import cemara.labschool.id.rumahcemara.options.fragment.OptionsFragment;
+import io.realm.annotations.Ignore;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -105,6 +107,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         setupViewPager(viewPager);
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        Intent intent = getIntent();
+        String frag = null;
+        try {
+          frag = Objects.requireNonNull(intent.getExtras()).getString("frag");
+        }catch (Exception ignored){}
+
+    if (frag != null){
+        switch(frag){
+            case "mylistfragment":
+               viewPager.setCurrentItem(1);
+        }
+    }
+
     }
 
 }

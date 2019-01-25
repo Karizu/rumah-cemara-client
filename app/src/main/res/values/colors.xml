@@ -156,6 +156,8 @@
     <color name="NormalGreyText">#8E8E93</color>
     <color name="TransparentWhite">#13FFFFFF</color>
     <color name="edit">#FCA000</color>
+    <color name="green_text">#81C341</color>
+    <color name="red_text">#EE343B</color>
     <array name="colors">
         <item name="White">@color/White</item>
         <item name="Ivory">@color/Ivory</item>
