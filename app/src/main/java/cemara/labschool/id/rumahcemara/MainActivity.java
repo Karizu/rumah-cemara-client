@@ -1,22 +1,27 @@
 package cemara.labschool.id.rumahcemara;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import java.util.Objects;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cemara.labschool.id.rumahcemara.util.adapter.NoSwipePager;
 import cemara.labschool.id.rumahcemara.util.adapter.ViewPagerAdapter;
 import cemara.labschool.id.rumahcemara.home.fragment.HomeFragment;
 import cemara.labschool.id.rumahcemara.mylist.fragment.MyListFragment;
 import cemara.labschool.id.rumahcemara.options.fragment.OptionsFragment;
+import io.realm.annotations.Ignore;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     HomeFragment fragmentHome;
     MyListFragment fragmentMyList;
     OptionsFragment fragmentOptions;
+    private Menu menu;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -33,10 +39,6 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    try {
-                        Objects.requireNonNull(getSupportActionBar()).hide(); //<< this
-                    } catch (Exception ignored) {
-                    }
                     viewPager.setCurrentItem(0);
 //                    mTextMessage.setText(R.string.title_home);
                     break;
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 //                    mTextMessage.setText(R.string.title_mylist);
                     break;
                 case R.id.navigation_options:
-                    viewPager.setCurrentItem(3);
+                    viewPager.setCurrentItem(2);
 //                    mTextMessage.setText(R.string.title_options);
                     break;
             }
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private void setupViewPager(ViewPager viewPager) {
+    private void setupViewPager(NoSwipePager viewPager) {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         fragmentHome = new HomeFragment();
         fragmentMyList = new MyListFragment();
@@ -68,10 +70,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        try {
+            Objects.requireNonNull(getSupportActionBar()).hide(); //<< this
+        } catch (Exception ignored) {
+        }
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         viewPager = (NoSwipePager) findViewById(R.id.viewpager);
+        viewPager.setOffscreenPageLimit(2);
         TextView mTextMessage = (TextView) findViewById(R.id.message);
         final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -101,6 +107,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         setupViewPager(viewPager);
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        Intent intent = getIntent();
+        String frag = null;
+        try {
+          frag = Objects.requireNonNull(intent.getExtras()).getString("frag");
+        }catch (Exception ignored){}
+
+    if (frag != null){
+        switch(frag){
+            case "mylistfragment":
+               viewPager.setCurrentItem(1);
+        }
+    }
+
     }
 
 }

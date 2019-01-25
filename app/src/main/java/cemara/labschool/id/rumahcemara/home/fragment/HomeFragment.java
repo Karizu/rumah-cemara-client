@@ -25,6 +25,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cemara.labschool.id.rumahcemara.home.service.asktheexpert.AskTheExpertActivity;
 import cemara.labschool.id.rumahcemara.home.service.biomedical.BiomedicalAppointmentActivity;
 import cemara.labschool.id.rumahcemara.home.service.structural.StructuralActivity;
 import cemara.labschool.id.rumahcemara.home.service.structural.StructuralLegalAidActivity;
@@ -148,7 +149,7 @@ public class HomeFragment extends Fragment {
         biomedical_appointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                toast();
+                startActivity(new Intent(getContext(), AskTheExpertActivity.class));
             }
         });
     }
@@ -194,14 +195,13 @@ public class HomeFragment extends Fragment {
 
         //set content
         dialog.setContentView(layout);
-
+        dialog.setCanceledOnTouchOutside(false);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(Objects.requireNonNull(dialog.getWindow()).getAttributes());
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialog.show();
         dialog.getWindow().setAttributes(lp);
-
     }
 
 }

@@ -1,6 +1,7 @@
 package cemara.labschool.id.rumahcemara.auth.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cemara.labschool.id.rumahcemara.R;
 import cemara.labschool.id.rumahcemara.MainActivity;
+import cemara.labschool.id.rumahcemara.util.dialog.Loading;
 
 
 /**
@@ -47,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
 
-
+    Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +77,7 @@ public class LoginActivity extends AppCompatActivity {
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                Loading.show(LoginActivity.this);
                 attemptLogin();
             }
         });
@@ -101,6 +104,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void attemptLogin() {
         if (mAuthTask != null) {
+
             return;
         }
 
@@ -175,12 +179,12 @@ public class LoginActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-//            try {
-//                // Simulate network access.
-//                Thread.sleep(2000);
-//            } catch (InterruptedException e) {
-//                return false;
-//            }
+            try {
+                // Simulate network access.
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                return false;
+            }
 
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
@@ -200,6 +204,7 @@ public class LoginActivity extends AppCompatActivity {
 
             if (success) {
 //                finish();
+                Loading.hide(LoginActivity.this);
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(i);
             } else {

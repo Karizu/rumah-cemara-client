@@ -14,6 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cemara.labschool.id.rumahcemara.R;
+import cemara.labschool.id.rumahcemara.home.service.biomedical.FindOutreachWorker.FindOutreachWorkerActivity;
 import cemara.labschool.id.rumahcemara.home.service.biomedical.FindServiceProvider.FindServiceProviderActivity;
 
 public class BiomedicalAppointmentActivity extends AppCompatActivity {
@@ -34,6 +35,10 @@ public class BiomedicalAppointmentActivity extends AppCompatActivity {
     @OnClick(R.id.find_service_provider)
     public void toFindServiceProvider(){
         startActivity(new Intent(this, FindServiceProviderActivity.class));
+    }
+    @OnClick(R.id.find_outreach_worker)
+    public void toFindOutreachWorker(){
+        startActivity(new Intent(this, FindOutreachWorkerActivity.class));
     }
     public void setToolbar() {
         setSupportActionBar(toolbar);

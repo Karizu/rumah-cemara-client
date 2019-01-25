@@ -7,6 +7,7 @@
     <dimen name="margin_padding_size_micro">5dp</dimen>
     <dimen name="margin_padding_size_small">8dp</dimen>
     <dimen name="margin_padding_size_medium">16dp</dimen>
+    <dimen name="margin_padding_size_semi_large">24dp</dimen>
     <dimen name="margin_padding_size_large">32dp</dimen>
     <!--New Margin from adobe xd-->
 <dimen name="d_13">13dp</dimen>

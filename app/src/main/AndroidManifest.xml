@@ -18,6 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".home.service.asktheexpert.ChatExpertActivity"></activity>
+        <activity android:name=".options.fragment.activity.EditAccountActivity" />
         <activity android:name=".home.service.biomedical.FindServiceProvider.AppointmentFormActivity" />
 
         <meta-data
@@ -41,6 +43,8 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_home" />
         <activity android:name=".auth.activity.SignUpActivity" />
+        <activity android:name=".home.service.biomedical.FindOutreachWorker.FindOutreachWorkerActivity" />
+        <activity android:name=".home.service.biomedical.FindOutreachWorker.AppointmentFormActivity" />
     </application>
 
 </manifest>
