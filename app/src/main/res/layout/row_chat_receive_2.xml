@@ -1,36 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:background="@drawable/buble_chat_putih_edit"
     android:paddingBottom="@dimen/margin_padding_size_medium">
 
-    <LinearLayout
-        android:id="@+id/t"
+    <TextView
+        android:id="@+id/message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/margin_padding_size_large"
-            android:paddingTop="@dimen/margin_padding_size_small"
-            android:paddingRight="@dimen/margin_padding_size_large"
-            android:paddingBottom="@dimen/margin_padding_size_small"
-            android:text="Mau ketemu ditanggal berapa gan? Jam berapa?"
-            android:textSize="@dimen/text_size_medium" />
-
-    </LinearLayout>
+        android:paddingLeft="@dimen/margin_padding_size_large"
+        android:paddingTop="@dimen/margin_padding_size_small"
+        android:background="@drawable/buble_chat_putih_edit"
+        android:paddingRight="@dimen/margin_padding_size_semi_large"
+        android:paddingBottom="@dimen/margin_padding_size_small"
+        android:text="Mau ketemu ditanggal berapa gan? Jam berapa?"
+        android:textSize="@dimen/text_size_medium" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/message"
         android:text="10.00"
-        android:textSize="@dimen/text_size_small"
-        android:textColor="@color/Black"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/t"/>
+        android:textAlignment="viewEnd"
+        android:layout_marginTop="-16dp"
+        android:paddingLeft="@dimen/margin_padding_size_large"
+        android:textSize="@dimen/text_size_nano" />
 
 </RelativeLayout>

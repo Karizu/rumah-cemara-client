@@ -38,12 +38,10 @@
                 android:orientation="vertical">
 
                 <include
-                    android:id="@+id/topiclist"
                     layout="@layout/row_chat_receive_2" />
 
                 <include
-                    android:id="@+id/topiclist"
-                    layout="@layout/row_chat_send" />
+                    layout="@layout/row_chat_send_2" />
             </LinearLayout>
 
         </ScrollView>
