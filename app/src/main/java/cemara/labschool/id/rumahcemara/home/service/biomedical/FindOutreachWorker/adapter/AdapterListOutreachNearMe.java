@@ -2,6 +2,7 @@ package cemara.labschool.id.rumahcemara.home.service.biomedical.FindOutreachWork
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.List;
 
 import cemara.labschool.id.rumahcemara.R;
+import cemara.labschool.id.rumahcemara.home.service.biomedical.FindOutreachWorker.AppointmentFormOutreachActivity;
 import cemara.labschool.id.rumahcemara.home.service.biomedical.FindServiceProvider.AppointmentFormActivity;
 import cemara.labschool.id.rumahcemara.model.NearestOutreachModel;
 
@@ -44,6 +46,7 @@ public class AdapterListOutreachNearMe extends RecyclerView.Adapter<AdapterListO
     public void onBindViewHolder(AdapterListOutreachNearMe.ViewHolder holder, int position){
         final NearestOutreachModel articleModel = articleModels.get(position);
         final String id = articleModel.getId();
+        final String userId = articleModel.getUser_id();
         final String srcImage = articleModel.getSrcImage();
         final String name = articleModel.getName();
         final String description = articleModel.getDescription();
@@ -94,7 +97,15 @@ public class AdapterListOutreachNearMe extends RecyclerView.Adapter<AdapterListO
                 btnAppointment.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(view.getContext(), AppointmentFormActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", id);
+                        bundle.putString("user_id", userId);
+                        bundle.putString("imgUrl", srcImage);
+                        bundle.putString("fullname", name);
+                        bundle.putString("address", address);
+                        bundle.putString("phone", phoneNumber);
+                        Intent intent = new Intent(view.getContext(), AppointmentFormOutreachActivity.class);
+                        intent.putExtra("myData", bundle);
                         view.getContext().startActivity(intent);
                     }
                 });

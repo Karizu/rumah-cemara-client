@@ -8,7 +8,7 @@ public class NearestOutreachModel {
     @SerializedName("id")
     @Expose
     private String id;
-
+    private String user_id;
     private String srcImage;
     private String name;
     private String description;
@@ -17,8 +17,9 @@ public class NearestOutreachModel {
     private String phoneNumber;
     private User user;
 
-    public NearestOutreachModel(String id, String srcImage, String name, String description, String address, String city, String phoneNumber, User user) {
+    public NearestOutreachModel(String id, String user_id, String srcImage, String name, String description, String address, String city, String phoneNumber, User user) {
         this.id = id;
+        this.user_id = user_id;
         this.srcImage = srcImage;
         this.name = name;
         this.description = description;
@@ -34,6 +35,14 @@ public class NearestOutreachModel {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
     public String getSrcImage() {

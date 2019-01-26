@@ -150,20 +150,19 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
         populateData();
     }
 
-    private void populateData(){
+    private void populateData() {
 
-        Api.apiInterface().getOutreachListNearMes(latitude, longitude, 30, sBearerToken).enqueue(new Callback<ApiResponse<List<OutreachNearMeResponse>>>() {
+        AppointmentHelper.getListOutreach(latitude, longitude, new RestCallback<ApiResponse<List<OutreachNearMeResponse>>>() {
             @Override
-            public void onResponse(Call<ApiResponse<List<OutreachNearMeResponse>>> call, Response<ApiResponse<List<OutreachNearMeResponse>>> body) {
-                System.out.println("RESPONSE:  "+body.toString() +"\n"+"BODY: "+body.body().getData() +"\n"+"RAW: "+body.raw() +"\n"+"MESSAGE: "+body.message());
-
-                if (body != null) {
-                    List<OutreachNearMeResponse> res = body.body().getData();
+            public void onSuccess(Headers headers, ApiResponse<List<OutreachNearMeResponse>> body) {
+                if (body != null && body.isStatus()) {
+                    List<OutreachNearMeResponse> res = body.getData();
+                    System.out.println("Response: "+body.getData());
                     articleModels = new ArrayList<>();
-
                     for (int i = 0; i < res.size(); i++) {
                         OutreachNearMeResponse article = res.get(i);
                         articleModels.add(new NearestOutreachModel(article.getId(),
+                                article.getUser_id(),
                                 article.getUser().getProfile().getPicture(),
                                 article.getUser().getProfile().getFullname(),
                                 article.getDescription(),
@@ -175,57 +174,20 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
 
                     adapter = new AdapterListOutreachNearMe(articleModels, activity);
                     recyclerView.setAdapter(adapter);
-                } else {
-                    Toast.makeText(activity, "Tidak dapat terhubung", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<ApiResponse<List<OutreachNearMeResponse>>> call, Throwable t) {
+            public void onFailed(ErrorResponse error) {
                 Log.i("response", "Response Failed");
-                Log.i("response", t.toString());
-                Toast.makeText(activity, "Gagal terhubung ke server", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCanceled() {
+                Log.i("response", "Response Failed");
             }
         });
     }
-
-//    private void populateData() {
-//
-//        AppointmentHelper.getListOutreach(latitude, longitude, new RestCallback<ApiResponse<List<OutreachNearMeResponse>>>() {
-//            @Override
-//            public void onSuccess(Headers headers, ApiResponse<List<OutreachNearMeResponse>> body) {
-//                if (body != null && body.isStatus()) {
-//                    List<OutreachNearMeResponse> res = body.getData();
-//                    System.out.println("Response: "+body.getData());
-//                    articleModels = new ArrayList<>();
-//                    for (int i = 0; i < res.size(); i++) {
-//                        OutreachNearMeResponse article = res.get(i);
-//                        articleModels.add(new NearestOutreachModel(article.getId(),
-//                                article.getUser().getProfile().getPicture(),
-//                                article.getUser().getProfile().getFullname(),
-//                                article.getDescription(),
-//                                article.getUser().getProfile().getAddress(),
-//                                article.getUser().getProfile().getCity(),
-//                                article.getUser().getProfile().getPhoneNumber(),
-//                                article.getUser()));
-//                    }
-//
-//                    adapter = new AdapterListOutreachNearMe(articleModels, activity);
-//                    recyclerView.setAdapter(adapter);
-//                }
-//            }
-//
-//            @Override
-//            public void onFailed(ErrorResponse error) {
-//                Log.i("response", "Response Failed");
-//            }
-//
-//            @Override
-//            public void onCanceled() {
-//                Log.i("response", "Response Failed");
-//            }
-//        });
-//    }
 
     private void getListNearest() {
         nearestList.add(new Nearest(R.drawable.select_dp, "Jika Tester", "2 km", "1"));

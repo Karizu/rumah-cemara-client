@@ -20,13 +20,11 @@ import retrofit2.http.Query;
 
 public interface ApiInterface {
 
-    String BASE_URL = "http://37.72.172.144/superfriends-api/public/api/";
+    String BASE_URL = "http://37.72.172.144/rumah-cemara-api/public/api/";
 
     @GET("userLocation/nearMe")
     Call<ApiResponse<List<OutreachNearMeResponse>>> getOutreachListNearMe(@Query("lat") Double latitude, @Query("long") Double longitude, @Query("radius") int radius);
 
-    @GET("userLocation/nearMe")
-    Call<ApiResponse<List<OutreachNearMeResponse>>> getOutreachListNearMes(@Query("lat") Double latitude, @Query("long") Double longitude, @Query("radius") int radius, @Header("Authorization") String token);
     @POST("register")
     Call<ApiResponse> postRegister(@Body RequestBody registerRequest);
 
