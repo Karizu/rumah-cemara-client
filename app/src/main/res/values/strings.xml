@@ -85,4 +85,7 @@
     <string name="create_on">Create on</string>
     <string name="create_new_topic">Create New Topic</string>
     <string name="create_topic">Create Topic</string>
+    <string name="example_address">Jl. Matrapersada No. 16, Kel. Pasirkaliki, Kec. Cimahi Utara Cimahi, West Java, 40514, ID</string>
+    <string name="counseling_appointment">Counseling Appointment</string>
+    <string name="legal_counseling_appointment">Legal Counseling Appointment</string>
 </resources>

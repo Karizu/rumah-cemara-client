@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         try{
             getSupportActionBar().hide(); //<< this
         }catch (Exception ignored){}
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.login_activity);
         ButterKnife.bind(this);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);

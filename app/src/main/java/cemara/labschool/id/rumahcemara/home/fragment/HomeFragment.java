@@ -25,15 +25,15 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cemara.labschool.id.rumahcemara.R;
 import cemara.labschool.id.rumahcemara.home.service.asktheexpert.AskTheExpertActivity;
+import cemara.labschool.id.rumahcemara.home.service.behavioral.CounselingAppointmentActivity;
 import cemara.labschool.id.rumahcemara.home.service.biomedical.BiomedicalAppointmentActivity;
-import cemara.labschool.id.rumahcemara.home.service.structural.StructuralActivity;
+import cemara.labschool.id.rumahcemara.home.service.structural.LegalCounselingAppointmentActivity;
 import cemara.labschool.id.rumahcemara.home.service.structural.StructuralLegalAidActivity;
-import cemara.labschool.id.rumahcemara.home.service.structural.StructuralPurposeActivity;
 import cemara.labschool.id.rumahcemara.home.service.structural.StructuralViolationActivity;
 import cemara.labschool.id.rumahcemara.util.news.adapter.NewsAdapter;
 import cemara.labschool.id.rumahcemara.util.news.model.News;
-import cemara.labschool.id.rumahcemara.R;
 
 
 /**
@@ -60,7 +60,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        View rootView = inflater.inflate(R.layout.home_fragment, container, false);
         ButterKnife.bind(this, rootView);
         init();
         getListNews();
@@ -100,7 +100,7 @@ public class HomeFragment extends Fragment {
         behavioral_appointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                toast();
+                startActivity(new Intent(getContext(), CounselingAppointmentActivity.class));
             }
         });
     }
@@ -121,7 +121,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 //                toast();
-                Intent intent = new Intent(getContext(), StructuralPurposeActivity.class);
+                Intent intent = new Intent(getContext(), LegalCounselingAppointmentActivity.class);
                 startActivity(intent);
             }
         });
