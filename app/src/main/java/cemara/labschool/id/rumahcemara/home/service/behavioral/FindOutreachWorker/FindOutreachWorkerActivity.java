@@ -210,7 +210,7 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.icon_back);
         toolbarTitle.setText(R.string.find_outreach_worker);
-        toolbarImg.setImageResource(R.drawable.icon_biomedical_white);
+        toolbarImg.setImageResource(R.drawable.icon_behavioral_white);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

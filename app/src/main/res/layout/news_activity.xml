@@ -20,8 +20,7 @@
         app:tabIndicatorHeight="3dp"
         app:tabMinWidth="40dp"
         app:tabMode="scrollable"
-        app:tabPaddingStart="20dp"
-        app:tabPaddingTop="10dp"
+        android:layout_gravity="center"
         app:tabSelectedTextColor="@color/FocusColorText"
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
         app:tabTextColor="@color/White" />

@@ -54,7 +54,7 @@
                             android:layout_height="57.67dp"
                             android:layout_gravity="center_vertical"
                             android:layout_margin="@dimen/margin_padding_size_medium"
-                            android:src="@drawable/icon_asktheexpert" />
+                            android:src="@drawable/icon_asktheexpert_no_text" />
 
                         <View
                             android:layout_width="1dp"

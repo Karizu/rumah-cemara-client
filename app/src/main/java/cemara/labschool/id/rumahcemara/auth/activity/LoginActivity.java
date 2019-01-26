@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try{
-            getSupportActionBar().hide(); //<< this
+            //getSupportActionBar().hide(); //<< this
         }catch (Exception ignored){}
         setContentView(R.layout.login_activity);
         ButterKnife.bind(this);

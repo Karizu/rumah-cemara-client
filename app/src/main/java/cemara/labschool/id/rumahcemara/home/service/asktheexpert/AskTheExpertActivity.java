@@ -12,8 +12,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +68,6 @@ public class AskTheExpertActivity extends AppCompatActivity {
     private void showDialo(int layout) {
         dialog = new Dialog(Objects.requireNonNull(AskTheExpertActivity.this));
         //SET TITLE
-        dialog.setTitle("Biomedical");
 
         //set content
         dialog.setContentView(layout);

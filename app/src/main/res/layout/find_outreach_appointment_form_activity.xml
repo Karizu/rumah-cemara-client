@@ -198,7 +198,7 @@
                         android:layout_weight="10"
                         android:layout_height="wrap_content"
                         android:overScrollMode="always"
-                        android:drawableStart="@drawable/icon_alamat"
+                        android:drawableStart="@drawable/ic_location_on"
                         android:drawablePadding="@dimen/margin_padding_size_small"
                         android:background="@android:color/transparent"
                         android:padding="@dimen/margin_padding_size_small"

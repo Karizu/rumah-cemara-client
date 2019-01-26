@@ -44,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/by"
-                    android:textColor="@color/colorAccent" />
+                    android:textColor="@color/NormalColorText" />
 
                 <TextView
                     style="@style/sfDisplayFont"
@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_padding_size_small"
                     android:text="@string/on"
-                    android:textColor="@color/colorAccent" />
+                    android:textColor="@color/NormalColorText" />
 
                 <TextView
                     style="@style/sfDisplayFont"
