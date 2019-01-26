@@ -167,6 +167,7 @@
                 android:visibility="gone">
 
                 <LinearLayout
+                    android:id="@+id/layout_news"
                     style="@style/buttonSmallPadding"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -189,6 +190,7 @@
                     android:background="@color/border_color" />
 
                 <LinearLayout
+                    android:id="@+id/layout_article"
                     style="@style/buttonSmallPadding"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -211,6 +213,7 @@
                     android:background="@color/border_color" />
 
                 <LinearLayout
+                    android:id="@+id/layout_event"
                     style="@style/buttonSmallPadding"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

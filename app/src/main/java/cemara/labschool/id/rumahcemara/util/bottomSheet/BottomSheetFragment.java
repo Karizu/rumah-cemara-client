@@ -19,7 +19,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.bottom_sheet_dialog_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.find_service_provider_bottom_sheet_dialog, container, false);
 //        ButterKnife.bind(this,rootView);
         return rootView;
     }

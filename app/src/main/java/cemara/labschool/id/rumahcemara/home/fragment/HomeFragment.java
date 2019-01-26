@@ -27,6 +27,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cemara.labschool.id.rumahcemara.R;
 import cemara.labschool.id.rumahcemara.home.service.asktheexpert.AskTheExpertActivity;
+import cemara.labschool.id.rumahcemara.home.highlight.article.ArticleActivity;
+import cemara.labschool.id.rumahcemara.home.highlight.event.EventActivity;
+import cemara.labschool.id.rumahcemara.home.highlight.news.NewsActivity;
 import cemara.labschool.id.rumahcemara.home.service.behavioral.CounselingAppointmentActivity;
 import cemara.labschool.id.rumahcemara.home.service.biomedical.BiomedicalAppointmentActivity;
 import cemara.labschool.id.rumahcemara.home.service.structural.LegalCounselingAppointmentActivity;
@@ -154,6 +157,23 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    @OnClick(R.id.layout_news)
+    public void toNews(){
+        Intent intent = new Intent(getContext(), NewsActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.layout_article)
+    public void toArticle(){
+        Intent intent = new Intent(getContext(), ArticleActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.layout_event)
+    public void toEvent(){
+        Intent intent = new Intent(getContext(), EventActivity.class);
+        startActivity(intent);
+    }
 
 
     private void getListNews() {
