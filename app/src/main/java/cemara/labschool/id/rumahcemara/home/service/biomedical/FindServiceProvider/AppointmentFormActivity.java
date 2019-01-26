@@ -168,9 +168,15 @@ public class AppointmentFormActivity extends AppCompatActivity {
                 gomylist.setOnClickListener(view -> {
                     Intent intent = new Intent(AppointmentFormActivity.this, MainActivity.class);
                     intent.putExtra("frag", "mylistfragment");
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 });
-                ok.setOnClickListener(view -> finish());
+                ok.setOnClickListener(view -> {
+                    Intent intent = new Intent(AppointmentFormActivity.this, MainActivity.class);
+                    intent.putExtra("frag", "homeFragment");
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                });
             }
 
             @Override

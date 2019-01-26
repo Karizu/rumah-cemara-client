@@ -121,7 +121,12 @@ public class MainActivity extends AppCompatActivity {
     if (frag != null){
         switch(frag){
             case "mylistfragment":
-               viewPager.setCurrentItem(1);
+                viewPager.setCurrentItem(1);
+                break;
+
+            case "homeFragment":
+                viewPager.setCurrentItem(0);
+                break;
         }
     }
 

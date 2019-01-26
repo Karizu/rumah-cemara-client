@@ -79,7 +79,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
     Dialog dialog;
 
     String user_id, groupId, workerId;
-    String typeProvider = "provider";
+    String typeProvider = "worker";
     String serviceTypeId = "17c00365-4987-5f1e-925b-2119fbe5ff8c";
     String startDate = "2019-01-26";
     String endDate = "2019-01-28";
@@ -174,9 +174,15 @@ public class AppointmentFormActivity extends AppCompatActivity {
                 gomylist.setOnClickListener(view -> {
                     Intent intent = new Intent(AppointmentFormActivity.this, MainActivity.class);
                     intent.putExtra("frag", "mylistfragment");
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 });
-                ok.setOnClickListener(view -> finish());
+                ok.setOnClickListener(view -> {
+                    Intent intent = new Intent(AppointmentFormActivity.this, MainActivity.class);
+                    intent.putExtra("frag", "homeFragment");
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                });
             }
 
             @Override
