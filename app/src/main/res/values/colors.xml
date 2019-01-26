@@ -159,6 +159,7 @@
     <color name="green_text">#81C341</color>
     <color name="red_text">#EE343B</color>
     <color name="ArticleGreyText">#707070</color>
+    <color name="Orange01">#FEBD3F</color>
     <array name="colors">
         <item name="White">@color/White</item>
         <item name="Ivory">@color/Ivory</item>
@@ -307,6 +308,7 @@
         <item name="TextOrange">@color/OrangeText</item>
         <item name="NormalTextGrey">@color/NormalGreyText</item>
         <item name="TransparentWhite">@color/TransparentWhite</item>
+        <item name="Color01">@color/Orange01</item>
     </array>
 
 </resources>

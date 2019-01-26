@@ -210,7 +210,7 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.icon_back);
         toolbarTitle.setText(R.string.find_service_provider);
-        toolbarImg.setImageResource(R.drawable.icon_biomedical_white);
+        toolbarImg.setImageResource(R.drawable.icon_behavioral_white);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -147,7 +147,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.icon_back);
         toolbarTitle.setText("Appointment Form");
-        toolbarImg.setImageResource(R.drawable.icon_biomedical_white);
+        toolbarImg.setImageResource(R.drawable.icon_behavioral_white);
         toolbar.setNavigationOnClickListener(v -> {
             //What to do on back clicked
             onBackPressed();

@@ -14,8 +14,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cemara.labschool.id.rumahcemara.R;
-import cemara.labschool.id.rumahcemara.home.service.biomedical.FindOutreachWorker.FindOutreachWorkerActivity;
-import cemara.labschool.id.rumahcemara.home.service.biomedical.FindServiceProvider.FindServiceProviderActivity;
+import cemara.labschool.id.rumahcemara.home.service.behavioral.FindOutreachWorker.FindOutreachWorkerActivity;
+import cemara.labschool.id.rumahcemara.home.service.behavioral.FindServiceProvider.FindServiceProviderActivity;
 
 public class CounselingAppointmentActivity extends AppCompatActivity {
 
