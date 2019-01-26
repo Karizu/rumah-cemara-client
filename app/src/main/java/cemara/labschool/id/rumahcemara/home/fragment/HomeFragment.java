@@ -10,6 +10,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.rezkyatinnov.kyandroid.localdata.LocalData;
+import com.rezkyatinnov.kyandroid.reztrofit.ErrorResponse;
+import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
+import com.rezkyatinnov.kyandroid.session.Session;
+import com.rezkyatinnov.kyandroid.session.SessionObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,6 +32,10 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cemara.labschool.id.rumahcemara.MainActivity;
+import cemara.labschool.id.rumahcemara.api.AuthHelper;
+import cemara.labschool.id.rumahcemara.api.NewsHelper;
+import cemara.labschool.id.rumahcemara.auth.activity.LoginActivity;
 import cemara.labschool.id.rumahcemara.R;
 import cemara.labschool.id.rumahcemara.home.service.asktheexpert.AskTheExpertActivity;
 import cemara.labschool.id.rumahcemara.home.highlight.article.ArticleActivity;
@@ -35,8 +46,17 @@ import cemara.labschool.id.rumahcemara.home.service.biomedical.BiomedicalAppoint
 import cemara.labschool.id.rumahcemara.home.service.structural.LegalCounselingAppointmentActivity;
 import cemara.labschool.id.rumahcemara.home.service.structural.StructuralLegalAidActivity;
 import cemara.labschool.id.rumahcemara.home.service.structural.StructuralViolationActivity;
+import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.model.User;
+import cemara.labschool.id.rumahcemara.util.dialog.Loading;
+import cemara.labschool.id.rumahcemara.util.firebase.MyFirebaseMessagingService;
+import cemara.labschool.id.rumahcemara.util.helper.DateHelper;
 import cemara.labschool.id.rumahcemara.util.news.adapter.NewsAdapter;
 import cemara.labschool.id.rumahcemara.util.news.model.News;
+import cemara.labschool.id.rumahcemara.R;
+import okhttp3.Headers;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 
 /**
@@ -170,14 +190,43 @@ public class HomeFragment extends Fragment {
 
 
     private void getListNews() {
-        newsList.add(new News("1", "testing", "test", "June 20 2019", R.drawable.img_news));
-        newsList.add(new News("1", "testing", "test", "June 20 2019", R.drawable.img_news));
-        newsAdapter = new NewsAdapter(getActivity(), newsList);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(newsAdapter);
-        newsAdapter.notifyDataSetChanged();
+        Loading.show(getContext());
+        NewsHelper.getNews( new RestCallback<ApiResponse<List<cemara.labschool.id.rumahcemara.model.News>>>() {
+            @Override
+            public void onSuccess(Headers headers, ApiResponse<List<cemara.labschool.id.rumahcemara.model.News>> body) {
+                Loading.hide(getContext());
+                if (body != null && body.isStatus()) {
+                    List<cemara.labschool.id.rumahcemara.model.News> newsLists=body.getData();
+                    Log.d("aa","sss");
+                    for(int i=0;i<newsLists.size();i++){
+                        newsList.add(new News(newsLists.get(i).getId(), newsLists.get(i).getTitle(), newsLists.get(i).getUserCreator().getProfile().getFullname(), DateHelper.dateFormat(DateHelper.stringToDate(newsLists.get(i).getCreatedAt())), newsLists.get(i).getBanner()));
+                    }
+                    //newsList.add(new News("1", "testing", "test", "June 20 2019", R.drawable.img_news));
+
+                    newsAdapter = new NewsAdapter(getActivity(), newsList);
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setItemAnimator(new DefaultItemAnimator());
+                    recyclerView.setAdapter(newsAdapter);
+                    newsAdapter.notifyDataSetChanged();
+
+                } else {
+//                        loadingDialog.dismiss();
+                    Toast.makeText(getContext(), body.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailed(ErrorResponse error) {
+                Toast.makeText(getContext(),"Gagal Login (user atau password salah)", Toast.LENGTH_SHORT).show();
+                Loading.hide(getContext());
+            }
+
+            @Override
+            public void onCanceled() {
+                Loading.hide(getContext());
+            }
+        });
     }
 
     private void init() {

@@ -5,6 +5,7 @@ import com.rezkyatinnov.kyandroid.reztrofit.Reztrofit;
 
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.LoginRequest;
+import cemara.labschool.id.rumahcemara.model.News;
 import cemara.labschool.id.rumahcemara.model.Profile;
 import cemara.labschool.id.rumahcemara.model.User;
 import okhttp3.RequestBody;
@@ -35,5 +36,6 @@ public class AuthHelper {
         Reztrofit<ApiInterface> service = Reztrofit.getInstance();
         service.getEndpoint().myProfile().enqueue(callback);
     }
+
 
 }

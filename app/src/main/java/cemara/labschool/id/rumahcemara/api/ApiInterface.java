@@ -4,6 +4,7 @@ import java.util.List;
 
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.LoginRequest;
+import cemara.labschool.id.rumahcemara.model.News;
 import cemara.labschool.id.rumahcemara.model.Profile;
 import cemara.labschool.id.rumahcemara.model.Topic;
 import cemara.labschool.id.rumahcemara.model.Treatment;
@@ -38,6 +39,9 @@ public interface ApiInterface {
 
     @GET("profile")
     Call<ApiResponse<User>> myProfile();
+
+    @GET("news")
+    Call<ApiResponse<List<News>>> getNews();
 
     @POST("topic")
     Call<ApiResponse> createNewTopic(@Body RequestBody newTopicRequest);
