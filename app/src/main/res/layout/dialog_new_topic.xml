@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_size_medium"
+        android:layout_marginBottom="@dimen/margin_padding_size_medium"
+        android:text="@string/create_new_topic"
+        android:textAlignment="center"
+        android:textColor="@color/Black"
+        android:textSize="@dimen/text_size_medium" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@drawable/shadow_line" />
+
+    <EditText
+        android:id="@+id/topic"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_size_xxxxlarge"
+        android:layout_marginLeft="@dimen/d_13"
+        android:layout_marginTop="@dimen/margin_padding_size_medium"
+        android:layout_marginRight="@dimen/d_13"
+        android:layout_marginBottom="@dimen/margin_padding_size_medium"
+        android:background="@drawable/rounded_orange_transparent"
+        android:gravity="top"
+        android:hint="Write a text...."
+        android:inputType="text|textMultiLine"
+        android:padding="@dimen/d_13" />
+
+    <Button
+        android:id="@+id/btnNextBatal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_padding_size_medium"
+        android:background="@drawable/btn_rounnded_gradient"
+        android:fontFamily="@font/sf_pro_display"
+        android:paddingLeft="@dimen/margin_padding_size_large"
+        android:paddingRight="@dimen/margin_padding_size_large"
+        android:text="@string/create_topic"
+        android:textAllCaps="false"
+        android:textColor="@color/White"
+        android:textSize="@dimen/text_size_medium" />
+
+</LinearLayout>

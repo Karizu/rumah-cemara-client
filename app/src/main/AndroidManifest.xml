@@ -27,6 +27,7 @@
         <activity android:name=".home.service.biomedical.FindOutreachWorker.AppointmentFormOutreachActivity"></activity>
         <activity android:name=".home.service.biomedical.FindOutreachWorker.FindOutreachWorkerActivity" />
         <activity android:name=".options.fragment.activity.EditAccountActivity" />
+        <activity android:name=".home.service.asktheexpert.ChatExpertActivity"></activity>
         <activity android:name=".home.service.biomedical.FindServiceProvider.AppointmentFormActivity" />
 
         <meta-data
@@ -50,6 +51,20 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_home" />
         <activity android:name=".auth.activity.SignUpActivity" />
+        <activity android:name=".home.service.biomedical.FindOutreachWorker.FindOutreachWorkerActivity" />
+        <activity android:name=".home.service.biomedical.FindOutreachWorker.AppointmentFormActivity" />
+
+        <service android:name=".util.firebase.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service android:name=".util.firebase.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

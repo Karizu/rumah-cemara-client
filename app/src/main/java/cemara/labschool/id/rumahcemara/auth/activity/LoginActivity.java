@@ -2,6 +2,7 @@ package cemara.labschool.id.rumahcemara.auth.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -21,9 +22,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.centrifugal.centrifuge.android.Centrifugo;
-import com.centrifugal.centrifuge.android.credentials.Token;
-import com.centrifugal.centrifuge.android.listener.ConnectionListener;
 import com.rezkyatinnov.kyandroid.localdata.LocalData;
 import com.rezkyatinnov.kyandroid.reztrofit.ErrorResponse;
 import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
@@ -39,7 +37,11 @@ import cemara.labschool.id.rumahcemara.api.AuthHelper;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.LoginRequest;
 import cemara.labschool.id.rumahcemara.model.User;
+import cemara.labschool.id.rumahcemara.util.dialog.Loading;
+import cemara.labschool.id.rumahcemara.util.firebase.MyFirebaseMessagingService;
 import okhttp3.Headers;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 
 /**
@@ -53,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
     private final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 1;
     private final int MY_PERMISSIONS_REQUEST_CAMERA = 100;
 
-
+    Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                Loading.show(LoginActivity.this);
                 attemptLogin();
             }
         });
@@ -170,27 +173,29 @@ public class LoginActivity extends AppCompatActivity {
                         Session.save(new SessionObject("Authorization", "Bearer "+body.getToken(),true));
                         LocalData.saveOrUpdate(body.getData());
 
-//                        UserDevice userDevice = new UserDevice();
-//                        userDevice.setUserId(body.getData().getId());
-//                        userDevice.setType("Android");
-//                        userDevice.setToken(MyFirebaseMessagingService.getToken(getApplicationContext()));
-//
-//                        AuthHelper.registerUserDevice(userDevice, new RestCallback<ApiResponse>() {
-//                            @Override
-//                            public void onSuccess(Headers headers, ApiResponse body) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onFailed(ErrorResponse error) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onCanceled() {
-//
-//                            }
-//                        });
+                        RequestBody requestBody = new MultipartBody.Builder()
+                                .setType(MultipartBody.FORM)
+                                .addFormDataPart("user_id", body.getData().getId())
+                                .addFormDataPart("type", "Android")
+                                .addFormDataPart("token", MyFirebaseMessagingService.getToken(getApplicationContext()))
+                                .build();
+
+                        AuthHelper.registerUserDevice(requestBody, new RestCallback<ApiResponse>() {
+                            @Override
+                            public void onSuccess(Headers headers, ApiResponse body) {
+
+                            }
+
+                            @Override
+                            public void onFailed(ErrorResponse error) {
+
+                            }
+
+                            @Override
+                            public void onCanceled() {
+
+                            }
+                        });
 
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
