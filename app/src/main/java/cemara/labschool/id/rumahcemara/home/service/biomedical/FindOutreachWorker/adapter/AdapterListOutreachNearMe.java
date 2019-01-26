@@ -63,7 +63,7 @@ public class AdapterListOutreachNearMe extends RecyclerView.Adapter<AdapterListO
         Glide.with(context).load(articleModel.getSrcImage()).apply(RequestOptions.circleCropTransform()).into(holder.imageViewNearest);
 
         holder.linearLayout.setOnClickListener(view -> {
-            View viewSheet = LayoutInflater.from(view.getContext()).inflate(R.layout.bottom_sheet_dialog_fragment, null);
+            View viewSheet = LayoutInflater.from(view.getContext()).inflate(R.layout.find_outreach_worker_bottom_sheet_dialog, null);
             Log.d( "onClick: ",String.valueOf(viewSheet));
             final BottomSheetDialog dialog = new BottomSheetDialog(view.getContext());
             dialog.setContentView(viewSheet);

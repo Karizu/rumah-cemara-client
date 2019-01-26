@@ -1,6 +1,7 @@
 package cemara.labschool.id.rumahcemara.home.service.behavioral.FindServiceProvider;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -30,6 +31,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.rezkyatinnov.kyandroid.reztrofit.ErrorResponse;
+import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,9 +41,15 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cemara.labschool.id.rumahcemara.R;
+import cemara.labschool.id.rumahcemara.api.AppointmentHelper;
+import cemara.labschool.id.rumahcemara.home.service.biomedical.FindServiceProvider.adapter.AdapterListProviderNearMe;
+import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.model.NearestProviderModel;
+import cemara.labschool.id.rumahcemara.model.response.ProviderNearMeResponse;
 import cemara.labschool.id.rumahcemara.util.nearest.adapter.NearestAdapter;
 import cemara.labschool.id.rumahcemara.util.nearest.adapter.NearestSearchResultAdapter;
 import cemara.labschool.id.rumahcemara.util.nearest.modal.Nearest;
+import okhttp3.Headers;
 
 public class FindServiceProviderActivity extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
@@ -69,12 +78,27 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
     NearestAdapter nearestAdapter;
     NearestSearchResultAdapter nearestSearchAdapter;
 
+
+    private Context activity;
+    private LinearLayoutManager layoutManager;
+    double longitude, latitude;
+    private RecyclerView.Adapter adapter;
+    private List<NearestProviderModel> articleModels;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.find_service_provider_activity);
         ButterKnife.bind(this);
         setToolbar();
+
+        activity = getApplicationContext();
+        layoutManager = new LinearLayoutManager(activity,
+                LinearLayout.HORIZONTAL,
+                false);
+
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(layoutManager);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
@@ -85,7 +109,12 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
         sheetBehavior.setHideable(true);//Important to add
         sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         bottomSheetExpand();
-        getListNearest();
+//        getListNearest();
+
+        latitude = -6.893870;
+        longitude = 107.631200;
+
+        populateData();
     }
 
     private void setupAutocomplete() {
@@ -128,6 +157,49 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
                     sheetBehavior.setHideable(true);//Important to add
                     sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
                 });
+    }
+
+    private void populateData() {
+
+        AppointmentHelper.getListProvider(latitude, longitude, new RestCallback<ApiResponse<List<ProviderNearMeResponse>>>() {
+            @Override
+            public void onSuccess(Headers headers, ApiResponse<List<ProviderNearMeResponse>> body) {
+                if (body != null && body.isStatus()) {
+                    List<ProviderNearMeResponse> res = body.getData();
+                    System.out.println("Response: " + body.getData());
+                    articleModels = new ArrayList<>();
+                    for (int i = 0; i < res.size(); i++) {
+                        ProviderNearMeResponse article = res.get(i);
+                        articleModels.add(new NearestProviderModel(article.getId(),
+                                article.getGroup().getId(),
+                                article.getGroup().getGroupProfile().getGroup_id(),
+                                article.getGroup().getName(),
+                                article.getDescription(),
+                                article.getGroup().getGroupProfile().getAddress(),
+                                article.getGroup().getGroupProfile().getAddress(),
+                                article.getGroup().getGroupProfile().getPhone_number(),
+                                article.getDistance(),
+                                article.getUser(),
+                                article.getGroup()));
+                    }
+
+                    adapter = new AdapterListProviderNearMe(articleModels, activity);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailed(ErrorResponse error) {
+
+            }
+
+            @Override
+            public void onCanceled() {
+
+            }
+        });
+
     }
 
     private void bottomSheetExpand() {

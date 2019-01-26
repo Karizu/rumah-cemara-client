@@ -245,7 +245,8 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
                                 article.getUser().getProfile().getCity(),
                                 article.getUser().getProfile().getPhoneNumber(),
                                 article.getDistance(),
-                                article.getUser()));
+                                article.getUser(),
+                                article.getGroup()));
                     }
 
                     adapter = new AdapterListOutreachNearMe(articleModels, activity);

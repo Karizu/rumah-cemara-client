@@ -33,9 +33,9 @@ public class ProviderLocationData extends RealmObject {
     @SerializedName("distance")
     @Expose
     private String distance;
-    @SerializedName("user")
+    @SerializedName("group")
     @Expose
-    private User user;
+    private Group group;
 
     public String getId() {
         return id;
@@ -109,11 +109,11 @@ public class ProviderLocationData extends RealmObject {
         this.distance = distance;
     }
 
-    public User getUser() {
-        return user;
+    public Group getGroup() {
+        return group;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }

@@ -30,10 +30,7 @@
         <activity android:name=".home.highlight.event.EventActivity" />
         <activity android:name=".home.highlight.article.ArticleActivity" />
         <activity android:name=".util.location.SetLocationActivity"></activity>
-        <activity android:name=".home.service.asktheexpert.ChatExpertActivity" />
         <activity android:name=".home.service.biomedical.FindOutreachWorker.AppointmentFormOutreachActivity"></activity>
-        <activity android:name=".options.fragment.activity.EditAccountActivity" />
-        <activity android:name=".home.service.asktheexpert.ChatExpertActivity"></activity>
         <activity android:name=".home.service.biomedical.FindServiceProvider.AppointmentFormActivity" />
 
         <meta-data

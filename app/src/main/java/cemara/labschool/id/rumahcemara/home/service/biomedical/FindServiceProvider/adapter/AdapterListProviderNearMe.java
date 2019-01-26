@@ -20,14 +20,15 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.List;
 
 import cemara.labschool.id.rumahcemara.R;
-import cemara.labschool.id.rumahcemara.home.service.biomedical.FindOutreachWorker.AppointmentFormActivity;
+import cemara.labschool.id.rumahcemara.home.service.biomedical.FindServiceProvider.AppointmentFormActivity;
 import cemara.labschool.id.rumahcemara.model.NearestOutreachModel;
+import cemara.labschool.id.rumahcemara.model.NearestProviderModel;
 
 public class AdapterListProviderNearMe extends RecyclerView.Adapter<AdapterListProviderNearMe.ViewHolder> {
-    private List<NearestOutreachModel> articleModels;
+    private List<NearestProviderModel> articleModels;
     private Context context;
 
-    public AdapterListProviderNearMe(List<NearestOutreachModel> articleModels, Context context){
+    public AdapterListProviderNearMe(List<NearestProviderModel> articleModels, Context context){
         this.articleModels = articleModels;
         this.context = context;
     }
@@ -42,31 +43,25 @@ public class AdapterListProviderNearMe extends RecyclerView.Adapter<AdapterListP
 
     @Override
     public void onBindViewHolder(AdapterListProviderNearMe.ViewHolder holder, int position){
-        final NearestOutreachModel articleModel = articleModels.get(position);
+        final NearestProviderModel articleModel = articleModels.get(position);
         final String id = articleModel.getId();
-        final String userId = articleModel.getUser_id();
         final String srcImage = articleModel.getSrcImage();
         final String name = articleModel.getName();
         final String description = articleModel.getDescription();
         final String address = articleModel.getAddress();
         final String city = articleModel.getCity();
         final String phoneNumber = articleModel.getPhoneNumber();
-        final String group_id = articleModel.getUser().getGroupId();
-        final String worker_id = articleModel.getUser().getId();
+        final String group_id = articleModel.getGroup_id();
+        final String worker_id = articleModel.getGroup().getId();
+        final String mDistance = articleModel.getDistance();
+        final String distance = mDistance.substring(0,4) + " km";
 
         holder.textViewName.setText(name);
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-//        try {
-//            Date date = sdf.parse(endDate);
-//            String formated = new SimpleDateFormat("dd MMMM yyyy").format(date);
-//            holder.textViewUpdatedAt.setText(formated);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
+        holder.textViewRange.setText(distance);
         Glide.with(context).load(articleModel.getSrcImage()).apply(RequestOptions.circleCropTransform()).into(holder.imageViewNearest);
 
         holder.linearLayout.setOnClickListener(view -> {
-            View viewSheet = LayoutInflater.from(view.getContext()).inflate(R.layout.bottom_sheet_dialog_fragment, null);
+            View viewSheet = LayoutInflater.from(view.getContext()).inflate(R.layout.find_service_provider_bottom_sheet_dialog, null);
             Log.d( "onClick: ",String.valueOf(viewSheet));
             final BottomSheetDialog dialog = new BottomSheetDialog(view.getContext());
             dialog.setContentView(viewSheet);
@@ -77,11 +72,13 @@ public class AdapterListProviderNearMe extends RecyclerView.Adapter<AdapterListP
             TextView tvaddress = dialog.findViewById(R.id.nearest_address);
             TextView tvcity = dialog.findViewById(R.id.nearest_city);
             TextView tvphone = dialog.findViewById(R.id.nearest_phone);
-            Glide.with(context).load(articleModel.getSrcImage()).apply(RequestOptions.circleCropTransform()).into(imgProfile);
+            TextView tvRange = dialog.findViewById(R.id.nearest_range);
+//            Glide.with(context).load(articleModel.getSrcImage()).apply(RequestOptions.circleCropTransform()).into(imgProfile);
             tvname.setText(name);
             tvaddress.setText(address);
-            tvcity.setText(city);
-            tvphone.setText(phoneNumber);
+//            tvcity.setText(city);
+//            tvphone.setText(phoneNumber);
+            tvRange.setText(distance);
 
             if (close != null) {
                 close.setOnClickListener(new View.OnClickListener() {
@@ -98,13 +95,13 @@ public class AdapterListProviderNearMe extends RecyclerView.Adapter<AdapterListP
                     public void onClick(View view) {
                         Bundle bundle = new Bundle();
                         bundle.putString("id", id);
-                        bundle.putString("user_id", userId);
                         bundle.putString("imgUrl", srcImage);
                         bundle.putString("fullname", name);
                         bundle.putString("address", address);
                         bundle.putString("phone", phoneNumber);
                         bundle.putString("group_id", group_id);
                         bundle.putString("worker_id", worker_id);
+                        bundle.putString("distance", distance);
                         Intent intent = new Intent(view.getContext(), AppointmentFormActivity.class);
                         intent.putExtra("myData", bundle);
                         view.getContext().startActivity(intent);
@@ -120,6 +117,7 @@ public class AdapterListProviderNearMe extends RecyclerView.Adapter<AdapterListP
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewName;
         public ImageView imageViewNearest;
+        public TextView textViewRange;
         public FrameLayout linearLayout;
 
         public ViewHolder(View v){
@@ -127,6 +125,7 @@ public class AdapterListProviderNearMe extends RecyclerView.Adapter<AdapterListP
 
             textViewName = v.findViewById(R.id.nearest_name);
             imageViewNearest = v.findViewById(R.id.nearest_img);
+            textViewRange = v.findViewById(R.id.nearest_range);
             linearLayout = v.findViewById(R.id.layout_article);
         }
     }

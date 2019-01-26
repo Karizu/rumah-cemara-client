@@ -83,11 +83,10 @@ public class AppointmentFormActivity extends AppCompatActivity {
     Dialog dialog;
 
     String user_id, groupId, workerId;
-    String typeProvider = "worker";
+    String typeProvider = "provider";
     String serviceTypeId = "17c00365-4987-5f1e-925b-2119fbe5ff8b";
-    String userId = "5202e5d3-a5df-45d3-b02d-4be5e1140683";
-    String startDate = "2019-01-26";
-    String endDate = "2019-01-28";
+    String startDate;
+    String endDate;
     EditText dateStart, dateEnd;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -104,13 +103,6 @@ public class AppointmentFormActivity extends AppCompatActivity {
 
         populateData();
 
-        apponintmentSwitch.setOnToggledListener((labeledSwitch, isOn) -> {
-            if(isOn){
-                appointmentWorkerName.setEnabled(false);
-            }else {
-                appointmentWorkerName.setEnabled(true);
-            }
-        });
         descriptionMaterial.setOnTouchListener((v, event) -> {
             if (descriptionMaterial.hasFocus()) {
                 v.getParent().requestDisallowInterceptTouchEvent(true);
@@ -157,7 +149,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
         tvDistance.setText(distance);
     }
 
-    @OnClick(R.id.btn_send_appointment_form)
+    @OnClick(R.id.btn_send_appointment)
     void createAppointment(){
 
         startDate = ((EditText)findViewById(R.id.appointment_date_start)).getText().toString();
@@ -166,7 +158,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
         requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("group_id", groupId)
-                .addFormDataPart("user_id", userId)
+                .addFormDataPart("user_id", user_id)
                 .addFormDataPart("provider_id", workerId)
                 .addFormDataPart("service_type_id", serviceTypeId)
                 .addFormDataPart("worker_id", workerId)
@@ -241,11 +233,13 @@ public class AppointmentFormActivity extends AppCompatActivity {
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
+
     @OnClick(R.id.appointment_getlocation)
     public void getLocation(){
         Intent intent = new Intent(this, SetLocationActivity.class);
         startActivityForResult(intent,1);
     }
+
     public void setToolbar() {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);

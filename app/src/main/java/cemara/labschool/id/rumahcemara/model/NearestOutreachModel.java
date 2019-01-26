@@ -17,8 +17,9 @@ public class NearestOutreachModel {
     private String phoneNumber;
     private String distance;
     private User user;
+    private Group group;
 
-    public NearestOutreachModel(String id, String user_id, String srcImage, String name, String description, String address, String city, String phoneNumber, String distance, User user) {
+    public NearestOutreachModel(String id, String user_id, String srcImage, String name, String description, String address, String city, String phoneNumber, String distance,User user, Group group) {
         this.id = id;
         this.user_id = user_id;
         this.srcImage = srcImage;
@@ -29,6 +30,7 @@ public class NearestOutreachModel {
         this.phoneNumber = phoneNumber;
         this.distance = distance;
         this.user = user;
+        this.group = group;
     }
 
     public String getId() {
@@ -109,5 +111,13 @@ public class NearestOutreachModel {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }

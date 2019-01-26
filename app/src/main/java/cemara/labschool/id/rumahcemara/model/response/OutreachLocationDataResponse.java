@@ -18,6 +18,7 @@ public class OutreachLocationDataResponse {
     private String deleted_at;
     private String distance;
     private User user;
+    private Group group;
 
     public String getId() {
         return id;
@@ -97,5 +98,13 @@ public class OutreachLocationDataResponse {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }

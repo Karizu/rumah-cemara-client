@@ -46,6 +46,7 @@ import cemara.labschool.id.rumahcemara.home.service.biomedical.FindOutreachWorke
 import cemara.labschool.id.rumahcemara.home.service.biomedical.FindServiceProvider.adapter.AdapterListProviderNearMe;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.NearestOutreachModel;
+import cemara.labschool.id.rumahcemara.model.NearestProviderModel;
 import cemara.labschool.id.rumahcemara.model.response.OutreachNearMeResponse;
 import cemara.labschool.id.rumahcemara.model.response.ProviderNearMeResponse;
 import cemara.labschool.id.rumahcemara.util.nearest.adapter.NearestAdapter;
@@ -78,7 +79,7 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
     private LinearLayoutManager layoutManager;
     double longitude, latitude;
     private RecyclerView.Adapter adapter;
-    private List<NearestOutreachModel> articleModels;
+    private List<NearestProviderModel> articleModels;
 
     List<Nearest> nearestList = new ArrayList<>();
     List<Nearest> nearestSearchList = new ArrayList<>();
@@ -129,20 +130,22 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
                     articleModels = new ArrayList<>();
                     for (int i = 0; i < res.size(); i++) {
                         ProviderNearMeResponse article = res.get(i);
-                        articleModels.add(new NearestOutreachModel(article.getId(),
-                                article.getUser_id(),
-                                article.getUser().getProfile().getPicture(),
-                                article.getUser().getProfile().getFullname(),
+                        articleModels.add(new NearestProviderModel(article.getId(),
+                                article.getGroup().getId(),
+                                article.getGroup().getGroupProfile().getGroup_id(),
+                                article.getGroup().getName(),
                                 article.getDescription(),
-                                article.getUser().getProfile().getAddress(),
-                                article.getUser().getProfile().getCity(),
-                                article.getUser().getProfile().getPhoneNumber(),
+                                article.getGroup().getGroupProfile().getAddress(),
+                                article.getGroup().getGroupProfile().getAddress(),
+                                article.getGroup().getGroupProfile().getPhone_number(),
                                 article.getDistance(),
-                                article.getUser()));
+                                article.getUser(),
+                                article.getGroup()));
                     }
 
                     adapter = new AdapterListProviderNearMe(articleModels, activity);
                     recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 }
             }
 
@@ -190,6 +193,7 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
                 Log.i(TAG, "An error occurred: " + status);
             }
         });
+
         autocompleteFragment.getView().findViewById(R.id.place_autocomplete_clear_button)
                 .setOnClickListener(view -> {
                     // example : way to access view from PlaceAutoCompleteFragment
