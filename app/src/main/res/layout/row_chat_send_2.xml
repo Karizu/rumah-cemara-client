@@ -14,8 +14,8 @@
         android:background="@drawable/buble_chat_oren_edit"
         android:paddingTop="@dimen/margin_padding_size_small"
         android:paddingBottom="@dimen/margin_padding_size_small"
-        android:paddingLeft="@dimen/margin_padding_size_semi_large"
-        android:paddingRight="@dimen/margin_padding_size_large"
+        android:paddingStart="@dimen/margin_padding_size_semi_large"
+        android:paddingEnd="@dimen/margin_padding_size_large"
         android:text="Tanggal 30 Agustus gimana gan?"/>
 
     <TextView
@@ -26,7 +26,7 @@
         android:textColor="@color/White"
         android:textAlignment="viewEnd"
         android:layout_marginTop="-16dp"
-        android:paddingLeft="@dimen/margin_padding_size_semi_large"
-        android:paddingRight="@dimen/margin_padding_size_large"
+        android:paddingStart="@dimen/margin_padding_size_semi_large"
+        android:paddingEnd="@dimen/margin_padding_size_large"
         android:textSize="@dimen/text_size_nano" />
 </LinearLayout>
