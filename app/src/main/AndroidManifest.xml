@@ -31,6 +31,7 @@
         <activity android:name=".home.highlight.article.ArticleActivity" />
         <activity android:name=".util.location.SetLocationActivity"></activity>
 
+        <activity android:name=".home.service.biomedical.FindOutreachWorker.AppointmentFormOutreachActivity"></activity>
         <activity android:name=".home.service.biomedical.FindServiceProvider.AppointmentFormActivity" />
 
         <meta-data

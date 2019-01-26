@@ -77,7 +77,7 @@
                                 android:id="@+id/appointment_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Rumah Sakit Dustira\"
+                                android:text="Akmal M Kristanto"
                                 android:textColor="@color/Black"
                                 android:textSize="@dimen/text_size_small"
                                 android:textStyle="bold" />
@@ -97,7 +97,6 @@
                                 android:textSize="@dimen/text_size_micro" />
 
                             <TextView
-                                android:id="@+id/appointment_distance"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="1 km"
@@ -189,65 +188,12 @@
                 android:layout_below="@+id/linear_layout1"
                 android:background="@drawable/shadow_line" />
 
-            <LinearLayout
-                android:id="@+id/linear_layout2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/line_view"
-                android:layout_margin="@dimen/margin_padding_size_medium"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/linear_layout3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/margin_padding_size_small"
-
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/sfDisplayFont"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center_vertical"
-                        android:layout_weight="4"
-                        android:text="Accompanied by Outreach Worker"
-                        android:textColor="#8E8E93"
-                        android:textSize="@dimen/text_size_medium" />
-
-                    <com.github.angads25.toggle.LabeledSwitch
-                        android:id="@+id/appointment_switch"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:layout_weight="1"
-                        android:textSize="14sp"
-                        app:colorOff="#CBCACA"
-                        app:colorOn="#FCA000"
-                        app:on="false"
-                        app:textOff="OFF"
-                        app:textOn="ON" />
-
-                </LinearLayout>
-
-                <EditText
-                    android:id="@+id/appointment_worker_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="39dp"
-                    android:layout_marginBottom="@dimen/margin_padding_size_medium"
-                    android:background="@drawable/rounded_grey_transparent"
-                    android:hint="Outreach Worker Name"
-                    android:maxLines="1"
-                    android:padding="@dimen/margin_padding_size_small"
-                    android:textSize="@dimen/text_size_small" />
-            </LinearLayout>
-
             <Button
-                android:id="@+id/btn_send_appointment_form"
+                android:id="@+id/btn_send_appointment"
                 style="@style/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/linear_layout2"
+                android:layout_below="@+id/line_view"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/margin_padding_size_medium"
