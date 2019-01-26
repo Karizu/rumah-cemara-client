@@ -208,12 +208,13 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailed(ErrorResponse error) {
-
+                    Toast.makeText(LoginActivity.this,"Gagal Login (user atau password salah)", Toast.LENGTH_SHORT).show();
+                    Loading.hide(LoginActivity.this);
                 }
 
                 @Override
                 public void onCanceled() {
-
+                    Loading.hide(LoginActivity.this);
                 }
             });
         }

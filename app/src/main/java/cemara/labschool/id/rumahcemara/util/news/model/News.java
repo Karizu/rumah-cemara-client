@@ -6,6 +6,7 @@ public class News {
     private String author;
     private String dateCreated;
     private int newsImage;
+    private String banner;
 
     public News(String newsId, String title, String author, String dateCreated, int newsImage){
         this.newsId = newsId;
@@ -13,6 +14,13 @@ public class News {
         this.author = author;
         this.dateCreated = dateCreated;
         this.newsImage = newsImage;
+    }
+    public News(String newsId, String title, String author, String dateCreated, String banner){
+        this.newsId = newsId;
+        this.title = title;
+        this.author = author;
+        this.dateCreated = dateCreated;
+        this.banner = banner;
     }
     public News(String newsId, String title, String author, String dateCreated){
         this.newsId = newsId;
@@ -57,5 +65,13 @@ public class News {
 
     public void setNewsImage(int newsImage) {
         this.newsImage = newsImage;
+    }
+
+    public String getBanner() {
+        return banner;
+    }
+
+    public void setBanner(String banner) {
+        this.banner = banner;
     }
 }
