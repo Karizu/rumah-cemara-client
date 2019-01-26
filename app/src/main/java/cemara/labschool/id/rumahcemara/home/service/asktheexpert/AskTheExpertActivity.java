@@ -31,6 +31,8 @@ public class AskTheExpertActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    Dialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +54,29 @@ public class AskTheExpertActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.topiclist)
-    public void createTopic(View view) {
+    public void toChat(View view) {
         startActivity(new Intent(getApplicationContext(), ChatExpertActivity.class));
+    }
+
+    @OnClick(R.id.create_topic)
+    public void createTopic(View view) {
+        showDialo(R.layout.dialog_new_topic);
+    }
+
+    private void showDialo(int layout) {
+        dialog = new Dialog(Objects.requireNonNull(AskTheExpertActivity.this));
+        //SET TITLE
+        dialog.setTitle("Biomedical");
+
+        //set content
+        dialog.setContentView(layout);
+        dialog.setCanceledOnTouchOutside(false);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(Objects.requireNonNull(dialog.getWindow()).getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
 }
