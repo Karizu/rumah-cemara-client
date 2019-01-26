@@ -79,17 +79,19 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/chat_appointment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="10dp"
-                android:layout_weight="0.1"
+                android:layout_weight="0.2"
                 android:orientation="vertical">
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/icon_pesan"
+                    android:layout_gravity="center"
                     android:background="@null"/>
 
             </LinearLayout>

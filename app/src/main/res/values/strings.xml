@@ -81,12 +81,6 @@
     <string name="confirm_logout">Apakah anda yakin akan keluar?</string>
     <string name="ya">Ya</string>
     <string name="tidak">Tidak</string>
-    <string name="training_and_education"><![CDATA[Training & Education]]></string>
-    <string name="campaign_and_nformation"><![CDATA[Campaign & Information]]></string>
-    <string name="capacity_building">Capacity Building</string>
-    <string name="news">News</string>
-    <string name="articles">Articles</string>
-    <string name="reminder_description">reminder event description</string>
     <string name="ask_the_expert">Ask The Expert</string>
     <string name="desk_ask_the_expert">Buat topic untuk dijadikan pertanyaan yang akan dijawab oleh Expert</string>
     <string name="create_on">Create on</string>
@@ -104,5 +98,14 @@
     <string name="on">on</string>
     <string name="see_more">See More</string>
     <string name="home_news">home_news</string>
+    <string name="biomedical_appointment">Biomedical Appointment</string>
+    <string name="location">Location</string>
+    <string name="training_and_education"><![CDATA[Training & Education]]></string>
+    <string name="campaign_and_nformation"><![CDATA[Campaign & Information]]></string>
+    <string name="capacity_building">Capacity Building</string>
+    <string name="news">News</string>
+    <string name="articles">Articles</string>
+    <string name="reminder_description">reminder event description</string>
+
 
 </resources>

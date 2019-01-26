@@ -23,29 +23,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/margin_padding_size_medium"
-            android:paddingTop="@dimen/margin_padding_size_small"
-            android:paddingRight="@dimen/margin_padding_size_medium"
-            android:paddingBottom="@dimen/margin_padding_size_medium">
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="73.33dp"
                 android:layout_height="57.67dp"
+                android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_padding_size_micro"
-                android:src="@drawable/icon_structural" />
+                android:src="@drawable/icon_structural_no_text" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
+                android:minHeight="80dp"
                 android:layout_marginStart="@dimen/margin_padding_size_small"
                 android:layout_marginEnd="@dimen/margin_padding_size_medium"
-                android:background="@drawable/shadow_line" />
+                android:background="@drawable/line" />
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
@@ -59,6 +56,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/stuctural_description_text"
+                    android:textAllCaps="false"
                     android:textColor="@color/NormalGreyText"
                     android:textSize="@dimen/text_size_micro" />
             </LinearLayout>
@@ -69,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/margin_padding_size_small"
-            android:layout_marginBottom="@dimen/margin_padding_size_small"
+            android:layout_marginBottom="@dimen/margin_padding_size_medium"
             android:background="@drawable/shadow_line" />
 
         <android.support.v7.widget.CardView
@@ -77,8 +75,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_padding_size_small"
-            app:cardElevation="0dp"
-            app:cardCornerRadius="5dp">
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -88,19 +86,29 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:gravity="center_vertical"
                     android:background="@drawable/rounded_orange_transparent"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="50dp"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/icon_purpose_bkg" />
+                        android:gravity="center"
+                        android:background="@color/Orange01"
+                        android:minWidth="47dp"
+                        android:padding="@dimen/margin_padding_size_small">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/icon_purpose" />
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:paddingLeft="@dimen/margin_padding_size_medium"
                         android:paddingTop="@dimen/margin_padding_size_micro"
                         android:paddingRight="@dimen/margin_padding_size_medium"
@@ -111,13 +119,14 @@
                 </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
+
         <android.support.v7.widget.CardView
             android:id="@+id/btn_legal_aid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_padding_size_small"
-            app:cardElevation="0dp"
-            app:cardCornerRadius="5dp">
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -130,33 +139,43 @@
                     android:background="@drawable/rounded_orange_transparent"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="50dp"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/icon_legal_aid_bkg" />
+                        android:gravity="center"
+                        android:background="@color/Orange01"
+                        android:minWidth="47dp"
+                        android:padding="@dimen/margin_padding_size_small">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/icon_legal_aid" />
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:paddingLeft="@dimen/margin_padding_size_medium"
                         android:paddingTop="@dimen/margin_padding_size_micro"
                         android:paddingRight="@dimen/margin_padding_size_medium"
                         android:paddingBottom="@dimen/margin_padding_size_micro"
                         android:text="@string/legal_aid"
                         android:textSize="@dimen/text_size_medium"
-                        android:textStyle="bold"
-                        android:layout_gravity="center_vertical"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
+
         <android.support.v7.widget.CardView
             android:id="@+id/btn_violation_report"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_padding_size_small"
-            app:cardElevation="0dp"
-            app:cardCornerRadius="5dp">
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -166,19 +185,29 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:gravity="center_vertical"
                     android:background="@drawable/rounded_orange_transparent"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="50dp"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/icon_violation_bkg" />
+                        android:gravity="center"
+                        android:background="@color/Orange01"
+                        android:minWidth="47dp"
+                        android:padding="@dimen/margin_padding_size_small">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/icon_violation" />
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:paddingLeft="@dimen/margin_padding_size_medium"
                         android:paddingTop="@dimen/margin_padding_size_micro"
                         android:paddingRight="@dimen/margin_padding_size_medium"

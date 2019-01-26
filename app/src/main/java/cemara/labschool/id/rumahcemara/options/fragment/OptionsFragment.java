@@ -1,21 +1,15 @@
 package cemara.labschool.id.rumahcemara.options.fragment;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +32,7 @@ import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.Profile;
 import cemara.labschool.id.rumahcemara.model.User;
 import cemara.labschool.id.rumahcemara.options.fragment.activity.EditAccountActivity;
+import cemara.labschool.id.rumahcemara.options.fragment.activity.WebActivity;
 import io.realm.Realm;
 import okhttp3.Headers;
 
@@ -153,6 +148,43 @@ public class OptionsFragment extends Fragment {
                 dialog.dismiss();
             }
         });
+    }
+
+    @OnClick({R.id.privacy, R.id.notification, R.id.faq, R.id.term, R.id.rateapp, R.id.shareapp})
+    public void onViewClicked(View view) {
+        Intent i = new Intent(getContext(), WebActivity.class);
+        switch (view.getId()) {
+            case R.id.privacy:
+                i.putExtra("link", "https://rumahcemara.or.id/tentang-kami/");
+                i.putExtra("title", "Privacy Policy");
+                startActivity(i);
+                break;
+            case R.id.notification:
+                i.putExtra("link", "https://rumahcemara.or.id/term-and-condition/");
+                i.putExtra("title", "Notification");
+                startActivity(i);
+                break;
+            case R.id.faq:
+                i.putExtra("link", "https://rumahcemara.or.id/tentang-kami/");
+                i.putExtra("title", "FAQ");
+                startActivity(i);
+                break;
+            case R.id.term:
+                i.putExtra("link", "https://rumahcemara.or.id/term-and-condition/");
+                i.putExtra("title", "Term & Condition");
+                startActivity(i);
+                break;
+            case R.id.rateapp:
+                i.putExtra("link", "https://rumahcemara.or.id/term-and-condition/");
+                i.putExtra("title", "Rate App");
+                startActivity(i);
+                break;
+            case R.id.shareapp:
+                i.putExtra("link", "https://rumahcemara.or.id/term-and-condition/");
+                i.putExtra("title", "Share App");
+                startActivity(i);
+                break;
+        }
     }
 
     private void showDialog(int layout) {

@@ -92,86 +92,156 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="@dimen/margin_padding_size_small"
-                        android:background="@drawable/shadow_line" />
-
-                    <TextView
-                        android:id="@+id/privacy_settings"
+                    <LinearLayout
+                        android:id="@+id/privacy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_padding_size_medium"
-                        android:text="@string/privacy_settings"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:orientation="vertical">
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginTop="@dimen/margin_padding_size_small"
-                        android:background="@drawable/shadow_line" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@drawable/shadow_line" />
 
-                    <TextView
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_padding_size_medium"
+                            android:text="@string/privacy_settings"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@drawable/shadow_line" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/notification"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_padding_size_medium"
-                        android:text="@string/notification"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:orientation="vertical">
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="@drawable/shadow_line" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@drawable/shadow_line" />
 
-                    <TextView
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_padding_size_medium"
+                            android:text="@string/notification"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@drawable/shadow_line" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/faq"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_padding_size_medium"
-                        android:text="@string/faq"
-                        android:textAllCaps="true"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:orientation="vertical">
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="@drawable/shadow_line" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@drawable/shadow_line" />
 
-                    <TextView
-                        android:id="@+id/terms_condition"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_padding_size_medium"
-                        android:text="@string/terms_condition"
-                        android:textSize="@dimen/text_size_medium" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_padding_size_medium"
+                            android:text="@string/faq"
+                            android:textAllCaps="true"
+                            android:textSize="@dimen/text_size_medium" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="@drawable/shadow_line" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@drawable/shadow_line" />
 
-                    <TextView
-                        android:id="@+id/share_app"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_padding_size_medium"
-                        android:text="@string/share_app"
-                        android:textSize="@dimen/text_size_medium" />
+                    </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="@drawable/shadow_line" />
-
-                    <TextView
-                        android:id="@+id/rate_app"
+                    <LinearLayout
+                        android:id="@+id/term"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_padding_size_medium"
-                        android:text="@string/rate_app"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:orientation="vertical">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@drawable/shadow_line" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_padding_size_medium"
+                            android:text="@string/terms_condition"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@drawable/shadow_line" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/shareapp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@drawable/shadow_line" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_padding_size_medium"
+                            android:text="@string/share_app"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@drawable/shadow_line" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/rateapp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@drawable/shadow_line" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_padding_size_medium"
+                            android:text="@string/rate_app"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@drawable/shadow_line" />
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/logout"

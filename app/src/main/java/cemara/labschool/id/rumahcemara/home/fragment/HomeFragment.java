@@ -109,6 +109,7 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
     @OnClick(R.id.btn_behavioral)
     public void dialogBehavioral() {
         showDialog(R.layout.dialog_behavioral);
@@ -127,6 +128,7 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
     @OnClick(R.id.btn_structural)
     public void dialogStructural() {
         showDialog(R.layout.dialog_structural);
@@ -165,25 +167,26 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
     @OnClick(R.id.btn_ask_the_expert)
     public void toAsktheExpert() {
         startActivity(new Intent(getContext(), AskTheExpertActivity.class));
     }
 
     @OnClick(R.id.layout_news)
-    public void toNews(){
+    public void toNews() {
         Intent intent = new Intent(getContext(), NewsActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.layout_article)
-    public void toArticle(){
+    public void toArticle() {
         Intent intent = new Intent(getContext(), ArticleActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.layout_event)
-    public void toEvent(){
+    public void toEvent() {
         Intent intent = new Intent(getContext(), EventActivity.class);
         startActivity(intent);
     }
