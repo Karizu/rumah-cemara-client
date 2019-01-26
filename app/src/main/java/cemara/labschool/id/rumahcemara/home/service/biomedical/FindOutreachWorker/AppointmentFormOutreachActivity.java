@@ -2,18 +2,20 @@ package cemara.labschool.id.rumahcemara.home.service.biomedical.FindOutreachWork
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.github.angads25.toggle.LabeledSwitch;
+import com.rezkyatinnov.kyandroid.reztrofit.ErrorResponse;
+import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -24,6 +26,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cemara.labschool.id.rumahcemara.R;
+import cemara.labschool.id.rumahcemara.api.AppointmentHelper;
+import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import okhttp3.Headers;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class AppointmentFormOutreachActivity extends AppCompatActivity {
 
@@ -41,14 +48,14 @@ public class AppointmentFormOutreachActivity extends AppCompatActivity {
         myCalendar.set(Calendar.MONTH, month);
         myCalendar.set(Calendar.DAY_OF_MONTH, day);
     };
-    private void updateLabel(EditText date) {
-        String myFormat = "MM/dd/yyyy"; //In which you need put here
+    private EditText updateLabel(EditText date) {
+        String myFormat = "yyyy/MM/dd"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         date.setText(sdf.format(myCalendar.getTime()));
+        return date;
     }
 
-    String user_id;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -59,7 +66,7 @@ public class AppointmentFormOutreachActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setToolbar();
 
-        populateData();
+//        populateData();
 
         descriptionMaterial.setOnTouchListener((v, event) -> {
             if (descriptionMaterial.hasFocus()) {
@@ -72,29 +79,31 @@ public class AppointmentFormOutreachActivity extends AppCompatActivity {
             }
             return false;
         });
+
     }
 
-    private void populateData(){
-        Bundle bundle = getIntent().getBundleExtra("myData");   //<< get Bundle from Intent
-
-        String id = bundle.getString("id");
-        user_id = bundle.getString("user_id");
-        String imgUrl = bundle.getString("imgUrl");
-        String fullName = bundle.getString("fullname");
-        String address = bundle.getString("address");
-        String phoneNumber = bundle.getString("phone");
-
-        TextView tvName = findViewById(R.id.appointment_name);
-        ImageView imageProfile = findViewById(R.id.imgProfile);
-        TextView tvAddress = findViewById(R.id.appointment_address);
-        TextView tvPhoneNumber = findViewById(R.id.appointment_telp);
-
-        tvName.setText(fullName);
-        Glide.with(this).applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.select_dp)).load(imgUrl).into(imageProfile);
-        tvAddress.setText(address);
-        tvPhoneNumber.setText(phoneNumber);
-    }
-
+//    private void populateData(){
+//        Bundle bundle = getIntent().getBundleExtra("myData");   //<< get Bundle from Intent
+//
+//        String id = bundle.getString("id");
+//        user_id = bundle.getString("user_id");
+//        String imgUrl = bundle.getString("imgUrl");
+//        String fullName = bundle.getString("fullname");
+//        String address = bundle.getString("address");
+//        String phoneNumber = bundle.getString("phone");
+//        groupId = bundle.getString("group_id");
+//        workerId = bundle.getString("worker_id");
+//
+//        TextView tvName = findViewById(R.id.appointment_name);
+//        ImageView imageProfile = findViewById(R.id.imgProfile);
+//        TextView tvAddress = findViewById(R.id.appointment_address);
+//        TextView tvPhoneNumber = findViewById(R.id.appointment_telp);
+//
+//        tvName.setText(fullName);
+//        Glide.with(this).applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.select_dp)).load(imgUrl).into(imageProfile);
+//        tvAddress.setText(address);
+//        tvPhoneNumber.setText(phoneNumber);
+//    }
 
     @OnClick(R.id.appointment_date_start)
     public void openCalenderDateStart(){

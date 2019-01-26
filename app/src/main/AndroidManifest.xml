@@ -25,7 +25,6 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".home.service.biomedical.FindOutreachWorker.AppointmentFormOutreachActivity"></activity>
-        <activity android:name=".home.service.biomedical.FindOutreachWorker.FindOutreachWorkerActivity" />
         <activity android:name=".options.fragment.activity.EditAccountActivity" />
         <activity android:name=".home.service.asktheexpert.ChatExpertActivity"></activity>
         <activity android:name=".home.service.biomedical.FindServiceProvider.AppointmentFormActivity" />

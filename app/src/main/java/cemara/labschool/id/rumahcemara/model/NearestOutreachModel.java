@@ -15,9 +15,10 @@ public class NearestOutreachModel {
     private String address;
     private String city;
     private String phoneNumber;
+    private String distance;
     private User user;
 
-    public NearestOutreachModel(String id, String user_id, String srcImage, String name, String description, String address, String city, String phoneNumber, User user) {
+    public NearestOutreachModel(String id, String user_id, String srcImage, String name, String description, String address, String city, String phoneNumber, String distance, User user) {
         this.id = id;
         this.user_id = user_id;
         this.srcImage = srcImage;
@@ -26,6 +27,7 @@ public class NearestOutreachModel {
         this.address = address;
         this.city = city;
         this.phoneNumber = phoneNumber;
+        this.distance = distance;
         this.user = user;
     }
 
@@ -91,6 +93,14 @@ public class NearestOutreachModel {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
     }
 
     public User getUser() {

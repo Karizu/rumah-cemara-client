@@ -1,6 +1,7 @@
 package cemara.labschool.id.rumahcemara.home.service.biomedical.FindServiceProvider;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -30,6 +31,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.rezkyatinnov.kyandroid.reztrofit.ErrorResponse;
+import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,12 +41,20 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cemara.labschool.id.rumahcemara.R;
+import cemara.labschool.id.rumahcemara.api.AppointmentHelper;
+import cemara.labschool.id.rumahcemara.home.service.biomedical.FindOutreachWorker.adapter.AdapterListOutreachNearMe;
+import cemara.labschool.id.rumahcemara.home.service.biomedical.FindServiceProvider.adapter.AdapterListProviderNearMe;
+import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.model.NearestOutreachModel;
+import cemara.labschool.id.rumahcemara.model.response.OutreachNearMeResponse;
+import cemara.labschool.id.rumahcemara.model.response.ProviderNearMeResponse;
 import cemara.labschool.id.rumahcemara.util.nearest.adapter.NearestAdapter;
 import cemara.labschool.id.rumahcemara.util.nearest.adapter.NearestSearchResultAdapter;
 import cemara.labschool.id.rumahcemara.util.nearest.modal.Nearest;
+import okhttp3.Headers;
 
 public class FindServiceProviderActivity extends AppCompatActivity implements OnMapReadyCallback {
-    private GoogleMap mMap;
+    private GoogleMap mMap, mOutreach;
     private static final String TAG = "FindServiceProviderActivity";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -63,6 +74,11 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
     ImageView imgNavigation;
 
     BottomSheetBehavior sheetBehavior;
+    private Context activity;
+    private LinearLayoutManager layoutManager;
+    double longitude, latitude;
+    private RecyclerView.Adapter adapter;
+    private List<NearestOutreachModel> articleModels;
 
     List<Nearest> nearestList = new ArrayList<>();
     List<Nearest> nearestSearchList = new ArrayList<>();
@@ -76,6 +92,14 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
         ButterKnife.bind(this);
         setToolbar();
 
+        activity = getApplicationContext();
+        layoutManager = new LinearLayoutManager(activity,
+                LinearLayout.HORIZONTAL,
+                false);
+
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(layoutManager);
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
@@ -84,8 +108,55 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
         sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
         sheetBehavior.setHideable(true);//Important to add
         sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
         bottomSheetExpand();
-        getListNearest();
+//        getListNearest();
+
+        latitude = -6.893870;
+        longitude = 107.631200;
+
+        populateData();
+    }
+
+    private void populateData() {
+
+        AppointmentHelper.getListProvider(latitude, longitude, new RestCallback<ApiResponse<List<ProviderNearMeResponse>>>() {
+            @Override
+            public void onSuccess(Headers headers, ApiResponse<List<ProviderNearMeResponse>> body) {
+                if (body != null && body.isStatus()) {
+                    List<ProviderNearMeResponse> res = body.getData();
+                    System.out.println("Response: " + body.getData());
+                    articleModels = new ArrayList<>();
+                    for (int i = 0; i < res.size(); i++) {
+                        ProviderNearMeResponse article = res.get(i);
+                        articleModels.add(new NearestOutreachModel(article.getId(),
+                                article.getUser_id(),
+                                article.getUser().getProfile().getPicture(),
+                                article.getUser().getProfile().getFullname(),
+                                article.getDescription(),
+                                article.getUser().getProfile().getAddress(),
+                                article.getUser().getProfile().getCity(),
+                                article.getUser().getProfile().getPhoneNumber(),
+                                article.getDistance(),
+                                article.getUser()));
+                    }
+
+                    adapter = new AdapterListProviderNearMe(articleModels, activity);
+                    recyclerView.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onFailed(ErrorResponse error) {
+
+            }
+
+            @Override
+            public void onCanceled() {
+
+            }
+        });
+
     }
 
     private void setupAutocomplete() {
@@ -200,8 +271,11 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mOutreach = googleMap;
         LatLng indo = new LatLng(-2.5489, 118.0149);
+        LatLng outreach = new LatLng(latitude, longitude);
         mMap.addMarker(new MarkerOptions().position(indo).title("Marker in Indonesia").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_map)));
+        mOutreach.addMarker(new MarkerOptions().position(outreach).title("Outreach").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_rs)));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(indo));
     }
 

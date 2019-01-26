@@ -5,6 +5,7 @@ import java.util.List;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.response.OutreachLocationDataResponse;
 import cemara.labschool.id.rumahcemara.model.response.OutreachNearMeResponse;
+import cemara.labschool.id.rumahcemara.model.response.ProviderNearMeResponse;
 import okhttp3.ResponseBody;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.LoginRequest;
@@ -27,6 +28,9 @@ public interface ApiInterface {
     @GET("userLocation/nearMe")
     Call<ApiResponse<List<OutreachNearMeResponse>>> getOutreachListNearMe(@Query("lat") Double latitude, @Query("long") Double longitude, @Query("radius") int radius);
 
+    @GET("groupLocation/nearMe")
+    Call<ApiResponse<List<ProviderNearMeResponse>>> getProviderListNearMe(@Query("lat") Double latitude, @Query("long") Double longitude, @Query("radius") int radius);
+
     @POST("register")
     Call<ApiResponse> postRegister(@Body RequestBody registerRequest);
 
@@ -44,4 +48,7 @@ public interface ApiInterface {
 
     @GET("profile")
     Call<ApiResponse<User>> myProfile();
+
+    @POST("serviceTransaction")
+    Call<ApiResponse> createBiomedicalAppointmentOutreach(@Body RequestBody appointment);
 }
