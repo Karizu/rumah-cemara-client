@@ -93,19 +93,19 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_view"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/rvTopicList"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
-                <include
-                    android:id="@+id/topiclist"
-                    layout="@layout/row_asktheexpert_topic" />
+                <!--<include-->
+                    <!--android:id="@+id/topiclist"-->
+                    <!--layout="@layout/row_asktheexpert_topic" />-->
 
-                <include
-                    layout="@layout/row_asktheexpert_topic" />
+                <!--<include-->
+                    <!--layout="@layout/row_asktheexpert_topic" />-->
 
-                <include
-                    layout="@layout/row_asktheexpert_topic" />
+                <!--<include-->
+                    <!--layout="@layout/row_asktheexpert_topic" />-->
 
             </LinearLayout>
         </RelativeLayout>

@@ -144,14 +144,7 @@ public class HomeFragment extends Fragment {
     }
     @OnClick(R.id.btn_ask_the_expert)
     public void toAsktheExpert() {
-        showDialog(R.layout.dialog_behavioral);
-        CardView biomedical_appointment = dialog.findViewById(R.id.btn_behavioral_appointment);
-        biomedical_appointment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), AskTheExpertActivity.class));
-            }
-        });
+        startActivity(new Intent(getContext(), AskTheExpertActivity.class));
     }
 
 

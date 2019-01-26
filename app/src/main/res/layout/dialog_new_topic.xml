@@ -34,7 +34,7 @@
         android:padding="@dimen/d_13" />
 
     <Button
-        android:id="@+id/btnNextBatal"
+        android:id="@+id/btnCreateTopic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_padding_size_medium"
