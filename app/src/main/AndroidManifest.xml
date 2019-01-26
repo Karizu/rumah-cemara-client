@@ -24,7 +24,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".home.service.asktheexpert.ChatExpertActivity"></activity>
+        <activity android:name=".home.highlight.NewsDetailActivity"></activity>
+        <activity android:name=".home.service.asktheexpert.ChatExpertActivity" />
+        <activity android:name=".options.fragment.activity.EditAccountActivity" />
+        <activity android:name=".home.highlight.event.EventActivity" />
+        <activity android:name=".home.highlight.article.ArticleActivity" />
+        <activity android:name=".util.location.SetLocationActivity"></activity>
+        <activity android:name=".home.service.asktheexpert.ChatExpertActivity" />
         <activity android:name=".options.fragment.activity.EditAccountActivity" />
         <activity android:name=".home.service.biomedical.FindServiceProvider.AppointmentFormActivity" />
 
@@ -63,6 +69,17 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+        <activity android:name=".home.highlight.news.NewsActivity" />
+        <activity android:name=".home.service.behavioral.FindOutreachWorker.FindOutreachWorkerActivity" />
+        <activity android:name=".home.service.behavioral.FindOutreachWorker.AppointmentFormActivity" />
+        <activity android:name=".home.service.behavioral.FindServiceProvider.AppointmentFormActivity" />
+        <activity android:name=".home.service.behavioral.FindServiceProvider.FindServiceProviderActivity" />
+        <activity android:name=".home.service.behavioral.CounselingAppointmentActivity" />
+        <activity android:name=".home.service.structural.LegalCounselingAppointmentActivity" />
+        <activity android:name=".home.service.structural.FindOutreachWorker.AppointmentFormActivity" />
+        <activity android:name=".home.service.structural.FindOutreachWorker.FindOutreachWorkerActivity" />
+        <activity android:name=".home.service.structural.FindServiceProvider.AppointmentFormActivity" />
+        <activity android:name=".home.service.structural.FindServiceProvider.FindServiceProviderActivity" />
     </application>
 
 </manifest>

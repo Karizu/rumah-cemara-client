@@ -76,7 +76,7 @@
                                 android:id="@+id/appointment_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Akmal M Kristanto"
+                                android:text="Rumah Sakit Dustira\"
                                 android:textColor="@color/Black"
                                 android:textSize="@dimen/text_size_small"
                                 android:textStyle="bold" />
