@@ -1,16 +1,20 @@
 package cemara.labschool.id.rumahcemara.home.service.biomedical.FindOutreachWorker;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,6 +28,7 @@ import com.rezkyatinnov.kyandroid.localdata.LocalData;
 import com.rezkyatinnov.kyandroid.reztrofit.ErrorResponse;
 import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
 import com.squareup.picasso.Picasso;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -43,6 +48,7 @@ import io.realm.Realm;
 import okhttp3.Headers;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import cemara.labschool.id.rumahcemara.util.location.SetLocationActivity;
 
 public class AppointmentFormActivity extends AppCompatActivity {
 
@@ -53,12 +59,10 @@ public class AppointmentFormActivity extends AppCompatActivity {
     TextView toolbarTitle;
     @BindView(R.id.toolbar_img)
     ImageView toolbarImg;
-    @BindView(R.id.appointment_switch)
-    LabeledSwitch apponintmentSwitch;
-    @BindView(R.id.appointment_worker_name)
-    EditText appointmentWorkerName;
-    @BindView(R.id.description_material)
+    @BindView(R.id.appointment_material_description)
     EditText descriptionMaterial;
+    @BindView(R.id.appointment_location)
+    AutoCompleteTextView appointmentLocation;
     EditText changeTo;
     final Calendar myCalendar = Calendar.getInstance();
     DatePickerDialog.OnDateSetListener date = (datePicker, year, month, day) -> {
@@ -67,6 +71,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
         myCalendar.set(Calendar.DAY_OF_MONTH, day);
         updateLabel(changeTo);
     };
+
     private void updateLabel(EditText date) {
         String myFormat = "yyyy-MM-dd"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
@@ -89,7 +94,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.appointment_form_activity);
+        setContentView(R.layout.find_outreach_appointment_form_activity);
         ButterKnife.bind(this);
         setToolbar();
 
@@ -109,7 +114,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
         descriptionMaterial.setOnTouchListener((v, event) -> {
             if (descriptionMaterial.hasFocus()) {
                 v.getParent().requestDisallowInterceptTouchEvent(true);
-                switch (event.getAction() & MotionEvent.ACTION_MASK){
+                switch (event.getAction() & MotionEvent.ACTION_MASK) {
                     case MotionEvent.ACTION_SCROLL:
                         v.getParent().requestDisallowInterceptTouchEvent(false);
                         return true;
@@ -117,6 +122,13 @@ public class AppointmentFormActivity extends AppCompatActivity {
             }
             return false;
         });
+
+        // Get the string array
+        String[] testArray = getResources().getStringArray(R.array.test_array);
+        // Create the adapter and set it to the AutoCompleteTextView
+        ArrayAdapter<String> adapterLocation =
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, testArray);
+        appointmentLocation.setAdapter(adapterLocation);
     }
 
     private void populateData(){
@@ -215,18 +227,24 @@ public class AppointmentFormActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.appointment_date_start)
-    public void openCalenderDateStart(){
+    public void openCalenderDateStart() {
         changeTo = findViewById(R.id.appointment_date_start);
-         new DatePickerDialog(this, date, myCalendar
+        new DatePickerDialog(this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
+
     @OnClick(R.id.appointment_date_end)
-    public void openCalenderDateEnd(){
+    public void openCalenderDateEnd() {
         changeTo = findViewById(R.id.appointment_date_end);
         new DatePickerDialog(this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+    @OnClick(R.id.appointment_getlocation)
+    public void getLocation(){
+        Intent intent = new Intent(this, SetLocationActivity.class);
+        startActivityForResult(intent,1);
     }
     public void setToolbar() {
         setSupportActionBar(toolbar);
@@ -239,4 +257,19 @@ public class AppointmentFormActivity extends AppCompatActivity {
             onBackPressed();
         });
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                String result=data.getStringExtra("result");
+                Toast.makeText(this, String.valueOf(result), Toast.LENGTH_SHORT).show();
+                appointmentLocation.setText(result);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                Toast.makeText(this, "Cancel", Toast.LENGTH_SHORT).show();
+                //Write your code if there's no result
+            }
+        }
+    }//onActivityResult
 }

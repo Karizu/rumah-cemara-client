@@ -78,6 +78,8 @@ dependencies {
     //firebase
     implementation 'com.google.firebase:firebase-core:16.0.6'
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    //carousel
+    implementation 'com.synnapps:carouselview:0.1.5'
     implementation 'com.squareup.picasso:picasso:2.71828'
 }
 

@@ -37,4 +37,5 @@
     <dimen name="text_size_xxxlarge">56sp</dimen>
     <dimen name="text_size_xxxxlarge">112sp</dimen>
     <dimen name="d_17">17dp</dimen>
+    <dimen name="carousel_height">200dp</dimen>
 </resources>

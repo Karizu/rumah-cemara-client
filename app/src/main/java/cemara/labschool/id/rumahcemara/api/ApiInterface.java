@@ -10,6 +10,7 @@ import okhttp3.ResponseBody;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.LoginRequest;
 import cemara.labschool.id.rumahcemara.model.Profile;
+import cemara.labschool.id.rumahcemara.model.Topic;
 import cemara.labschool.id.rumahcemara.model.Treatment;
 import cemara.labschool.id.rumahcemara.model.User;
 import okhttp3.RequestBody;
@@ -51,4 +52,14 @@ public interface ApiInterface {
 
     @POST("serviceTransaction")
     Call<ApiResponse> createBiomedicalAppointmentOutreach(@Body RequestBody appointment);
+
+    @POST("topic")
+    Call<ApiResponse> createNewTopic(@Body RequestBody newTopicRequest);
+
+    @GET("topic")
+    Call<ApiResponse<List<Topic>>> getAllTopic();
+
+    @GET("topic/{topic_id}")
+    Call<ApiResponse<Topic>> getTopicDetail(@Path("topic_id") String topicId);
+
 }

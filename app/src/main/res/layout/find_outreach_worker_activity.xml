@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+    <include
+        android:id="@+id/toolbar" layout="@layout/row_toolbar" />
+    <include
+        layout="@layout/find_outreach_worker_autocomplete"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include layout="@layout/find_outreach_worker_content" />
+        <android.support.design.widget.CoordinatorLayout
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+            <include layout="@layout/result_find_outreach_bottom_sheet_expand" />
+
+        </android.support.design.widget.CoordinatorLayout>
+    </RelativeLayout>
+
+</LinearLayout>

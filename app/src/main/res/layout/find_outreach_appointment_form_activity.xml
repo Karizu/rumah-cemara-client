@@ -51,7 +51,6 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:id="@+id/img_profile"
                             android:layout_width="45dp"
                             android:layout_height="45dp"
                             android:layout_gravity="center_vertical"
@@ -97,7 +96,6 @@
                                 android:textSize="@dimen/text_size_micro" />
 
                             <TextView
-                                android:id="@+id/appointment_distance"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="1 km"
@@ -169,7 +167,7 @@
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/description_material"
+                    android:id="@+id/appointment_material_description"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginBottom="@dimen/margin_padding_size_medium"
@@ -179,7 +177,46 @@
                     android:padding="@dimen/margin_padding_size_small"
                     android:scrollbarStyle="insideInset"
                     android:scrollbars="vertical"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_small"
+                    android:inputType="text" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_padding_size_micro"
+                    android:text="Location"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_grey_transparent"
+                    android:layout_marginBottom="@dimen/margin_padding_size_medium">
+                    <AutoCompleteTextView
+                        android:id="@+id/appointment_location"
+                        android:layout_width="0dp"
+                        android:layout_weight="10"
+                        android:layout_height="wrap_content"
+                        android:overScrollMode="always"
+                        android:drawableStart="@drawable/icon_alamat"
+                        android:drawablePadding="@dimen/margin_padding_size_small"
+                        android:background="@android:color/transparent"
+                        android:padding="@dimen/margin_padding_size_small"
+                        android:textSize="@dimen/text_size_small" />
+                    <LinearLayout
+                        android:id="@+id/appointment_getlocation"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/left_radius_grey"
+                        android:gravity="center">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="@dimen/margin_padding_size_micro"
+                            app:srcCompat="@drawable/icon_location_button"/>
+                    </LinearLayout>
+                </LinearLayout>
+
             </LinearLayout>
 
             <View
@@ -189,65 +226,13 @@
                 android:layout_below="@+id/linear_layout1"
                 android:background="@drawable/shadow_line" />
 
-            <LinearLayout
-                android:id="@+id/linear_layout2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/line_view"
-                android:layout_margin="@dimen/margin_padding_size_medium"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/linear_layout3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/margin_padding_size_small"
-
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/sfDisplayFont"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center_vertical"
-                        android:layout_weight="4"
-                        android:text="Accompanied by Outreach Worker"
-                        android:textColor="#8E8E93"
-                        android:textSize="@dimen/text_size_medium" />
-
-                    <com.github.angads25.toggle.LabeledSwitch
-                        android:id="@+id/appointment_switch"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:layout_weight="1"
-                        android:textSize="14sp"
-                        app:colorOff="#CBCACA"
-                        app:colorOn="#FCA000"
-                        app:on="false"
-                        app:textOff="OFF"
-                        app:textOn="ON" />
-
-                </LinearLayout>
-
-                <EditText
-                    android:id="@+id/appointment_worker_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="39dp"
-                    android:layout_marginBottom="@dimen/margin_padding_size_medium"
-                    android:background="@drawable/rounded_grey_transparent"
-                    android:hint="Outreach Worker Name"
-                    android:maxLines="1"
-                    android:padding="@dimen/margin_padding_size_small"
-                    android:textSize="@dimen/text_size_small" />
-            </LinearLayout>
 
             <Button
-                android:id="@+id/btn_send_appointment_form"
+                android:id="@+id/btn_send_appointment"
                 style="@style/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/linear_layout2"
+                android:layout_below="@+id/line_view"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/margin_padding_size_medium"

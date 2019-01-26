@@ -157,6 +157,7 @@
     <color name="TransparentWhite">#13FFFFFF</color>
     <color name="edit">#FCA000</color>
     <color name="red_text">#EE343B</color>
+    <color name="ArticleGreyText">#707070</color>
     <color name="green_text">#81C341</color>
     <array name="colors">
         <item name="White">@color/White</item>

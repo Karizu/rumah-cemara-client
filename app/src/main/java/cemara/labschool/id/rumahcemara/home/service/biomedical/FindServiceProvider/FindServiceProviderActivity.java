@@ -236,7 +236,7 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
         nearestList.add(new Nearest(R.drawable.select_dp, "Test1", "2 km", "1"));
         nearestList.add(new Nearest(R.drawable.select_dp, "test2", "4 km", "2"));
         nearestList.add(new Nearest(R.drawable.select_dp, "teST3", "1 km", "3"));
-        nearestAdapter = new NearestAdapter(getApplicationContext(), nearestList);
+        nearestAdapter = new NearestAdapter(getApplicationContext(), nearestList, "findserviceprovider");
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);

@@ -40,10 +40,9 @@
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
-                    android:alpha="0.4"
                     android:contentDescription="background login"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/img_news" />
+                    android:src="@drawable/header_bar" />
 
                 <ImageView
                     android:layout_width="wrap_content"

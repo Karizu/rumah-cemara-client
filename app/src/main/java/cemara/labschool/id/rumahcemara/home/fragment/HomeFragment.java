@@ -25,15 +25,18 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cemara.labschool.id.rumahcemara.R;
 import cemara.labschool.id.rumahcemara.home.service.asktheexpert.AskTheExpertActivity;
+import cemara.labschool.id.rumahcemara.home.highlight.article.ArticleActivity;
+import cemara.labschool.id.rumahcemara.home.highlight.event.EventActivity;
+import cemara.labschool.id.rumahcemara.home.highlight.news.NewsActivity;
+import cemara.labschool.id.rumahcemara.home.service.behavioral.CounselingAppointmentActivity;
 import cemara.labschool.id.rumahcemara.home.service.biomedical.BiomedicalAppointmentActivity;
-import cemara.labschool.id.rumahcemara.home.service.structural.StructuralActivity;
+import cemara.labschool.id.rumahcemara.home.service.structural.LegalCounselingAppointmentActivity;
 import cemara.labschool.id.rumahcemara.home.service.structural.StructuralLegalAidActivity;
-import cemara.labschool.id.rumahcemara.home.service.structural.StructuralPurposeActivity;
 import cemara.labschool.id.rumahcemara.home.service.structural.StructuralViolationActivity;
 import cemara.labschool.id.rumahcemara.util.news.adapter.NewsAdapter;
 import cemara.labschool.id.rumahcemara.util.news.model.News;
-import cemara.labschool.id.rumahcemara.R;
 
 
 /**
@@ -60,7 +63,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        View rootView = inflater.inflate(R.layout.home_fragment, container, false);
         ButterKnife.bind(this, rootView);
         init();
         getListNews();
@@ -100,7 +103,7 @@ public class HomeFragment extends Fragment {
         behavioral_appointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                toast();
+                startActivity(new Intent(getContext(), CounselingAppointmentActivity.class));
             }
         });
     }
@@ -121,7 +124,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 //                toast();
-                Intent intent = new Intent(getContext(), StructuralPurposeActivity.class);
+                Intent intent = new Intent(getContext(), LegalCounselingAppointmentActivity.class);
                 startActivity(intent);
             }
         });
@@ -144,16 +147,26 @@ public class HomeFragment extends Fragment {
     }
     @OnClick(R.id.btn_ask_the_expert)
     public void toAsktheExpert() {
-        showDialog(R.layout.dialog_behavioral);
-        CardView biomedical_appointment = dialog.findViewById(R.id.btn_behavioral_appointment);
-        biomedical_appointment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), AskTheExpertActivity.class));
-            }
-        });
+        startActivity(new Intent(getContext(), AskTheExpertActivity.class));
     }
 
+    @OnClick(R.id.layout_news)
+    public void toNews(){
+        Intent intent = new Intent(getContext(), NewsActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.layout_article)
+    public void toArticle(){
+        Intent intent = new Intent(getContext(), ArticleActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.layout_event)
+    public void toEvent(){
+        Intent intent = new Intent(getContext(), EventActivity.class);
+        startActivity(intent);
+    }
 
 
     private void getListNews() {
