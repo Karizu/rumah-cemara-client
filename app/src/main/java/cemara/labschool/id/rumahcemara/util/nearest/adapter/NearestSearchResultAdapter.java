@@ -81,7 +81,7 @@ public class NearestSearchResultAdapter extends RecyclerView.Adapter<NearestSear
             public void onClick(View view) {
                 Toast toast = Toast.makeText(view.getContext(), nearest.getNearestName(), Toast.LENGTH_SHORT);
                 toast.show();
-                View viewSheet = LayoutInflater.from(view.getContext()).inflate(R.layout.bottom_sheet_dialog_fragment, null);
+                View viewSheet = LayoutInflater.from(view.getContext()).inflate(R.layout.find_service_provider_bottom_sheet_dialog, null);
                 Log.d( "onClick: ",String.valueOf(viewSheet));
                 final BottomSheetDialog dialog = new BottomSheetDialog(view.getContext());
                 dialog.setContentView(viewSheet);
