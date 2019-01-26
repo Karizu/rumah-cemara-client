@@ -2,6 +2,7 @@ package cemara.labschool.id.rumahcemara.util.news.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -92,7 +93,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         newsViewHolder.txtAuthor.setText(news.getAuthor());
         newsViewHolder.txtDateCreated.setText(String.valueOf(news.getDateCreated()));
         // loading ImageNews using Glide library
-        Glide.with(mContext).load(news.getNewsImage()).into(newsViewHolder.imgNews);
+        //Glide.with(mContext).load(news.getNewsImage()).into(newsViewHolder.imgNews);
+        Glide.with(mContext).load(news.getBanner()).into(newsViewHolder.imgNews);
         //click
         newsViewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
