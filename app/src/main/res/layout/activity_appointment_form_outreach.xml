@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/margin_padding_size_small"
+    android:orientation="vertical"
+    tools:context=".home.service.biomedical.FindServiceProvider.AppointmentFormActivity">
+
+    <include
+        android:id="@+id/thistoolbar"
+        layout="@layout/row_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/thistoolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_padding_size_small">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@color/Black" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/margin_padding_size_medium"
+                android:paddingTop="@dimen/margin_padding_size_small"
+                android:paddingRight="@dimen/margin_padding_size_medium"
+                android:paddingBottom="@dimen/margin_padding_size_medium">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_padding_size_medium"
+                    app:cardCornerRadius="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_padding_size_small"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imgProfile"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_margin="@dimen/margin_padding_size_medium"
+                            android:src="@drawable/select_dp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/margin_padding_size_small"
+                            android:layout_marginRight="@dimen/margin_padding_size_small"
+                            android:background="@drawable/line" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_padding_size_small"
+                            android:layout_marginRight="@dimen/margin_padding_size_small"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/appointment_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Akmal M Kristanto"
+                                android:textColor="@color/Black"
+                                android:textSize="@dimen/text_size_small"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/appointment_address"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Jalan Gn Batu no. 8"
+                                android:textSize="@dimen/text_size_micro" />
+
+                            <TextView
+                                android:id="@+id/appointment_telp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="022 - 76898889"
+                                android:textSize="@dimen/text_size_micro" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1 km"
+                                android:textSize="@dimen/text_size_micro" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Date Range"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_padding_size_small"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/appointment_date_start"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_weight="7"
+                        android:clickable="true"
+                        android:drawableStart="@drawable/icon_date"
+                        android:drawableEnd="@drawable/ic_spinner_dropdown"
+                        android:drawablePadding="3dp"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:hint="DD/MM/YYYY"
+                        android:textSize="@dimen/text_size_small" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/margin_padding_size_small"
+                        android:layout_marginRight="@dimen/margin_padding_size_small"
+                        android:layout_weight="1"
+                        android:text="-"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:id="@+id/appointment_date_end"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_weight="7"
+                        android:clickable="true"
+                        android:drawableStart="@drawable/icon_date"
+                        android:drawableEnd="@drawable/ic_spinner_dropdown"
+                        android:drawablePadding="3dp"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:hint="DD/MM/YYYY"
+                        android:textSize="@dimen/text_size_small" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_padding_size_micro"
+                    android:text="Brief Description of Material"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/description_material"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="@dimen/margin_padding_size_medium"
+                    android:background="@drawable/rounded_grey_transparent"
+                    android:maxLines="5"
+                    android:overScrollMode="always"
+                    android:padding="@dimen/margin_padding_size_small"
+                    android:scrollbarStyle="insideInset"
+                    android:scrollbars="vertical"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/line_view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/linear_layout1"
+                android:background="@drawable/shadow_line" />
+
+            <Button
+                style="@style/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line_view"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_padding_size_medium"
+                android:text="Send Purpose" />
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

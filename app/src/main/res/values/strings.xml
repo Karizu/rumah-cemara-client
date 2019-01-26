@@ -35,6 +35,7 @@
     <string name="sign_up_description">Please fill this form to create an account!</string>
     <string name="select_photo_description">select photo description</string>
     <string name="birth_date">Birth Date</string>
+    <string name="phone_number">Phone Number</string>
     <string name="email">Email</string>
     <string name="gender">Gender</string>
     <string name="type_of_treatment">Type of treatment</string>
