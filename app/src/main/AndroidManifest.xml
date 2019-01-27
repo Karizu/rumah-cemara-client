@@ -19,7 +19,6 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".mylist.fragment.activity.AppointmentListHistory"></activity>
-        <activity android:name=".mylist.fragment.activity.MyListBiomedicalDetail" />
         <activity android:name=".home.highlight.NewsDetailActivity" />
         <activity android:name=".home.service.asktheexpert.ChatExpertActivity" />
         <activity android:name=".options.fragment.activity.EditAccountActivity" />
