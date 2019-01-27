@@ -24,6 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".home.highlight.EventDetailActivity"></activity>
         <activity android:name=".home.highlight.NewsDetailActivity"></activity>
         <activity android:name=".home.highlight.ArticleDetailActivity"></activity>
         <activity android:name=".home.service.asktheexpert.ChatExpertActivity" />

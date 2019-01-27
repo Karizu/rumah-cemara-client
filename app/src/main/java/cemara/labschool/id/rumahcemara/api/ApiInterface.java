@@ -5,6 +5,7 @@ import java.util.List;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.Article;
 import cemara.labschool.id.rumahcemara.model.Chat;
+import cemara.labschool.id.rumahcemara.model.Event;
 import cemara.labschool.id.rumahcemara.model.Token;
 import cemara.labschool.id.rumahcemara.model.response.GeneralDataResponse;
 import cemara.labschool.id.rumahcemara.model.response.OutreachLocationDataResponse;
@@ -101,5 +102,18 @@ public interface ApiInterface {
 
     @GET("articleCategories")
     Call<ApiResponse<List<Article>>> getArticleCategories();
+
+    /***************** Event API *********************/
+    @GET("event")
+    Call<ApiResponse<List<Event>>> getEvent();
+
+    @GET("event")
+    Call<ApiResponse<List<Event>>> getEventWithCategory(@Query("event_category_id") String eventCategoryId);
+
+    @GET("event/{event_id}")
+    Call<ApiResponse<Event>> getEventDetail(@Path("event_id") String id);
+
+    @GET("eventCategories")
+    Call<ApiResponse<List<Event>>> getEventCategories();
 
 }
