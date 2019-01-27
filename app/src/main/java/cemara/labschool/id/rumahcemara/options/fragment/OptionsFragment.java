@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Objects;
 import butterknife.BindView;
@@ -39,7 +38,7 @@ public class OptionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_options, container, false);
+        View view = inflater.inflate(R.layout.options_fragment, container, false);
         ButterKnife.bind(this, view);
         title.setText(getString(R.string.title_options));
 

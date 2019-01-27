@@ -175,7 +175,7 @@ public class HomeFragment extends Fragment {
     private void getListNews() {
         newsList.add(new News("1", "testing", "test", "June 20 2019", R.drawable.img_news));
         newsList.add(new News("1", "testing", "test", "June 20 2019", R.drawable.img_news));
-        newsAdapter = new NewsAdapter(getActivity(), newsList);
+        newsAdapter = new NewsAdapter(getActivity(), newsList, "home_news");
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
