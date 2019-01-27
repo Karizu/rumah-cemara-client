@@ -3,6 +3,9 @@ package cemara.labschool.id.rumahcemara.api;
 import java.util.List;
 
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.model.Chat;
+import cemara.labschool.id.rumahcemara.model.Token;
+import cemara.labschool.id.rumahcemara.model.response.GeneralDataResponse;
 import cemara.labschool.id.rumahcemara.model.response.OutreachLocationDataResponse;
 import cemara.labschool.id.rumahcemara.model.response.OutreachNearMeResponse;
 import cemara.labschool.id.rumahcemara.model.response.ProviderNearMeResponse;
@@ -65,5 +68,14 @@ public interface ApiInterface {
 
     @GET("topic/{topic_id}")
     Call<ApiResponse<Topic>> getTopicDetail(@Path("topic_id") String topicId);
+
+    @GET("serviceTransaction/myAppointment")
+    Call<ApiResponse<List<GeneralDataResponse>>> getMyAppointmentList (@Query("user_id") String userId);
+
+    @POST("message")
+    Call<ApiResponse> sendMessage(@Body Chat chat);
+
+    @GET("generateToken")
+    Call<ApiResponse<Token>> generateToken(@Query("user_id") String userId);
 
 }

@@ -28,6 +28,9 @@ public class GroupProfile extends RealmObject {
     @SerializedName("deleted_at")
     @Expose
     private String deleted_at;
+    @SerializedName("picture")
+    @Expose
+    private String picture;
 
     public String getGroup_id() {
         return group_id;
@@ -83,5 +86,13 @@ public class GroupProfile extends RealmObject {
 
     public void setDeleted_at(String deleted_at) {
         this.deleted_at = deleted_at;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 }
