@@ -3,6 +3,7 @@ package cemara.labschool.id.rumahcemara.api;
 import java.util.List;
 
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.model.Article;
 import cemara.labschool.id.rumahcemara.model.Chat;
 import cemara.labschool.id.rumahcemara.model.Token;
 import cemara.labschool.id.rumahcemara.model.response.GeneralDataResponse;
@@ -87,5 +88,18 @@ public interface ApiInterface {
 
     @GET("news/{news_id}")
     Call<ApiResponse<News>> getNewsDetail(@Path("news_id") String id);
+
+    /***************** Article API *********************/
+    @GET("article")
+    Call<ApiResponse<List<Article>>> getArticle();
+
+    @GET("article")
+    Call<ApiResponse<List<Article>>> getArticleWithCategory(@Query("article_category_id") String articleCategoryId);
+
+    @GET("article/{article_id}")
+    Call<ApiResponse<Article>> getArticleDetail(@Path("article_id") String id);
+
+    @GET("articleCategories")
+    Call<ApiResponse<List<Article>>> getArticleCategories();
 
 }

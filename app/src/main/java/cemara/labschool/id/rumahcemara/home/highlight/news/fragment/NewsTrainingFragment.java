@@ -181,13 +181,6 @@ public class NewsTrainingFragment extends Fragment {
         }
     };
 
-    //To News
-    View.OnClickListener imageOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(getContext(), "Image Clicked", Toast.LENGTH_SHORT).show();
-        }
-    };
 
 
 }
