@@ -221,7 +221,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailed(ErrorResponse error) {
-                Toast.makeText(getContext(),"Gagal Login (user atau password salah)", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Gagal Ambil Data", Toast.LENGTH_SHORT).show();
                 Loading.hide(getContext());
             }
 
