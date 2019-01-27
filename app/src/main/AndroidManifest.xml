@@ -27,6 +27,8 @@
         <activity android:name=".home.highlight.EventDetailActivity"></activity>
         <activity android:name=".home.highlight.NewsDetailActivity"></activity>
         <activity android:name=".home.highlight.ArticleDetailActivity"></activity>
+        <activity android:name=".mylist.fragment.activity.AppointmentListHistory"></activity>
+        <activity android:name=".home.highlight.NewsDetailActivity" />
         <activity android:name=".home.service.asktheexpert.ChatExpertActivity" />
         <activity android:name=".options.fragment.activity.EditAccountActivity" />
         <activity android:name=".home.highlight.event.EventActivity" />
