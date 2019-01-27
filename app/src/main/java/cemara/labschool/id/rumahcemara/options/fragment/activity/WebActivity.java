@@ -3,6 +3,7 @@ package cemara.labschool.id.rumahcemara.options.fragment.activity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +28,9 @@ public class WebActivity extends AppCompatActivity {
     Toolbar toolbar;
     @BindView (R.id.text_toolbar_title)
     TextView title;
-
+    @BindView(R.id.progressWeb)
+    ProgressBar progressBar;
+    @BindView(R.id.webview)
     WebView webView;
 
     String url, tittleBar;
@@ -42,11 +47,13 @@ public class WebActivity extends AppCompatActivity {
         setToolbar();
         Toast.makeText(getApplicationContext(), tittleBar, Toast.LENGTH_LONG).show();
 
-        webView = findViewById(R.id.webview);
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        //webView.loadUrl(url);
+        webView.setWebViewClient(new myWebClient());
+        webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(url);
+
+        /**WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webView.loadUrl(url);*/
     }
 
     public void setToolbar() {
@@ -61,5 +68,32 @@ public class WebActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    public  class myWebClient extends WebViewClient {
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+
+            super.onPageStarted(view, url, favicon);
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+            progressBar.setVisibility(View.VISIBLE);
+            view.loadUrl(url);
+            return true;
+
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+
+            super.onPageFinished(view, url);
+
+            progressBar.setVisibility(View.GONE);
+        }
+
     }
 }
