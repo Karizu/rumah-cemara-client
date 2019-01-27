@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,8 @@ public class MyListBiomedicalDetail extends AppCompatActivity {
 
     @BindView(R.id.img_user)
     ImageView imgUser;
+    @BindView(R.id.txt_name)
+    TextView namaUser;
     @BindView(R.id.txt_no_hp)
     TextView NoHp;
     @BindView(R.id.ratingBar)

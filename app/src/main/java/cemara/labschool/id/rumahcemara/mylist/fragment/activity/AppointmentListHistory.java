@@ -36,6 +36,8 @@ public class AppointmentListHistory extends AppCompatActivity {
         setContentView(R.layout.activity_my_list_appointment_history);
         ButterKnife.bind(this);
         setToolbar();
+
+        layoutCompleted.setOnClickListener(v1 -> startActivity(new Intent(AppointmentListHistory.this, MyListBiomedicalDetail.class)));
     }
 
     public void setToolbar() {
@@ -44,9 +46,5 @@ public class AppointmentListHistory extends AppCompatActivity {
         toolbar.setNavigationIcon(R.drawable.icon_back);
         toolbarTitle.setText("Appointment History");
         toolbarImg.setVisibility(View.GONE);
-        toolbar.setNavigationOnClickListener(v -> {
-            layoutCompleted.setOnClickListener(v1 -> startActivity(new Intent(AppointmentListHistory.this, MyListBiomedicalDetail.class)));
-            onBackPressed();
-        });
-    }
+        }
 }
