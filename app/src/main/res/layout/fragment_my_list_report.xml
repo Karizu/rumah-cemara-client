@@ -6,149 +6,15 @@
     android:orientation="vertical"
     tools:context=".mylist.fragment.MyListReport">
 
-    <LinearLayout
-        android:id="@+id/layout_list_biomedical"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/row_shape_background"
-        android:elevation="5dp"
-        android:orientation="vertical"
-        tools:ignore="UnusedAttribute">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="10dp">
+    </android.support.v7.widget.RecyclerView>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="0.3">
+    <include layout="@layout/row_report_status"/>
 
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/icon_biomedical"
-                    android:layout_gravity="center"
-                    android:padding="10dp"
-                    android:scaleType="fitCenter"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="1dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_height="match_parent"
-                android:background="@color/DarkGray"/>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="10dp"
-                android:layout_gravity="center_vertical"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Akmal M Kristanto"
-                    android:textColor="@color/NormalColorText"
-                    android:textSize="12sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Done"
-                    android:textColor="@color/Mantis"
-                    android:textSize="12sp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Legal Aid"
-                    android:textColor="@color/DimGray"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_counseling"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/row_shape_background"
-        android:elevation="5dp"
-        android:orientation="vertical"
-        tools:ignore="UnusedAttribute">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="10dp">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="0.3">
-
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/icon_biomedical"
-                    android:layout_gravity="center"
-                    android:padding="10dp"
-                    android:scaleType="fitCenter"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="1dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_height="match_parent"
-                android:background="@color/DarkGray"/>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="10dp"
-                android:layout_gravity="center_vertical"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Rumah Sakit Dustira"
-                    android:textColor="@color/NormalColorText"
-                    android:textSize="12sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="On Progress"
-                    android:textColor="@color/NormalGreyText"
-                    android:textSize="12sp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Violation Report"
-                    android:textColor="@color/DimGray"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
+    <include layout="@layout/row_report_status"/>
 
 </LinearLayout>
