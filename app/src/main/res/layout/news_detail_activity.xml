@@ -30,6 +30,7 @@
                 android:layout_margin="@dimen/margin_padding_size_medium"
                 android:text="@string/title_detail"
                 android:textSize="@dimen/margin_padding_size_medium"
+                android:id="@+id/tvTitle"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -52,6 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_padding_size_small"
                     android:text="Media Data RC"
+                    android:id="@+id/tvAuthor"
                     android:textColor="@color/FocusColorText" />
 
                 <TextView
@@ -68,6 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_padding_size_small"
                     android:text="June 9 2018"
+                    android:id="@+id/tvDate"
                     android:textColor="@color/FocusColorText" />
 
             </LinearLayout>
@@ -117,6 +120,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_padding_size_medium"
                 android:text="Isi artikel"
+                android:id="@+id/tvContent"
                 android:textColor="@color/ArticleGreyText" />
 
             <LinearLayout

@@ -6,6 +6,8 @@ import com.rezkyatinnov.kyandroid.reztrofit.Reztrofit;
 import java.util.List;
 
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.model.Chat;
+import cemara.labschool.id.rumahcemara.model.response.GeneralDataResponse;
 import cemara.labschool.id.rumahcemara.model.response.OutreachNearMeResponse;
 import cemara.labschool.id.rumahcemara.model.response.ProviderNearMeResponse;
 import okhttp3.RequestBody;
@@ -27,5 +29,14 @@ public class AppointmentHelper {
         service.getEndpoint().createBiomedicalAppointmentOutreach(appointment).enqueue(callback);
     }
 
+    public static void getMyAppointment(String userId, RestCallback<ApiResponse<List<GeneralDataResponse>>> callback){
+        Reztrofit<ApiInterface> service = Reztrofit.getInstance();
+        service.getEndpoint().getMyAppointmentList(userId).enqueue(callback);
+    }
+
+    public static void sendMessage(Chat chat, RestCallback<ApiResponse> callback){
+        Reztrofit<ApiInterface> service = Reztrofit.getInstance();
+        service.getEndpoint().sendMessage(chat).enqueue(callback);
+    }
 
 }

@@ -3,6 +3,9 @@ package cemara.labschool.id.rumahcemara.api;
 import java.util.List;
 
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.model.Chat;
+import cemara.labschool.id.rumahcemara.model.Token;
+import cemara.labschool.id.rumahcemara.model.response.GeneralDataResponse;
 import cemara.labschool.id.rumahcemara.model.response.OutreachLocationDataResponse;
 import cemara.labschool.id.rumahcemara.model.response.OutreachNearMeResponse;
 import cemara.labschool.id.rumahcemara.model.response.ProviderNearMeResponse;
@@ -51,11 +54,9 @@ public interface ApiInterface {
     @GET("profile")
     Call<ApiResponse<User>> myProfile();
 
-    @GET("news")
-    Call<ApiResponse<List<News>>> getNews();
-
     @POST("serviceTransaction")
     Call<ApiResponse> createBiomedicalAppointmentOutreach(@Body RequestBody appointment);
+
 
     @POST("topic")
     Call<ApiResponse> createNewTopic(@Body RequestBody newTopicRequest);
@@ -65,5 +66,26 @@ public interface ApiInterface {
 
     @GET("topic/{topic_id}")
     Call<ApiResponse<Topic>> getTopicDetail(@Path("topic_id") String topicId);
+
+    @GET("serviceTransaction/myAppointment")
+    Call<ApiResponse<List<GeneralDataResponse>>> getMyAppointmentList (@Query("user_id") String userId);
+
+    @POST("message")
+    Call<ApiResponse> sendMessage(@Body Chat chat);
+
+    @GET("generateToken")
+    Call<ApiResponse<Token>> generateToken(@Query("user_id") String userId);
+
+    /***************** News API *********************/
+    @GET("news")
+    Call<ApiResponse<List<News>>> getNews();
+
+    @GET("news")
+    Call<ApiResponse<List<News>>> getNewsWithCategory(@Query("news_category_id") String newsCategoryId);
+    @GET("newsCategories")
+    Call<ApiResponse<List<News>>> getNewsCategories();
+
+    @GET("news/{news_id}")
+    Call<ApiResponse<News>> getNewsDetail(@Path("news_id") String id);
 
 }
