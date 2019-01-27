@@ -50,10 +50,6 @@ public class WebActivity extends AppCompatActivity {
         webView.setWebViewClient(new myWebClient());
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(url);
-
-        /**WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webView.loadUrl(url);*/
     }
 
     public void setToolbar() {
