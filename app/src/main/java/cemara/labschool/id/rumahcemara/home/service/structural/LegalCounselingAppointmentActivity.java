@@ -17,7 +17,7 @@ import cemara.labschool.id.rumahcemara.R;
 import cemara.labschool.id.rumahcemara.home.service.structural.FindOutreachWorker.FindOutreachWorkerActivity;
 import cemara.labschool.id.rumahcemara.home.service.structural.FindServiceProvider.FindServiceProviderActivity;
 
-public class    LegalCounselingAppointmentActivity extends AppCompatActivity {
+public class LegalCounselingAppointmentActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.toolbar_title)
