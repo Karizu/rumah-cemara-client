@@ -1,0 +1,105 @@
+package cemara.labschool.id.rumahcemara.util.list.saved.adapter;
+
+import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+import cemara.labschool.id.rumahcemara.R;
+import cemara.labschool.id.rumahcemara.home.highlight.ArticleDetailActivity;
+import cemara.labschool.id.rumahcemara.home.highlight.NewsDetailActivity;
+import cemara.labschool.id.rumahcemara.util.list.saved.model.ListSaved;
+
+public class ListSavedAdapter extends RecyclerView.Adapter<ListSavedAdapter.EventViewHolder>{
+    private List<ListSaved> eventList;
+    private Context mContext;
+    private Unbinder unbinder;
+
+
+    public class EventViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.img_news)
+        ImageView imgNews;
+        @BindView(R.id.txt_title)
+        TextView txtTitle;
+        @BindView(R.id.txt_author)
+        TextView txtAuthor;
+        @BindView(R.id.txt_date_created)
+        TextView txtDateCreated;
+        @BindView(R.id.layout_news)
+        LinearLayout parentLayout;
+        EventViewHolder(@NonNull View itemView) {
+            super(itemView);
+            unbinder = ButterKnife.bind(this, itemView);
+        }
+    }
+
+    //news adapter for home
+    public ListSavedAdapter(Context mContext, List<ListSaved> eventList){
+        this.mContext = mContext;
+        this.eventList = eventList;
+        this.unbinder = unbinder;
+    }
+
+
+    @NonNull
+    @Override
+    public EventViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View itemView = null;
+        itemView = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.row_news, viewGroup, false);
+
+        return new EventViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull final EventViewHolder eventViewHolder, final int position) {
+        ListSaved event = eventList.get(position);
+        Log.d("Saved", ""+eventList.size());
+        eventViewHolder.txtTitle.setText(event.getTitle());
+        eventViewHolder.txtAuthor.setText(event.getAuthor());
+        eventViewHolder.txtDateCreated.setText(event.getDateCreated());
+        Glide.with(mContext).load(event.getBanner()).into(eventViewHolder.imgNews);
+        //click
+        eventViewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent;
+                if(eventList.get(position).isArticle()){
+                    intent = new Intent(mContext, ArticleDetailActivity.class);
+                } else {
+                    intent = new Intent(mContext, NewsDetailActivity.class);
+                }
+                intent.putExtra("id",eventList.get(position).getId());
+                mContext.startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return eventList.size();
+    }
+
+//    private void showPopupMenu(View view) {
+//        // inflate menu
+//        PopupMenu popup = new PopupMenu(mContext, view);
+//        MenuInflater inflater = popup.getMenuInflater();
+//        inflater.inflate(R.menu.menu_album, popup.getMenu());
+//        popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
+//        popup.show();
+//    }
+}
