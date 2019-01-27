@@ -6,6 +6,7 @@ import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.Article;
 import cemara.labschool.id.rumahcemara.model.Chat;
 import cemara.labschool.id.rumahcemara.model.Event;
+import cemara.labschool.id.rumahcemara.model.ListReminder;
 import cemara.labschool.id.rumahcemara.model.Token;
 import cemara.labschool.id.rumahcemara.model.response.GeneralDataResponse;
 import cemara.labschool.id.rumahcemara.model.response.OutreachLocationDataResponse;
@@ -115,5 +116,10 @@ public interface ApiInterface {
 
     @GET("eventCategories")
     Call<ApiResponse<List<Event>>> getEventCategories();
+
+
+    /***************** List API *********************/
+    @GET("userList")
+    Call<ApiResponse<List<ListReminder>>> getUserList(@Query("user_id") String userId, @Query("type") String type);
 
 }
