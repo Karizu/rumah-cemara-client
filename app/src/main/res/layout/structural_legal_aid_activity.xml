@@ -7,24 +7,7 @@
     android:orientation="vertical"
     tools:context=".home.service.structural.StructuralLegalAidActivity">
 
-    <!--<include layout="@layout/row_toolbar"/>-->
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/Black"
-        app:logo="@drawable/icon_structural_white"
-        app:popupTheme="@style/AppTheme" >
-        <TextView
-            android:id="@+id/text_toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical"
-            android:layout_marginLeft="5dp"
-            android:text="Structural - Legal Aid"
-            android:textColor="@android:color/white"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-    </android.support.v7.widget.Toolbar>
+    <include layout="@layout/row_toolbar"/>
 
     <TextView
         android:layout_width="match_parent"

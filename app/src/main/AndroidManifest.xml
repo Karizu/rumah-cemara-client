@@ -35,7 +35,6 @@
         <activity android:name=".home.service.biomedical.BiomedicalAppointmentActivity" />
         <activity android:name=".home.service.asktheexpert.AskTheExpertActivity" />
         <activity android:name=".home.service.structural.StructuralLegalAidActivity" />
-        <activity android:name=".home.service.structural.StructuralPurposeActivity" />
         <activity android:name=".home.service.structural.StructuralViolationActivity" />
         <activity android:name=".auth.activity.LoginActivity">
             <intent-filter>
