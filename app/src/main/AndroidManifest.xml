@@ -32,6 +32,7 @@
         <activity android:name=".util.location.SetLocationActivity"></activity>
 
         <activity android:name=".home.service.biomedical.FindOutreachWorker.AppointmentFormOutreachActivity"></activity>
+        <activity android:name=".util.location.SetLocationActivity" />
         <activity android:name=".home.service.biomedical.FindServiceProvider.AppointmentFormActivity" />
 
         <meta-data
@@ -42,7 +43,6 @@
         <activity android:name=".home.service.biomedical.BiomedicalAppointmentActivity" />
         <activity android:name=".home.service.asktheexpert.AskTheExpertActivity" />
         <activity android:name=".home.service.structural.StructuralLegalAidActivity" />
-        <activity android:name=".home.service.structural.StructuralPurposeActivity" />
         <activity android:name=".home.service.structural.StructuralViolationActivity" />
         <activity android:name=".auth.activity.LoginActivity">
             <intent-filter>
@@ -80,10 +80,8 @@
         <activity android:name=".home.service.structural.FindOutreachWorker.FindOutreachWorkerActivity" />
         <activity android:name=".home.service.structural.FindServiceProvider.AppointmentFormActivity" />
         <activity android:name=".home.service.structural.FindServiceProvider.FindServiceProviderActivity" />
-        <activity android:name=".mylist.fragment.activity.ChatAppointmentActivity"/>
-        <activity android:name=".options.fragment.activity.WebActivity"/>
-
-
+        <activity android:name=".mylist.fragment.activity.ChatAppointmentActivity" />
+        <activity android:name=".options.fragment.activity.WebActivity" />
     </application>
 
 </manifest>

@@ -258,7 +258,7 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
         nearestSearchList.add(new Nearest(R.drawable.select_dp, "Searched", "2 km", "1a"));
         nearestSearchList.add(new Nearest(R.drawable.select_dp, "and", "4 km", "2a"));
         nearestSearchList.add(new Nearest(R.drawable.select_dp, "Found", "1 km", "3a"));
-        nearestSearchAdapter = new NearestSearchResultAdapter(getApplicationContext(), nearestSearchList);
+        nearestSearchAdapter = new NearestSearchResultAdapter(getApplicationContext(), nearestSearchList,"outreach");
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         resultRecyclerView.setLayoutManager(layoutManager);

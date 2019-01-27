@@ -1,5 +1,6 @@
 package cemara.labschool.id.rumahcemara.mylist.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -19,6 +20,7 @@ import butterknife.ButterKnife;
 import cemara.labschool.id.rumahcemara.MainActivity;
 import cemara.labschool.id.rumahcemara.R;
 import cemara.labschool.id.rumahcemara.mylist.fragment.Adapter.MyListAdapter;
+import cemara.labschool.id.rumahcemara.mylist.fragment.activity.AppointmentListHistory;
 
 
 public class MyListFragment extends Fragment {
@@ -44,7 +46,7 @@ public class MyListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_my_list, parent, false);
+        View rootView = inflater.inflate(R.layout.my_list_fragment, parent, false);
         ButterKnife.bind(this, rootView);
         setHasOptionsMenu(true);
 
@@ -67,8 +69,9 @@ public class MyListFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.history:
-                Toast toast = Toast.makeText(getContext(), "On Progress", Toast.LENGTH_SHORT);
-                toast.show();
+                /*Toast toast = Toast.makeText(getContext(), "On Progress", Toast.LENGTH_SHORT);
+                toast.show();*/
+                startActivity(new Intent(getContext(), AppointmentListHistory.class));
                 default:
                     return super.onOptionsItemSelected(item);
         }
