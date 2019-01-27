@@ -102,5 +102,6 @@
     <string name="news">News</string>
     <string name="articles">Articles</string>
     <string name="reminder_description">reminder event description</string>
+    <string name="event_title">Seminar Pencegahan Aids</string>
 
 </resources>
