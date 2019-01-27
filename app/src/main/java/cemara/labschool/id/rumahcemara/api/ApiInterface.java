@@ -54,11 +54,9 @@ public interface ApiInterface {
     @GET("profile")
     Call<ApiResponse<User>> myProfile();
 
-    @GET("news")
-    Call<ApiResponse<List<News>>> getNews();
-
     @POST("serviceTransaction")
     Call<ApiResponse> createBiomedicalAppointmentOutreach(@Body RequestBody appointment);
+
 
     @POST("topic")
     Call<ApiResponse> createNewTopic(@Body RequestBody newTopicRequest);
@@ -77,5 +75,17 @@ public interface ApiInterface {
 
     @GET("generateToken")
     Call<ApiResponse<Token>> generateToken(@Query("user_id") String userId);
+
+    /***************** News API *********************/
+    @GET("news")
+    Call<ApiResponse<List<News>>> getNews();
+
+    @GET("news")
+    Call<ApiResponse<List<News>>> getNewsWithCategory(@Query("news_category_id") String newsCategoryId);
+    @GET("newsCategories")
+    Call<ApiResponse<List<News>>> getNewsCategories();
+
+    @GET("news/{news_id}")
+    Call<ApiResponse<News>> getNewsDetail(@Path("news_id") String id);
 
 }

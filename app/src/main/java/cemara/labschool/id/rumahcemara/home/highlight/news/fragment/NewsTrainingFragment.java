@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.rezkyatinnov.kyandroid.reztrofit.ErrorResponse;
+import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import com.synnapps.carouselview.ViewListener;
@@ -23,9 +26,16 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cemara.labschool.id.rumahcemara.Constants;
 import cemara.labschool.id.rumahcemara.R;
+import cemara.labschool.id.rumahcemara.api.NewsHelper;
+import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.util.NewsClickListener;
+import cemara.labschool.id.rumahcemara.util.dialog.Loading;
+import cemara.labschool.id.rumahcemara.util.helper.DateHelper;
 import cemara.labschool.id.rumahcemara.util.news.adapter.NewsAdapter;
 import cemara.labschool.id.rumahcemara.util.news.model.News;
+import okhttp3.Headers;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,7 +54,9 @@ public class NewsTrainingFragment extends Fragment {
             "https://placeholdit.imgix.net/~text?txtsize=15&txt=image5&txt=350%C3%97150&w=350&h=150"
     };
     String[] sampleTitles = {"Artikel 1", "Artikel 2", "Artikel 3"};
+    List<cemara.labschool.id.rumahcemara.model.News> newsPager=new ArrayList<>();
 
+    View rootView;
     public NewsTrainingFragment() {
         // Required empty public constructor
     }
@@ -54,29 +66,69 @@ public class NewsTrainingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.news_training_fragment, container, false);
+        rootView = inflater.inflate(R.layout.news_training_fragment, container, false);
         ButterKnife.bind(this, rootView);
         getListNews();
-        initSlider(rootView);
+        //initSlider(rootView);
         return rootView;
     }
 
     private void getListNews() {
-        newsList.clear();
-        newsList.add(new News("1", "testing", "test", "June 20 2019", R.drawable.img_news));
-        newsList.add(new News("1", "testing", "test", "June 20 2019", R.drawable.img_news));
-        newsAdapter = new NewsAdapter(getActivity(), newsList, "highlight_news");
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(newsAdapter);
-        newsAdapter.notifyDataSetChanged();
+        Loading.show(getContext());
+        NewsHelper.getNewsTraining(new RestCallback<ApiResponse<List<cemara.labschool.id.rumahcemara.model.News>>>() {
+            @Override
+            public void onSuccess(Headers headers, ApiResponse<List<cemara.labschool.id.rumahcemara.model.News>> body) {
+                Loading.hide(getContext());
+                if (body != null && body.isStatus()) {
+                    newsList.clear();
+                    List<cemara.labschool.id.rumahcemara.model.News> newsLists=body.getData();
+                    Log.d("Training","Lists");
+
+                    // Insert Pager
+                    int maxPager=newsLists.size()> Constants.MAX_NEWS_PAGER?Constants.MAX_NEWS_PAGER: newsLists.size();
+                    for(int i=0;i<maxPager;i++){
+                        newsPager.add(newsLists.get(0));//Always get position 0 , because always delete item already get below
+                        newsLists.remove(0);
+                    }
+                    for(int i=0;i<newsLists.size();i++){
+                        newsList.add(new News(newsLists.get(i).getId(), newsLists.get(i).getTitle(), newsLists.get(i).getUserCreator().getProfile().getFullname(), DateHelper.dateFormat(DateHelper.stringToDate(newsLists.get(i).getCreatedAt())), newsLists.get(i).getBanner()));
+                    }
+                    //newsList.add(new News("1", "testing", "test", "June 20 2019", R.drawable.img_news));
+
+                    newsAdapter = new NewsAdapter(getContext(), newsList);
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setItemAnimator(new DefaultItemAnimator());
+                    recyclerView.setAdapter(newsAdapter);
+                    newsAdapter.notifyDataSetChanged();
+
+                    initSlider(rootView);
+
+
+                } else {
+//                        loadingDialog.dismiss();
+                    Toast.makeText(getContext(), body.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailed(ErrorResponse error) {
+                Loading.hide(getContext());
+                Toast.makeText(getContext(),"Gagal Ambil Data", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCanceled() {
+                Loading.hide(getContext());
+            }
+        });
     }
 
     private void initSlider(View v) {
-        customCarouselView.setPageCount(sampleTitles.length);
-        customCarouselView.setSlideInterval(4000);
+        //customCarouselView.setPageCount(sampleTitles.length);
         customCarouselView.setViewListener(viewListener);
+        customCarouselView.setPageCount(newsPager.size());
+        customCarouselView.setSlideInterval(4000);
     }
 
 
@@ -101,12 +153,14 @@ public class NewsTrainingFragment extends Fragment {
             ImageView ivMark = customView.findViewById(R.id.iv_carousel_mark);
 
             Glide.with(getContext())
-                    .load(sampleNetworkImageURLs[position])
+                    .load(newsPager.get(position).getBanner())
                     .into(ivCarousel);
-            tvLabelCarousel.setText(sampleTitles[position]);
+            tvLabelCarousel.setText(newsPager.get(position).getTitle());
             ivShare.setOnClickListener(shareOnClickListener);
             ivMark.setOnClickListener(markOnClickListener);
-            ivCarousel.setOnClickListener(imageOnClickListener);
+            //ivCarousel.setOnClickListener(imageOnClickListener);
+            ivCarousel.setOnClickListener(new NewsClickListener(newsPager.get(position)));
+
             return customView;
         }
     };
@@ -134,4 +188,6 @@ public class NewsTrainingFragment extends Fragment {
             Toast.makeText(getContext(), "Image Clicked", Toast.LENGTH_SHORT).show();
         }
     };
+
+
 }
