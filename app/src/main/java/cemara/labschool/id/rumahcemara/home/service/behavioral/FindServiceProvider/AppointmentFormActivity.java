@@ -3,6 +3,7 @@ package cemara.labschool.id.rumahcemara.home.service.behavioral.FindServiceProvi
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -11,9 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +29,9 @@ import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -37,6 +44,7 @@ import cemara.labschool.id.rumahcemara.api.AppointmentHelper;
 import cemara.labschool.id.rumahcemara.home.service.biomedical.FindOutreachWorker.config.CircleTransform;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.User;
+import cemara.labschool.id.rumahcemara.model.response.OutreachNearMeResponse;
 import io.realm.Realm;
 import okhttp3.Headers;
 import okhttp3.MultipartBody;
@@ -54,16 +62,20 @@ public class AppointmentFormActivity extends AppCompatActivity {
     @BindView(R.id.appointment_switch)
     LabeledSwitch apponintmentSwitch;
     @BindView(R.id.appointment_worker_name)
-    EditText appointmentWorkerName;
+    Spinner appointmentWorkerName;
     @BindView(R.id.description_material)
     EditText descriptionMaterial;
     EditText changeTo;
     Dialog dialog;
-    String user_id, groupId, workerId;
+    String user_id, groupId, workerId, selectedName, valueName;
+    Context appContext;
+    ArrayList<String> listValue;
     String typeProvider = "provider";
     String serviceTypeId = "17c00365-4987-5f1e-925b-2119fbe5ff8a";
     String startDate = "2019-01-26";
     String endDate = "2019-01-28";
+    double latitude, longitude;
+
     final Calendar myCalendar = Calendar.getInstance();
     DatePickerDialog.OnDateSetListener date = (datePicker, year, month, day) -> {
         myCalendar.set(Calendar.YEAR, year);
@@ -90,15 +102,40 @@ public class AppointmentFormActivity extends AppCompatActivity {
         User user = realm.where(User.class).findFirst();
         user_id = user.getId();
 
+        latitude = -6.893870;
+        longitude = 107.631200;
+
+        appContext = this;
+
         populateData();
+
+        appointmentWorkerName.setEnabled(false);
 
         apponintmentSwitch.setOnToggledListener((labeledSwitch, isOn) -> {
             if(isOn){
-                appointmentWorkerName.setEnabled(false);
-            }else {
                 appointmentWorkerName.setEnabled(true);
+            }else {
+                appointmentWorkerName.setEnabled(false);
             }
         });
+
+        initSpinnerDosen();
+
+        appointmentWorkerName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedName = parent.getItemAtPosition(position).toString();
+                valueName = listValue.get(position);
+                System.out.println("value Name: "+valueName);
+//                requestDetailDosen(selectedName);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         descriptionMaterial.setOnTouchListener((v, event) -> {
             if (descriptionMaterial.hasFocus()) {
                 v.getParent().requestDisallowInterceptTouchEvent(true);
@@ -110,6 +147,44 @@ public class AppointmentFormActivity extends AppCompatActivity {
             }
             return false;
         });
+    }
+
+    private void initSpinnerDosen() {
+
+        AppointmentHelper.getListOutreach(latitude, longitude, new RestCallback<ApiResponse<List<OutreachNearMeResponse>>>() {
+            @Override
+            public void onSuccess(Headers headers, ApiResponse<List<OutreachNearMeResponse>> body) {
+                if (body != null && body.isStatus()) {
+                    List<OutreachNearMeResponse> res = body.getData();
+                    listValue = new ArrayList<String>();
+                    ArrayList<String> listLabel = new ArrayList<String>();
+                    for (int i = 0; i < res.size(); i++) {
+                        listValue.add(res.get(i).getUser().getProfile().getUserId());
+                        listLabel.add(res.get(i).getUser().getProfile().getFullname());
+                    }
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(appContext,
+                            android.R.layout.simple_spinner_item, listLabel);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    appointmentWorkerName.setAdapter(adapter);
+                } else {
+                    Toast.makeText(appContext, "Connecting Failed", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+
+            @Override
+            public void onFailed(ErrorResponse error) {
+
+            }
+
+            @Override
+            public void onCanceled() {
+
+            }
+        });
+
     }
 
     private void populateData(){
@@ -143,6 +218,10 @@ public class AppointmentFormActivity extends AppCompatActivity {
 
         startDate = ((EditText)findViewById(R.id.appointment_date_start)).getText().toString();
         endDate = ((EditText)findViewById(R.id.appointment_date_end)).getText().toString();
+        System.out.println("valueList: "+endDate);
+        Log.i("valueList: ", endDate);
+        valueName = listValue.get(appointmentWorkerName.getSelectedItemPosition());
+        System.out.println("valueList: "+valueName);
         RequestBody requestBody;
         requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
@@ -150,6 +229,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
                 .addFormDataPart("user_id", user_id)
                 .addFormDataPart("provider_id", groupId)
                 .addFormDataPart("service_type_id", serviceTypeId)
+                .addFormDataPart("worker_id", valueName)
                 .addFormDataPart("start_date", startDate)
                 .addFormDataPart("end_date", endDate)
                 .addFormDataPart("description", descriptionMaterial.getText().toString())

@@ -7,6 +7,11 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 public class Worker extends RealmObject {
+    @SerializedName("id")
+    @Expose
+    @PrimaryKey
+    private String id;
+
     @SerializedName("username")
     @Expose
     private String username;
@@ -18,11 +23,6 @@ public class Worker extends RealmObject {
     @SerializedName("password")
     @Expose
     private String password;
-
-    @SerializedName("id")
-    @Expose
-    @PrimaryKey
-    private String id;
 
     @SerializedName("role_id")
     @Expose

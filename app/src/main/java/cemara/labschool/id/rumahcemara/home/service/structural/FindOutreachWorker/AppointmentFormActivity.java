@@ -57,7 +57,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
     @BindView(R.id.appointment_material_description)
     EditText descriptionMaterial;
     @BindView(R.id.appointment_location)
-    AutoCompleteTextView appointmentLocation;
+    EditText appointmentLocation;
     EditText changeTo;
     final Calendar myCalendar = Calendar.getInstance();
     DatePickerDialog.OnDateSetListener date = (datePicker, year, month, day) -> {
@@ -110,12 +110,12 @@ public class AppointmentFormActivity extends AppCompatActivity {
             return false;
         });
 
-        // Get the string array
-        String[] testArray = getResources().getStringArray(R.array.test_array);
-        // Create the adapter and set it to the AutoCompleteTextView
-        ArrayAdapter<String> adapterLocation =
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, testArray);
-        appointmentLocation.setAdapter(adapterLocation);
+//        // Get the string array
+//        String[] testArray = getResources().getStringArray(R.array.test_array);
+//        // Create the adapter and set it to the AutoCompleteTextView
+//        ArrayAdapter<String> adapterLocation =
+//                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, testArray);
+//        appointmentLocation.setAdapter(adapterLocation);
     }
 
     private void populateData(){
@@ -161,6 +161,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
                 .addFormDataPart("end_date", endDate)
                 .addFormDataPart("description", descriptionMaterial.getText().toString())
                 .addFormDataPart("type_provider", typeProvider)
+                .addFormDataPart("location", appointmentLocation.getText().toString())
                 .build();
 
         AppointmentHelper.createBiomedicalAppointmentOutreach(requestBody, new RestCallback<ApiResponse>() {

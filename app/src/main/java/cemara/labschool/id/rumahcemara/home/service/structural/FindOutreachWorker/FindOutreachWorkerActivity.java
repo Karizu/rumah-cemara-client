@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
@@ -42,16 +43,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cemara.labschool.id.rumahcemara.R;
 import cemara.labschool.id.rumahcemara.api.AppointmentHelper;
-import cemara.labschool.id.rumahcemara.home.service.biomedical.FindOutreachWorker.adapter.AdapterListOutreachNearMe;
+import cemara.labschool.id.rumahcemara.home.service.structural.FindOutreachWorker.adapter.AdapterListOutreachNearMe;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.NearestOutreachModel;
 import cemara.labschool.id.rumahcemara.model.response.OutreachNearMeResponse;
 import cemara.labschool.id.rumahcemara.util.nearest.adapter.NearestAdapter;
 import cemara.labschool.id.rumahcemara.util.nearest.adapter.NearestSearchResultAdapter;
+import cemara.labschool.id.rumahcemara.util.nearest.adapter.adapter.nearest.search.counseling.NearestSearchResultAdapterApi;
 import cemara.labschool.id.rumahcemara.util.nearest.modal.Nearest;
 import okhttp3.Headers;
 
-public class FindOutreachWorkerActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class FindOutreachWorkerActivity extends AppCompatActivity implements OnMapReadyCallback, SearchView.OnQueryTextListener {
     private GoogleMap mMap;
     private static final String TAG = "FindServiceProviderActivity";
     @BindView(R.id.toolbar)
@@ -76,7 +78,7 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
     List<Nearest> nearestList = new ArrayList<>();
     List<Nearest> nearestSearchList = new ArrayList<>();
     NearestAdapter nearestAdapter;
-    NearestSearchResultAdapter nearestSearchAdapter;
+    NearestSearchResultAdapterApi nearestSearchAdapter;
 
 
     double longitude, latitude;
@@ -105,7 +107,24 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
             mapFragment.getMapAsync(this);
         }
 
-        setupAutocomplete();
+        SearchView searchView = findViewById(R.id.search_view);
+        searchView.setQueryHint("Seacrh Outreach Worker Name or Location");
+
+        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        EditText searchEditText = (EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchEditText.setTextColor(getResources().getColor(R.color.border_color));
+        searchEditText.setHintTextColor(getResources().getColor(R.color.border_color));
+
+        searchView.setOnQueryTextListener(this);
+
+        searchView.setOnClickListener(v -> {
+
+                    getListNearestSearch();
+                    searchView.setIconified(false);
+                }
+        );
+
+//        setupAutocomplete();
         sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
         sheetBehavior.setHideable(true);//Important to add
         sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
@@ -255,18 +274,50 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
 //             sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 ////             btnBottomSheet.setText("Expand sheet");
 //         }
-        nearestSearchList.clear();
-        nearestSearchList.add(new Nearest(R.drawable.select_dp, "Searched", "2 km", "1a"));
-        nearestSearchList.add(new Nearest(R.drawable.select_dp, "and", "4 km", "2a"));
-        nearestSearchList.add(new Nearest(R.drawable.select_dp, "Found", "1 km", "3a"));
-        nearestSearchAdapter = new NearestSearchResultAdapter(getApplicationContext(), nearestSearchList);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        resultRecyclerView.setLayoutManager(layoutManager);
-        resultRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        resultRecyclerView.setAdapter(nearestSearchAdapter);
-        nearestSearchAdapter.notifyDataSetChanged();
 
+        AppointmentHelper.getListOutreach(latitude, longitude, new RestCallback<ApiResponse<List<OutreachNearMeResponse>>>() {
+            @Override
+            public void onSuccess(Headers headers, ApiResponse<List<OutreachNearMeResponse>> body) {
+                if (body != null && body.isStatus()) {
+                    List<OutreachNearMeResponse> res = body.getData();
+                    System.out.println("Response List Search: " + body.getData());
+                    articleModels = new ArrayList<>();
+                    for (int i = 0; i < res.size(); i++) {
+//                        OutreachLocationData outreachLocationData = res.get(i).getOutreachLocationData();
+//                        workerModels.add(outreachLocationData);
+                        OutreachNearMeResponse article = res.get(i);
+                        articleModels.add(new NearestOutreachModel(article.getId(),
+                                article.getUser_id(),
+                                article.getUser().getProfile().getPicture(),
+                                article.getUser().getProfile().getFullname(),
+                                article.getDescription(),
+                                article.getUser().getProfile().getAddress(),
+                                article.getUser().getProfile().getCity(),
+                                article.getUser().getProfile().getPhoneNumber(),
+                                article.getDistance(),
+                                article.getUser(),
+                                article.getGroup()));
+                    }
+
+                    nearestSearchAdapter = new NearestSearchResultAdapterApi(articleModels, activity);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                    resultRecyclerView.setLayoutManager(layoutManager);
+                    resultRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                    resultRecyclerView.setAdapter(nearestSearchAdapter);
+                }
+            }
+
+            @Override
+            public void onFailed(ErrorResponse error) {
+
+            }
+
+            @Override
+            public void onCanceled() {
+
+            }
+        });
     }
 
     @Override
@@ -306,4 +357,24 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
 
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+
+        List<NearestOutreachModel> newWorker = new ArrayList<>();
+        String newTextLowerCase = newText.toLowerCase();
+        for (NearestOutreachModel user : articleModels) {
+            if (user.getUser().getProfile().getFullname().toLowerCase().contains(newTextLowerCase)) {
+                newWorker.add(user);
+            }
+        }
+
+//        adapter.updateData(newWorker);
+        nearestSearchAdapter.updateData(newWorker);
+        return true;
+    }
 }

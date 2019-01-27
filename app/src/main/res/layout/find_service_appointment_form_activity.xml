@@ -230,16 +230,29 @@
 
                 </LinearLayout>
 
-                <EditText
+                <!--<EditText-->
+                    <!--android:id="@+id/appointment_worker_name"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="39dp"-->
+                    <!--android:layout_marginBottom="@dimen/margin_padding_size_medium"-->
+                    <!--android:background="@drawable/rounded_grey_transparent"-->
+                    <!--android:hint="Outreach Worker Name"-->
+                    <!--android:maxLines="1"-->
+                    <!--android:padding="@dimen/margin_padding_size_small"-->
+                    <!--android:textSize="@dimen/text_size_small" />-->
+
+                <Spinner
                     android:id="@+id/appointment_worker_name"
                     android:layout_width="match_parent"
-                    android:layout_height="39dp"
-                    android:layout_marginBottom="@dimen/margin_padding_size_medium"
-                    android:background="@drawable/rounded_grey_transparent"
-                    android:hint="Outreach Worker Name"
-                    android:maxLines="1"
-                    android:padding="@dimen/margin_padding_size_small"
-                    android:textSize="@dimen/text_size_small" />
+                    android:layout_height="wrap_content"
+                    android:minHeight="50dp"
+                    android:autofillHints="Outreach Worker Name"
+                    android:padding="8dp"
+                    android:textSize="14sp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/rounded_grey_transparent"/>
+
             </LinearLayout>
 
             <Button

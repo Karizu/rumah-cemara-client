@@ -194,7 +194,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_grey_transparent"
                     android:layout_marginBottom="@dimen/margin_padding_size_medium">
-                    <AutoCompleteTextView
+                    <EditText
                         android:id="@+id/appointment_location"
                         android:layout_width="0dp"
                         android:layout_weight="10"
