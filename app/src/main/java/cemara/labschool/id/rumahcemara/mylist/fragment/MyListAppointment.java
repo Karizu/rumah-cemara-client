@@ -15,7 +15,6 @@ import java.util.Objects;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cemara.labschool.id.rumahcemara.R;
-import cemara.labschool.id.rumahcemara.home.service.asktheexpert.ChatExpertActivity;
 import cemara.labschool.id.rumahcemara.mylist.fragment.activity.ChatAppointmentActivity;
 
 /**
@@ -32,7 +31,7 @@ public class MyListAppointment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_my_list_appointment, container, false);
+        View view = inflater.inflate(R.layout.my_list_appointment_fragment, container, false);
         ButterKnife.bind(this, view);
         return view;
     }

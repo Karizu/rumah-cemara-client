@@ -14,6 +14,7 @@
         android:background="@color/White"
         android:clipToPadding="false"
         android:minHeight="?android:attr/actionBarSize"
+        android:elevation="3dp"
         app:tabContentStart="10dp"
         app:tabIndicatorHeight="3dp"
         app:tabMinWidth="40dp"
@@ -22,10 +23,12 @@
         app:tabPaddingTop="10dp"
         app:tabSelectedTextColor="@color/FocusColorText"
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-        app:tabTextColor="@color/Black"/>
+        app:tabTextColor="@color/Black"
+        tools:ignore="UnusedAttribute" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view"
+        android:layout_marginTop="@dimen/margin_padding_size_micro"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

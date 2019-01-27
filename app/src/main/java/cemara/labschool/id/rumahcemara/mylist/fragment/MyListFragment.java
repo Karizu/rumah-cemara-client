@@ -44,7 +44,7 @@ public class MyListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_my_list, parent, false);
+        View rootView = inflater.inflate(R.layout.my_list_fragment, parent, false);
         ButterKnife.bind(this, rootView);
         setHasOptionsMenu(true);
 
