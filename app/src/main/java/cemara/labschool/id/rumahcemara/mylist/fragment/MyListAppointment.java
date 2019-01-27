@@ -42,7 +42,7 @@ public class MyListAppointment extends Fragment {
         startActivity(new Intent(getContext(), ChatAppointmentActivity.class));
     }
 
-    @OnClick(R.id.layout_list_biomedical)
+    @OnClick(R.id.row_appointment)
     public void toDetail() {
         showDialog(R.layout.dialog_appointment_detail);
     }
