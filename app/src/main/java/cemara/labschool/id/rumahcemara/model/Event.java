@@ -29,9 +29,9 @@ public class Event {
     @Expose
     private String content;
 
-    @SerializedName("article_category_id")
+    @SerializedName("event_category_id")
     @Expose
-    private String articleCategoryId;
+    private String eventCategoryId;
 
 
     public String getId() {
@@ -82,11 +82,11 @@ public class Event {
         this.content = content;
     }
 
-    public String getArticleCategoryId() {
-        return articleCategoryId;
+    public String getEventCategoryId() {
+        return eventCategoryId;
     }
 
-    public void setArticleCategoryId(String articleCategoryId) {
-        this.articleCategoryId = articleCategoryId;
+    public void setEventCategoryId(String eventCategoryId) {
+        this.eventCategoryId = eventCategoryId;
     }
 }

@@ -7,7 +7,7 @@
     android:background="@color/White"
     tools:context=".mylist.fragment.MyListReminder">
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/event_list_recycler_view"
+        android:id="@+id/myReminderList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
