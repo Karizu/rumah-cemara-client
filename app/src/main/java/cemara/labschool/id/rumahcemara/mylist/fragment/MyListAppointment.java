@@ -62,7 +62,7 @@ public class MyListAppointment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_my_list_appointment, container, false);
+        View view = inflater.inflate(R.layout.my_list_appointment_fragment, container, false);
         return view;
     }
 

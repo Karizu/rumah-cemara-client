@@ -41,7 +41,7 @@ public class MyListSaved extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.my_list_saved_fragment, container, false);
         ButterKnife.bind(this, rootView);
-        getSavedNews();
+//        getSavedNews();
         return rootView;
     }
 

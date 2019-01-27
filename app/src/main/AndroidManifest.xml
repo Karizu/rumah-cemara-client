@@ -32,7 +32,6 @@
         <activity android:name=".util.location.SetLocationActivity"></activity>
 
         <activity android:name=".home.service.biomedical.FindOutreachWorker.AppointmentFormOutreachActivity"></activity>
-        <activity android:name=".util.location.SetLocationActivity" />
         <activity android:name=".home.service.biomedical.FindServiceProvider.AppointmentFormActivity" />
 
         <meta-data
@@ -82,6 +81,9 @@
         <activity android:name=".home.service.structural.FindServiceProvider.FindServiceProviderActivity" />
         <activity android:name=".mylist.fragment.activity.ChatAppointmentActivity" />
         <activity android:name=".options.fragment.activity.WebActivity" />
+        <activity android:name=".mylist.fragment.activity.AppointmentListHistory" />
+        <activity android:name=".mylist.fragment.activity.MyListBiomedicalDetail" />
+
     </application>
 
 </manifest>
