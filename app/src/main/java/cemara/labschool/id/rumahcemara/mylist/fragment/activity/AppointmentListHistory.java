@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,8 +19,10 @@ public class AppointmentListHistory extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.text_toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
+    @BindView(R.id.toolbar_img)
+    ImageView toolbarImg;
     @BindView(R.id.layout_completed)
     LinearLayout layoutCompleted;
     @BindView(R.id.layout_completed1)
@@ -39,18 +42,11 @@ public class AppointmentListHistory extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.icon_back);
-        toolbarTitle.setText("Edit Account");
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                layoutCompleted.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(AppointmentListHistory.this, MyListBiomedicalDetail.class));
-                    }
-                });
-                onBackPressed();
-            }
+        toolbarTitle.setText("Appointment History");
+        toolbarImg.setVisibility(View.GONE);
+        toolbar.setNavigationOnClickListener(v -> {
+            layoutCompleted.setOnClickListener(v1 -> startActivity(new Intent(AppointmentListHistory.this, MyListBiomedicalDetail.class)));
+            onBackPressed();
         });
     }
 }
