@@ -88,6 +88,8 @@ public class MyListAppointmentAdapter extends RecyclerView.Adapter<MyListAppoint
                 Intent intent = new Intent(context, ChatAppointmentActivity.class);
                 intent.putExtra("appointment_id", myAppointmentSelected.getId());
                 intent.putExtra("worker_id", myAppointmentSelected.getWorker_id());
+                intent.putExtra("worker_name", myAppointmentSelected.getProvider_worker().getProfile().getFullname());
+                intent.putExtra("worker_image", myAppointmentSelected.getProvider_worker().getProfile().getPicture());
                 context.startActivity(intent);
             }
         });

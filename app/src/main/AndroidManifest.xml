@@ -28,7 +28,6 @@
         <activity android:name=".home.highlight.NewsDetailActivity"></activity>
         <activity android:name=".home.highlight.ArticleDetailActivity"></activity>
         <activity android:name=".mylist.fragment.activity.AppointmentListHistory"></activity>
-        <activity android:name=".home.highlight.NewsDetailActivity" />
         <activity android:name=".home.service.asktheexpert.ChatExpertActivity" />
         <activity android:name=".options.fragment.activity.EditAccountActivity" />
         <activity android:name=".home.highlight.event.EventActivity" />
@@ -85,8 +84,6 @@
         <activity android:name=".home.service.structural.FindServiceProvider.FindServiceProviderActivity" />
         <activity android:name=".mylist.fragment.activity.ChatAppointmentActivity" />
         <activity android:name=".options.fragment.activity.WebActivity" />
-        <activity android:name=".mylist.fragment.activity.AppointmentListHistory" />
-        <activity android:name=".mylist.fragment.activity.MyListBiomedicalDetail" />
 
     </application>
 

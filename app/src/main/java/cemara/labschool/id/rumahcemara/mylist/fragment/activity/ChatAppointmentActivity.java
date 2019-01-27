@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.centrifugal.centrifuge.android.Centrifugo;
 import com.centrifugal.centrifuge.android.credentials.Token;
 import com.centrifugal.centrifuge.android.credentials.User;
@@ -76,6 +78,8 @@ public class ChatAppointmentActivity extends AppCompatActivity {
     private Profile profile;
     private String appointmentId;
     private String workerId;
+    private String workerName;
+    private String workerPicture;
     private Realm realm;
     private Centrifugo centrifugo;
     private cemara.labschool.id.rumahcemara.model.Token tokenChat;
@@ -85,10 +89,11 @@ public class ChatAppointmentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_appointment);
         ButterKnife.bind(this);
-        setToolbar();
 
         appointmentId = getIntent().getStringExtra("appointment_id");
         workerId = getIntent().getStringExtra("worker_id");
+        workerName = getIntent().getStringExtra("worker_name");
+        workerPicture = getIntent().getStringExtra("worker_picture");
         realm = LocalData.getRealm();
         profile = realm.where(Profile.class).findFirst();
         tokenChat = realm.where(cemara.labschool.id.rumahcemara.model.Token.class).findFirst();
@@ -102,6 +107,7 @@ public class ChatAppointmentActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
 
+        setToolbar();
         populateChatHistory(appointmentId);
     }
 
@@ -179,8 +185,11 @@ public class ChatAppointmentActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.icon_back);
-        toolbarTitle.setText("Akmal M Krismanto");
-        toolbarImg.setImageResource(R.drawable.select_dp);
+        toolbarTitle.setText(workerName);
+        Glide.with(this)
+                .applyDefaultRequestOptions(RequestOptions.circleCropTransform())
+                .load(workerPicture)
+                .into(toolbarImg);
         //chat_appointment
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -224,18 +233,6 @@ public class ChatAppointmentActivity extends AppCompatActivity {
                         try {
                             if (body != null && body.isStatus()) {
 
-                                mChats.add(newChat);
-                                mAdapter.notifyDataSetChanged();
-
-                                btnSendChat.setEnabled(true);
-                                messageText.setText("");
-
-                                try {
-                                    InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-                                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                                } catch (Exception e) {
-                                    // TODO: handle exception
-                                }
                             }
                         } catch (Exception e) {
 
@@ -253,6 +250,20 @@ public class ChatAppointmentActivity extends AppCompatActivity {
 
                     }
                 });
+
+                mChats.add(newChat);
+                mAdapter.notifyDataSetChanged();
+
+                btnSendChat.setEnabled(true);
+                messageText.setText("");
+
+                try {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                } catch (Exception e) {
+                    // TODO: handle exception
+                }
+
             } catch (Exception e) {
 
             }
