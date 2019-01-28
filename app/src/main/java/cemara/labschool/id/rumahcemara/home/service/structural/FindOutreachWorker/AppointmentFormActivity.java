@@ -235,11 +235,13 @@ public class AppointmentFormActivity extends AppCompatActivity {
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
-    @OnClick(R.id.appointment_getlocation)
-    public void getLocation(){
-        Intent intent = new Intent(this, SetLocationActivity.class);
-        startActivityForResult(intent,1);
-    }
+
+//    @OnClick(R.id.appointment_getlocation)
+//    public void getLocation(){
+//        Intent intent = new Intent(this, SetLocationActivity.class);
+//        startActivityForResult(intent,1);
+//    }
+
     public void setToolbar() {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
