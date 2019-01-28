@@ -75,3 +75,5 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+.idea/modules.xml
+.idea/caches/gradle_models.ser

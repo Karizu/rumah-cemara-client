@@ -67,7 +67,7 @@ public class MyListReminder extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.d("REminder","Starting");
+        Log.d("Reminder","Starting");
         View rootView = inflater.inflate(R.layout.my_list_reminder_fragment, container, false);
         ButterKnife.bind(this,rootView);
 
