@@ -178,6 +178,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                 .addFormDataPart("password", password.getText().toString())
                 .addFormDataPart("gender", genderSpinner.getSelectedItem().toString())
                 .addFormDataPart("treatment_id", treatmentId.get(typeTreatmentSpinner.getSelectedItemPosition()))
+                .addFormDataPart("type", "client")
                 .addFormDataPart("picture", "photo.jpeg", RequestBody.create(MediaType.parse("image/jpeg"), byteArrayOutputStream.toByteArray()))
                 .build();
 

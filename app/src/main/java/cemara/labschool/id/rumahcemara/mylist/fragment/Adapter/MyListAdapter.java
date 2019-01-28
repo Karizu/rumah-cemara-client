@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 
 import cemara.labschool.id.rumahcemara.mylist.fragment.MyListReport;
 import cemara.labschool.id.rumahcemara.mylist.fragment.MyListSaved;
@@ -26,6 +27,7 @@ public class MyListAdapter extends FragmentPagerAdapter {
             case 0:
                 return new MyListAppointment();
             case 1:
+                Log.d("MyList","Reminder");
                 return new MyListReminder();
             case 2:
                 return new MyListSaved();

@@ -3,7 +3,11 @@ package cemara.labschool.id.rumahcemara.api;
 import java.util.List;
 
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.model.Article;
 import cemara.labschool.id.rumahcemara.model.Chat;
+import cemara.labschool.id.rumahcemara.model.Event;
+import cemara.labschool.id.rumahcemara.model.ListReminder;
+import cemara.labschool.id.rumahcemara.model.ListSaved;
 import cemara.labschool.id.rumahcemara.model.Token;
 import cemara.labschool.id.rumahcemara.model.response.GeneralDataResponse;
 import cemara.labschool.id.rumahcemara.model.response.OutreachLocationDataResponse;
@@ -87,5 +91,38 @@ public interface ApiInterface {
 
     @GET("news/{news_id}")
     Call<ApiResponse<News>> getNewsDetail(@Path("news_id") String id);
+
+    /***************** Article API *********************/
+    @GET("article")
+    Call<ApiResponse<List<Article>>> getArticle();
+
+    @GET("article")
+    Call<ApiResponse<List<Article>>> getArticleWithCategory(@Query("article_category_id") String articleCategoryId);
+
+    @GET("article/{article_id}")
+    Call<ApiResponse<Article>> getArticleDetail(@Path("article_id") String id);
+
+    @GET("articleCategories")
+    Call<ApiResponse<List<Article>>> getArticleCategories();
+
+    /***************** Event API *********************/
+    @GET("event")
+    Call<ApiResponse<List<Event>>> getEvent();
+
+    @GET("event")
+    Call<ApiResponse<List<Event>>> getEventWithCategory(@Query("event_category_id") String eventCategoryId);
+
+    @GET("event/{event_id}")
+    Call<ApiResponse<Event>> getEventDetail(@Path("event_id") String id);
+
+    @GET("eventCategories")
+    Call<ApiResponse<List<Event>>> getEventCategories();
+
+
+    /***************** List API *********************/
+    @GET("userList")
+    Call<ApiResponse<List<ListReminder>>> getListReminder(@Query("user_id") String userId, @Query("type") String type);
+    @GET("userList")
+    Call<ApiResponse<List<ListSaved>>> getListSaved(@Query("user_id") String userId, @Query("type") String type);
 
 }

@@ -7,49 +7,121 @@
     android:orientation="vertical"
     tools:context=".home.service.structural.StructuralLegalAidActivity">
 
-    <!--<include layout="@layout/row_toolbar"/>-->
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/Black"
-        app:logo="@drawable/icon_structural_white"
-        app:popupTheme="@style/AppTheme" >
-        <TextView
-            android:id="@+id/text_toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical"
-            android:layout_marginLeft="5dp"
-            android:text="Structural - Legal Aid"
-            android:textColor="@android:color/white"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-    </android.support.v7.widget.Toolbar>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/dsc_material"
-        android:textSize="14sp"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="10dp"/>
+    <include layout="@layout/row_toolbar"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/rounded_grey_transparent"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/edit_dsc_material"
+        android:orientation="vertical"
+        android:layout_margin="15dp">
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:backgroundTint="@android:color/transparent"
-            tools:ignore="UnusedAttribute" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:text="@string/dsc_material"
+            android:textSize="14sp"
+            android:textColor="@color/NormalColorText"
+            android:layout_marginBottom="10dp"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_grey_transparent"
+            android:orientation="vertical"
+            android:layout_marginBottom="10sp">
+
+            <EditText
+                android:id="@+id/edit_dsc_material"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:backgroundTint="@android:color/transparent"
+                tools:ignore="UnusedAttribute" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Attached File"
+            android:textColor="@color/NormalColorText"
+            android:textSize="15sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_grey_transparent"
+            android:orientation="vertical"
+            android:layout_marginBottom="10sp">
+
+            <EditText
+                android:id="@+id/edt_atached"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:backgroundTint="@android:color/transparent"
+                android:hint="File"
+                android:layout_marginStart="5dp"
+                tools:ignore="UnusedAttribute"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/attached_file_doc"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:background="@drawable/rounded_close_orange">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                android:gravity="center_vertical"
+                android:text="Attached_name_file.pdf"
+                android:textColor="@color/White"
+                android:textSize="15sp"/>
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="0.15"
+                android:src="@drawable/icon_searc_close"
+                android:background="@null"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/attached_file_img"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_close_orange">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:layout_marginStart="5dp"
+                android:text="Attached_name_file.img"
+                android:textColor="@color/White"
+                android:textSize="15sp"/>
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="0.15"
+                android:src="@drawable/icon_searc_close"
+                android:background="@null"/>
+        </LinearLayout>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp">
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_rounded_blackyellow"
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:textColor="@color/White"
+            android:textSize="14sp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
 </LinearLayout>
