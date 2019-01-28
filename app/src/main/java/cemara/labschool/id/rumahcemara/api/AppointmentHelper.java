@@ -39,4 +39,9 @@ public class AppointmentHelper {
         service.getEndpoint().sendMessage(chat).enqueue(callback);
     }
 
+    public static void createAppointmentRating(RequestBody rating, RestCallback<ApiResponse> callback){
+        Reztrofit<ApiInterface> service = Reztrofit.getInstance();
+        service.getEndpoint().createRating(rating).enqueue(callback);
+    }
+
 }

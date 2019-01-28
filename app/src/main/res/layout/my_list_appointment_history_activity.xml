@@ -8,12 +8,13 @@
     tools:context=".mylist.fragment.activity.AppointmentListHistory">
 
     <include layout="@layout/row_toolbar"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    <include layout="@layout/row_appointment_history"/>
-    <include layout="@layout/row_appointment_history"/>
+    <!--<include layout="@layout/row_appointment_history"/>-->
+    <!--<include layout="@layout/row_appointment_history"/>-->
     <!--<LinearLayout-->
         <!--android:id="@+id/layout_completed"-->
         <!--android:layout_width="match_parent"-->

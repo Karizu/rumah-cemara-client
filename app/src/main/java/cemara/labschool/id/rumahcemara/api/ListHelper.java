@@ -10,10 +10,12 @@ import java.util.List;
 
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.Event;
+import cemara.labschool.id.rumahcemara.model.HistoryList;
 import cemara.labschool.id.rumahcemara.model.ListReminder;
 import cemara.labschool.id.rumahcemara.model.ListSaved;
 import cemara.labschool.id.rumahcemara.model.User;
 import cemara.labschool.id.rumahcemara.model.response.GeneralDataResponse;
+import cemara.labschool.id.rumahcemara.model.response.HistoryListResponse;
 import io.realm.Realm;
 
 public class ListHelper {
@@ -35,6 +37,15 @@ public class ListHelper {
         User user = realm.where(User.class).findFirst();
         Reztrofit<ApiInterface> service = Reztrofit.getInstance();
         service.getEndpoint().getListSaved(user.getId(),"Saved").enqueue(callback);
+
+    }
+    public static void getListAppointmentHistory(RestCallback<ApiResponse<List<HistoryListResponse>>> callback)
+    {
+        Realm realm = LocalData.getRealm();
+
+        User user = realm.where(User.class).findFirst();
+        Reztrofit<ApiInterface> service = Reztrofit.getInstance();
+        service.getEndpoint().getHistoryAppointment(user.getId()).enqueue(callback);
 
     }
 }
