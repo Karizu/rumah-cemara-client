@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="right"
+    android:paddingBottom="@dimen/margin_padding_size_medium">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/White"
+        android:textAlignment="textEnd"
+        android:textSize="@dimen/text_size_medium"
+        android:background="@drawable/buble_chat_oren_edit"
+        android:paddingTop="@dimen/margin_padding_size_small"
+        android:paddingBottom="@dimen/margin_padding_size_small"
+        android:paddingStart="@dimen/margin_padding_size_semi_large"
+        android:paddingEnd="@dimen/margin_padding_size_large"
+        android:text="Tanggal 30 Agustus gimana gan?"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/message"
+        android:text="10.00"
+        android:textColor="@color/White"
+        android:textAlignment="viewEnd"
+        android:layout_marginTop="-16dp"
+        android:paddingStart="@dimen/margin_padding_size_semi_large"
+        android:paddingEnd="@dimen/margin_padding_size_large"
+        android:textSize="@dimen/text_size_nano" />
+</LinearLayout>

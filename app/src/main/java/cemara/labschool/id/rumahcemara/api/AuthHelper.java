@@ -7,6 +7,7 @@ import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.LoginRequest;
 import cemara.labschool.id.rumahcemara.model.News;
 import cemara.labschool.id.rumahcemara.model.Profile;
+import cemara.labschool.id.rumahcemara.model.Token;
 import cemara.labschool.id.rumahcemara.model.User;
 import okhttp3.RequestBody;
 
@@ -35,6 +36,11 @@ public class AuthHelper {
     public static void myProfile(RestCallback<ApiResponse<User>> callback){
         Reztrofit<ApiInterface> service = Reztrofit.getInstance();
         service.getEndpoint().myProfile().enqueue(callback);
+    }
+
+    public static void generateToken(String userId, RestCallback<ApiResponse<Token>> callback){
+        Reztrofit<ApiInterface> service = Reztrofit.getInstance();
+        service.getEndpoint().generateToken(userId).enqueue(callback);
     }
 
 

@@ -31,6 +31,7 @@ public class GeneralDataResponse {
     private String updated_at;
     private String deleted_at;
     private String type;
+    private String location;
 
     public String getId() {
         return id;
@@ -218,5 +219,13 @@ public class GeneralDataResponse {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

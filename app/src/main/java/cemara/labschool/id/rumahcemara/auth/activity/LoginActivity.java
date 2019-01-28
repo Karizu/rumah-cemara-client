@@ -35,6 +35,7 @@ import cemara.labschool.id.rumahcemara.R;
 import cemara.labschool.id.rumahcemara.MainActivity;
 import cemara.labschool.id.rumahcemara.api.AuthHelper;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.model.Chat;
 import cemara.labschool.id.rumahcemara.model.LoginRequest;
 import cemara.labschool.id.rumahcemara.model.User;
 import cemara.labschool.id.rumahcemara.util.dialog.Loading;
@@ -184,6 +185,25 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Headers headers, ApiResponse body) {
 
+                            }
+
+                            @Override
+                            public void onFailed(ErrorResponse error) {
+
+                            }
+
+                            @Override
+                            public void onCanceled() {
+
+                            }
+                        });
+
+                        AuthHelper.generateToken(body.getData().getId(), new RestCallback<ApiResponse<cemara.labschool.id.rumahcemara.model.Token>>() {
+                            @Override
+                            public void onSuccess(Headers headers, ApiResponse<cemara.labschool.id.rumahcemara.model.Token> body) {
+                                if (body.isStatus() && body.getData() != null) {
+                                    LocalData.saveOrUpdate(body.getData());
+                                }
                             }
 
                             @Override

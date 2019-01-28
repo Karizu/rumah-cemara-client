@@ -12,8 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
+
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -21,7 +25,7 @@ import cemara.labschool.id.rumahcemara.home.highlight.NewsDetailActivity;
 import cemara.labschool.id.rumahcemara.util.news.model.News;
 import cemara.labschool.id.rumahcemara.R;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder>{
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
     private List<News> newsList;
     private Context mContext;
     private Unbinder unbinder;
@@ -39,6 +43,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         TextView txtDateCreated;
         @BindView(R.id.cv_news)
         CardView parentLayout;
+        @BindView(R.id.share_news)
+        ImageView shareNews;
+        @BindView(R.id.mark_news)
+        ImageView markNews;
+
         NewsViewHolder(@NonNull View itemView) {
             super(itemView);
             unbinder = ButterKnife.bind(this, itemView);
@@ -81,14 +90,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             itemView = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.row_highlight_detail, viewGroup, false);
         }
-
         return new NewsViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final NewsAdapter.NewsViewHolder newsViewHolder, int position) {
         News news = newsList.get(position);
-        Log.d("News", ""+newsList.size());
+        Log.d("News", "" + newsList.size());
         newsViewHolder.txtTitle.setText(news.getTitle());
         newsViewHolder.txtAuthor.setText(news.getAuthor());
         newsViewHolder.txtDateCreated.setText(String.valueOf(news.getDateCreated()));
@@ -100,9 +108,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, NewsDetailActivity.class);
+                intent.putExtra("id",news.getNewsId());
                 mContext.startActivity(intent);
             }
         });
+        newsViewHolder.markNews.setOnClickListener(v -> Toast.makeText(mContext, "Mark click", Toast.LENGTH_SHORT).show());
+        newsViewHolder.shareNews.setOnClickListener(v -> Toast.makeText(mContext, "Share click", Toast.LENGTH_SHORT).show());
     }
 
     @Override

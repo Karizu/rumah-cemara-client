@@ -24,7 +24,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".home.highlight.EventDetailActivity"></activity>
         <activity android:name=".home.highlight.NewsDetailActivity"></activity>
+        <activity android:name=".home.highlight.ArticleDetailActivity"></activity>
+        <activity android:name=".mylist.fragment.activity.AppointmentListHistory"></activity>
+        <activity android:name=".home.highlight.NewsDetailActivity" />
         <activity android:name=".home.service.asktheexpert.ChatExpertActivity" />
         <activity android:name=".options.fragment.activity.EditAccountActivity" />
         <activity android:name=".home.highlight.event.EventActivity" />
@@ -42,7 +46,6 @@
         <activity android:name=".home.service.biomedical.BiomedicalAppointmentActivity" />
         <activity android:name=".home.service.asktheexpert.AskTheExpertActivity" />
         <activity android:name=".home.service.structural.StructuralLegalAidActivity" />
-        <activity android:name=".home.service.structural.StructuralPurposeActivity" />
         <activity android:name=".home.service.structural.StructuralViolationActivity" />
         <activity android:name=".auth.activity.LoginActivity">
             <intent-filter>
@@ -80,9 +83,10 @@
         <activity android:name=".home.service.structural.FindOutreachWorker.FindOutreachWorkerActivity" />
         <activity android:name=".home.service.structural.FindServiceProvider.AppointmentFormActivity" />
         <activity android:name=".home.service.structural.FindServiceProvider.FindServiceProviderActivity" />
-        <activity android:name=".mylist.fragment.activity.ChatAppointmentActivity"/>
-        <activity android:name=".options.fragment.activity.WebActivity"/>
-
+        <activity android:name=".mylist.fragment.activity.ChatAppointmentActivity" />
+        <activity android:name=".options.fragment.activity.WebActivity" />
+        <activity android:name=".mylist.fragment.activity.AppointmentListHistory" />
+        <activity android:name=".mylist.fragment.activity.MyListBiomedicalDetail" />
 
     </application>
 

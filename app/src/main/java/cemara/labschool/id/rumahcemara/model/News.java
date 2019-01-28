@@ -24,6 +24,9 @@ public class News  {
     @SerializedName("banner")
     @Expose
     private String banner;
+    @SerializedName("content")
+    @Expose
+    private String content;
 
 
     public String getId() {
@@ -64,5 +67,13 @@ public class News  {
 
     public void setBanner(String banner) {
         this.banner = banner;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
