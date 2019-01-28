@@ -51,12 +51,12 @@
             android:orientation="vertical"
             android:layout_marginBottom="10sp">
 
-            <EditText
-                android:id="@+id/edt_atached"
+            <Button
+                android:id="@+id/select_atached"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:backgroundTint="@android:color/transparent"
-                android:hint="File"
+                android:hint="Select File"
                 android:layout_marginStart="5dp"
                 tools:ignore="UnusedAttribute"/>
         </LinearLayout>
@@ -66,8 +66,10 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:orientation="horizontal"
+            android:visibility="invisible"
             android:background="@drawable/rounded_close_orange">
             <TextView
+                android:id="@+id/fileName"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -77,30 +79,7 @@
                 android:textColor="@color/White"
                 android:textSize="15sp"/>
             <ImageButton
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="0.15"
-                android:src="@drawable/icon_searc_close"
-                android:background="@null"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/attached_file_img"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/rounded_close_orange">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:layout_marginStart="5dp"
-                android:text="Attached_name_file.img"
-                android:textColor="@color/White"
-                android:textSize="15sp"/>
-            <ImageButton
+                android:id="@+id/remove_attachment"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="0.15"

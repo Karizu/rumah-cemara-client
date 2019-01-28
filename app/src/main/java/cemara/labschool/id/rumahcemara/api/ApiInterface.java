@@ -80,6 +80,9 @@ public interface ApiInterface {
     @GET("generateToken")
     Call<ApiResponse<Token>> generateToken(@Query("user_id") String userId);
 
+    @GET("serviceTransaction/reportStatus")
+    Call<ApiResponse<List<GeneralDataResponse>>> getMyReport (@Query("user_id") String userId);
+
     /***************** News API *********************/
     @GET("news")
     Call<ApiResponse<List<News>>> getNews();

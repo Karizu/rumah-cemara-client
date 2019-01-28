@@ -7,14 +7,10 @@
     tools:context=".mylist.fragment.MyListReport">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        android:id="@+id/report_status_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     </android.support.v7.widget.RecyclerView>
-
-    <include layout="@layout/row_report_status"/>
-
-    <include layout="@layout/row_report_status"/>
 
 </LinearLayout>
