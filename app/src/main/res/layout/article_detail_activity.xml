@@ -95,6 +95,7 @@
                 </FrameLayout>
 
                 <ImageView
+                    android:id="@+id/mark_news_top"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_padding_size_micro"
@@ -142,6 +143,7 @@
                 </FrameLayout>
 
                 <ImageView
+                    android:id="@+id/mark_news_bottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_padding_size_micro"

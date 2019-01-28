@@ -24,6 +24,8 @@ import cemara.labschool.id.rumahcemara.model.User;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -127,5 +129,9 @@ public interface ApiInterface {
     Call<ApiResponse<List<ListReminder>>> getListReminder(@Query("user_id") String userId, @Query("type") String type);
     @GET("userList")
     Call<ApiResponse<List<ListSaved>>> getListSaved(@Query("user_id") String userId, @Query("type") String type);
+
+    @FormUrlEncoded
+    @POST("userList")
+    Call<ApiResponse> postCreateUserList(@Field("user_id") String userId, @Field("type") String type,@Field("type_id") String typeId,@Field("datetime") String datetime);
 
 }

@@ -32,6 +32,7 @@ import cemara.labschool.id.rumahcemara.api.ArticleHelper;
 import cemara.labschool.id.rumahcemara.api.NewsHelper;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.util.ArticleClickListener;
+import cemara.labschool.id.rumahcemara.util.MarkArticleClickListener;
 import cemara.labschool.id.rumahcemara.util.NewsClickListener;
 import cemara.labschool.id.rumahcemara.util.article.model.Article;
 import cemara.labschool.id.rumahcemara.util.article.model.adapter.ArticleAdapter;
@@ -160,8 +161,8 @@ public class ArticleTrainingFragment extends Fragment {
                     .into(ivCarousel);
             tvLabelCarousel.setText(articlePager.get(position).getTitle());
             ivShare.setOnClickListener(shareOnClickListener);
-            ivMark.setOnClickListener(markOnClickListener);
-            //ivCarousel.setOnClickListener(imageOnClickListener);
+            ivMark.setOnClickListener(new MarkArticleClickListener(articlePager.get(position)));
+
             ivCarousel.setOnClickListener(new ArticleClickListener(articlePager.get(position)));
             return customView;
         }
@@ -175,20 +176,5 @@ public class ArticleTrainingFragment extends Fragment {
         }
     };
 
-    //To Mark
-    View.OnClickListener markOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(getContext(), "Marked", Toast.LENGTH_SHORT).show();
-        }
-    };
-
-    //To News
-    View.OnClickListener imageOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(getContext(), "Image Clicked", Toast.LENGTH_SHORT).show();
-        }
-    };
 
 }

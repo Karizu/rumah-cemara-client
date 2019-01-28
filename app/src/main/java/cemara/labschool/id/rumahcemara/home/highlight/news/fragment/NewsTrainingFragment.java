@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.rezkyatinnov.kyandroid.localdata.LocalData;
 import com.rezkyatinnov.kyandroid.reztrofit.ErrorResponse;
 import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
 import com.synnapps.carouselview.CarouselView;
@@ -28,13 +29,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cemara.labschool.id.rumahcemara.Constants;
 import cemara.labschool.id.rumahcemara.R;
+import cemara.labschool.id.rumahcemara.api.ListHelper;
 import cemara.labschool.id.rumahcemara.api.NewsHelper;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.model.User;
+import cemara.labschool.id.rumahcemara.util.MarkNewsClickListener;
 import cemara.labschool.id.rumahcemara.util.NewsClickListener;
 import cemara.labschool.id.rumahcemara.util.dialog.Loading;
 import cemara.labschool.id.rumahcemara.util.helper.DateHelper;
 import cemara.labschool.id.rumahcemara.util.news.adapter.NewsAdapter;
 import cemara.labschool.id.rumahcemara.util.news.model.News;
+import io.realm.Realm;
 import okhttp3.Headers;
 
 /**
@@ -157,8 +162,7 @@ public class NewsTrainingFragment extends Fragment {
                     .into(ivCarousel);
             tvLabelCarousel.setText(newsPager.get(position).getTitle());
             ivShare.setOnClickListener(shareOnClickListener);
-            ivMark.setOnClickListener(markOnClickListener);
-            //ivCarousel.setOnClickListener(imageOnClickListener);
+            ivMark.setOnClickListener(new MarkNewsClickListener(newsPager.get(position)));
             ivCarousel.setOnClickListener(new NewsClickListener(newsPager.get(position)));
 
             return customView;
@@ -170,14 +174,6 @@ public class NewsTrainingFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Toast.makeText(getContext(), "Shared", Toast.LENGTH_SHORT).show();
-        }
-    };
-
-    //To Mark
-    View.OnClickListener markOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(getContext(), "Marked", Toast.LENGTH_SHORT).show();
         }
     };
 

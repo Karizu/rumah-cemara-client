@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,9 +20,11 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cemara.labschool.id.rumahcemara.R;
 import cemara.labschool.id.rumahcemara.api.ArticleHelper;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.util.MarkArticleClickListener;
 import cemara.labschool.id.rumahcemara.util.article.model.adapter.ArticleAdapter;
 import cemara.labschool.id.rumahcemara.util.dialog.Loading;
 import cemara.labschool.id.rumahcemara.util.helper.DateHelper;
@@ -44,7 +47,12 @@ public class ArticleDetailActivity extends AppCompatActivity {
     TextView tvDate;
     @BindView(R.id.tvContent)
     TextView tvContent;
+    @BindView(R.id.mark_news_bottom)
+    ImageView markNewsBottom;
+    @BindView(R.id.mark_news_top)
+    ImageView markNewsTop;
 
+    cemara.labschool.id.rumahcemara.model.Article articleDetail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,13 +80,16 @@ public class ArticleDetailActivity extends AppCompatActivity {
             public void onSuccess(Headers headers, ApiResponse<cemara.labschool.id.rumahcemara.model.Article> body) {
                 Loading.hide(ArticleDetailActivity.this);
                 if (body != null && body.isStatus()) {
-                    cemara.labschool.id.rumahcemara.model.Article articleDetail=body.getData();
+                    articleDetail=body.getData();
                     Log.d("aa","sss");
 
                     tvAuthor.setText(articleDetail.getUserCreator().getProfile().getFullname());
                     tvTitle.setText(articleDetail.getTitle());
                     tvDate.setText(DateHelper.dateFormat(DateHelper.stringToDate(articleDetail.getCreatedAt())));
                     tvContent.setText(articleDetail.getContent());
+                    markNewsBottom.setOnClickListener(new MarkArticleClickListener(articleDetail));
+                    markNewsTop.setOnClickListener(new MarkArticleClickListener(articleDetail));
+
                 } else {
 //                        loadingDialog.dismiss();
                     Toast.makeText(ArticleDetailActivity.this, body.getMessage(), Toast.LENGTH_SHORT).show();
@@ -110,4 +121,5 @@ public class ArticleDetailActivity extends AppCompatActivity {
             }
         });
     }
+
 }

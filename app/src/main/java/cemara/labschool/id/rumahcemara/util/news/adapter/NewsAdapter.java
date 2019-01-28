@@ -15,15 +15,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.rezkyatinnov.kyandroid.localdata.LocalData;
+import com.rezkyatinnov.kyandroid.reztrofit.ErrorResponse;
+import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cemara.labschool.id.rumahcemara.api.ListHelper;
 import cemara.labschool.id.rumahcemara.home.highlight.NewsDetailActivity;
+import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.model.User;
+import cemara.labschool.id.rumahcemara.util.MarkArticleClickListener;
+import cemara.labschool.id.rumahcemara.util.MarkNewsClickListener;
+import cemara.labschool.id.rumahcemara.util.dialog.Loading;
 import cemara.labschool.id.rumahcemara.util.news.model.News;
 import cemara.labschool.id.rumahcemara.R;
+import io.realm.Realm;
+import okhttp3.Headers;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
     private List<News> newsList;
@@ -112,7 +123,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                 mContext.startActivity(intent);
             }
         });
-        newsViewHolder.markNews.setOnClickListener(v -> Toast.makeText(mContext, "Mark click", Toast.LENGTH_SHORT).show());
+        newsViewHolder.markNews.setOnClickListener(new MarkNewsClickListener(news));
+
         newsViewHolder.shareNews.setOnClickListener(v -> Toast.makeText(mContext, "Share click", Toast.LENGTH_SHORT).show());
     }
 
@@ -121,12 +133,4 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         return newsList.size();
     }
 
-//    private void showPopupMenu(View view) {
-//        // inflate menu
-//        PopupMenu popup = new PopupMenu(mContext, view);
-//        MenuInflater inflater = popup.getMenuInflater();
-//        inflater.inflate(R.menu.menu_album, popup.getMenu());
-//        popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
-//        popup.show();
-//    }
 }

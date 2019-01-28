@@ -11,8 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.rezkyatinnov.kyandroid.localdata.LocalData;
+import com.rezkyatinnov.kyandroid.reztrofit.ErrorResponse;
+import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
 
 import java.util.List;
 
@@ -20,8 +24,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cemara.labschool.id.rumahcemara.R;
+import cemara.labschool.id.rumahcemara.api.ListHelper;
 import cemara.labschool.id.rumahcemara.home.highlight.ArticleDetailActivity;
+import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.model.User;
+import cemara.labschool.id.rumahcemara.util.MarkArticleClickListener;
+import cemara.labschool.id.rumahcemara.util.MarkNewsClickListener;
 import cemara.labschool.id.rumahcemara.util.article.model.Article;
+import cemara.labschool.id.rumahcemara.util.dialog.Loading;
+import io.realm.Realm;
+import okhttp3.Headers;
 
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>{
     private List<Article> articleList;
@@ -41,6 +53,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         TextView txtDateCreated;
         @BindView(R.id.cv_news)
         CardView parentLayout;
+        @BindView(R.id.mark_news)
+        ImageView markNews;
+
         ArticleViewHolder(@NonNull View itemView) {
             super(itemView);
             unbinder = ButterKnife.bind(this, itemView);
@@ -106,6 +121,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                 mContext.startActivity(intent);
             }
         });
+
+        articleViewHolder.markNews.setOnClickListener(new MarkArticleClickListener(article));
     }
 
     @Override

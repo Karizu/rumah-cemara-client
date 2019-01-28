@@ -37,4 +37,11 @@ public class ListHelper {
         service.getEndpoint().getListSaved(user.getId(),"Saved").enqueue(callback);
 
     }
+
+    public static void postCreateUserList(String userId,String type,String typeId, String datetime,RestCallback<ApiResponse> callback)
+    {
+        Reztrofit<ApiInterface> service = Reztrofit.getInstance();
+        service.getEndpoint().postCreateUserList(userId,type,typeId,datetime).enqueue(callback);
+
+    }
 }

@@ -35,6 +35,7 @@ import cemara.labschool.id.rumahcemara.model.Article;
 import cemara.labschool.id.rumahcemara.model.Event;
 import cemara.labschool.id.rumahcemara.util.ArticleClickListener;
 import cemara.labschool.id.rumahcemara.util.EventClickListener;
+import cemara.labschool.id.rumahcemara.util.MarkEventClickListener;
 import cemara.labschool.id.rumahcemara.util.article.model.adapter.ArticleAdapter;
 import cemara.labschool.id.rumahcemara.util.dialog.Loading;
 import cemara.labschool.id.rumahcemara.util.event.adapter.EventAdapter;
@@ -159,9 +160,9 @@ public class EventTrainingFragment extends Fragment {
                     .load(eventPager.get(position).getBanner())
                     .into(ivCarousel);
             tvLabelCarousel.setText(eventPager.get(position).getTitle());
-            ivReminder.setOnClickListener(reminderOnClickListener);
-            ivShare.setOnClickListener(shereOnClickListerner);
-            //ivCarousel.setOnClickListener(imageOnClickListener);
+            ivReminder.setOnClickListener(new MarkEventClickListener(eventPager.get(position)));
+            ivShare.setOnClickListener(v -> Toast.makeText(getContext(), "Share click", Toast.LENGTH_SHORT).show());
+
             ivCarousel.setOnClickListener(new EventClickListener(eventPager.get(position)));
 
 
@@ -169,28 +170,5 @@ public class EventTrainingFragment extends Fragment {
         }
     };
 
-    //To share
-    View.OnClickListener reminderOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(getContext(), "Reminder", Toast.LENGTH_SHORT).show();
-        }
-    };
-
-    //To Mark
-    View.OnClickListener shereOnClickListerner = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(getContext(), "Shared", Toast.LENGTH_SHORT).show();
-        }
-    };
-
-    //To News
-    View.OnClickListener imageOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(getContext(), "Image Clicked", Toast.LENGTH_SHORT).show();
-        }
-    };
 
 }

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -21,6 +22,8 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cemara.labschool.id.rumahcemara.R;
 import cemara.labschool.id.rumahcemara.home.highlight.EventDetailActivity;
+import cemara.labschool.id.rumahcemara.util.MarkEventClickListener;
+import cemara.labschool.id.rumahcemara.util.MarkNewsClickListener;
 import cemara.labschool.id.rumahcemara.util.event.model.Event;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder>{
@@ -41,6 +44,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         TextView txtDateCreated;
         @BindView(R.id.cv_news)
         CardView parentLayout;
+        @BindView(R.id.share_news)
+        ImageView shareNews;
+        @BindView(R.id.mark_news)
+        ImageView markNews;
+
         EventViewHolder(@NonNull View itemView) {
             super(itemView);
             unbinder = ButterKnife.bind(this, itemView);
@@ -106,6 +114,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                 mContext.startActivity(intent);
             }
         });
+        eventViewHolder.markNews.setOnClickListener(new MarkEventClickListener(event));
+        eventViewHolder.shareNews.setOnClickListener(v -> Toast.makeText(mContext, "Share click", Toast.LENGTH_SHORT).show());
+
     }
 
     @Override
@@ -113,12 +124,4 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         return eventList.size();
     }
 
-//    private void showPopupMenu(View view) {
-//        // inflate menu
-//        PopupMenu popup = new PopupMenu(mContext, view);
-//        MenuInflater inflater = popup.getMenuInflater();
-//        inflater.inflate(R.menu.menu_album, popup.getMenu());
-//        popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
-//        popup.show();
-//    }
 }

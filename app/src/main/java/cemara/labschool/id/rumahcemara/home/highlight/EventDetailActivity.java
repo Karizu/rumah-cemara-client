@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,8 @@ import butterknife.ButterKnife;
 import cemara.labschool.id.rumahcemara.R;
 import cemara.labschool.id.rumahcemara.api.EventHelper;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.util.MarkArticleClickListener;
+import cemara.labschool.id.rumahcemara.util.MarkEventClickListener;
 import cemara.labschool.id.rumahcemara.util.dialog.Loading;
 import cemara.labschool.id.rumahcemara.util.event.adapter.EventAdapter;
 import cemara.labschool.id.rumahcemara.model.Event;
@@ -44,6 +47,13 @@ public class EventDetailActivity extends AppCompatActivity {
     TextView tvDate;
     @BindView(R.id.tvContent)
     TextView tvContent;
+    @BindView(R.id.mark_news_bottom)
+    ImageView markNewsBottom;
+    @BindView(R.id.mark_news_top)
+    ImageView markNewsTop;
+
+
+    cemara.labschool.id.rumahcemara.model.Event articleDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,13 +82,16 @@ public class EventDetailActivity extends AppCompatActivity {
             public void onSuccess(Headers headers, ApiResponse<cemara.labschool.id.rumahcemara.model.Event> body) {
                 Loading.hide(EventDetailActivity.this);
                 if (body != null && body.isStatus()) {
-                    cemara.labschool.id.rumahcemara.model.Event articleDetail=body.getData();
+                     articleDetail=body.getData();
                     Log.d("aa","sss");
 
                     tvAuthor.setText(articleDetail.getUserCreator().getProfile().getFullname());
                     tvTitle.setText(articleDetail.getTitle());
                     tvDate.setText(DateHelper.dateFormat(DateHelper.stringToDate(articleDetail.getCreatedAt())));
                     tvContent.setText(articleDetail.getContent());
+                    markNewsBottom.setOnClickListener(new MarkEventClickListener(articleDetail));
+                    markNewsTop.setOnClickListener(new MarkEventClickListener(articleDetail));
+
                 } else {
 //                        loadingDialog.dismiss();
                     Toast.makeText(EventDetailActivity.this, body.getMessage(), Toast.LENGTH_SHORT).show();
