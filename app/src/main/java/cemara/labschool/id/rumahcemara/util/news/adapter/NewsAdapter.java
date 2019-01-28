@@ -125,7 +125,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         });
         newsViewHolder.markNews.setOnClickListener(new MarkNewsClickListener(news));
 
-        newsViewHolder.shareNews.setOnClickListener(v -> Toast.makeText(mContext, "Share click", Toast.LENGTH_SHORT).show());
+        newsViewHolder.shareNews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(Intent.EXTRA_TEXT, news.getTitle()+
+                        "\n"+ news.getBanner());
+                mContext.startActivity(Intent.createChooser(sharingIntent, "Share using:"));
+            }
+        });
     }
 
     @Override

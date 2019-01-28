@@ -1,16 +1,20 @@
 package cemara.labschool.id.rumahcemara.home.highlight;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.rezkyatinnov.kyandroid.reztrofit.ErrorResponse;
 import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
 
@@ -32,8 +36,6 @@ import cemara.labschool.id.rumahcemara.util.article.model.Article;
 import okhttp3.Headers;
 
 public class ArticleDetailActivity extends AppCompatActivity {
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
     ArticleAdapter articleAdapter;
     List<Article> articleList = new ArrayList<>();
     @BindView(R.id.toolbar)
@@ -45,12 +47,14 @@ public class ArticleDetailActivity extends AppCompatActivity {
     TextView tvAuthor;
     @BindView(R.id.tvDate)
     TextView tvDate;
-    @BindView(R.id.tvContent)
-    TextView tvContent;
-    @BindView(R.id.mark_news_bottom)
-    ImageView markNewsBottom;
+    @BindView(R.id.article_detail_text)
+    WebView articleDetailContent;
+    @BindView(R.id.banner_news)
+    ImageView banner;
     @BindView(R.id.mark_news_top)
     ImageView markNewsTop;
+
+    Activity context;
 
     cemara.labschool.id.rumahcemara.model.Article articleDetail;
     @Override
@@ -62,6 +66,7 @@ public class ArticleDetailActivity extends AppCompatActivity {
         articleId=intent.getStringExtra("id");
         getListArticle();
         setToolbar();
+        context = this;
     }
 
     private void getListArticle() {
@@ -86,8 +91,21 @@ public class ArticleDetailActivity extends AppCompatActivity {
                     tvAuthor.setText(articleDetail.getUserCreator().getProfile().getFullname());
                     tvTitle.setText(articleDetail.getTitle());
                     tvDate.setText(DateHelper.dateFormat(DateHelper.stringToDate(articleDetail.getCreatedAt())));
-                    tvContent.setText(articleDetail.getContent());
-                    markNewsBottom.setOnClickListener(new MarkArticleClickListener(articleDetail));
+                    String content = "<html><head>"
+                            + "<style type=\"text/css\">body{color: #8f8f8f} p{font-size: 13px}"
+                            + "</style></head>"
+                            + "<body>"
+                            + articleDetail.getContent()
+                            + "</body></html>";
+
+                    Glide.with(context)
+                            .load(articleDetail.getBanner())
+                            .into(banner);
+
+                    articleDetailContent.getSettings().setJavaScriptEnabled(true);
+                    articleDetailContent.setBackgroundColor(Color.TRANSPARENT);
+                    articleDetailContent.loadDataWithBaseURL("", content, "text/html", "UTF-8", "");
+
                     markNewsTop.setOnClickListener(new MarkArticleClickListener(articleDetail));
 
                 } else {
@@ -120,6 +138,15 @@ public class ArticleDetailActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    @OnClick(R.id.mark_share)
+    public void shareArticle(){
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, articleDetail.getTitle()+
+                "\n"+ articleDetail.getBanner());
+        startActivity(Intent.createChooser(sharingIntent, "Share using:"));
     }
 
 }

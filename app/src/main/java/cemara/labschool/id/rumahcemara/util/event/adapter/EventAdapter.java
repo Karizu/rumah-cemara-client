@@ -115,7 +115,17 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             }
         });
         eventViewHolder.markNews.setOnClickListener(new MarkEventClickListener(event));
-        eventViewHolder.shareNews.setOnClickListener(v -> Toast.makeText(mContext, "Share click", Toast.LENGTH_SHORT).show());
+        eventViewHolder.shareNews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(Intent.EXTRA_TEXT, event.getTitle()+
+                        "\n"+ event.getBanner());
+                mContext.startActivity(Intent.createChooser(sharingIntent, "Share using:"));
+            }
+        });
 
     }
 
