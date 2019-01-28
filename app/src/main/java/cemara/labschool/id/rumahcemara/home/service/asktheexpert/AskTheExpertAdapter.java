@@ -61,6 +61,10 @@ public class AskTheExpertAdapter extends RecyclerView.Adapter<AskTheExpertAdapte
                 context.startActivity(intent);
             }
         });
+
+        if (status == 0) {
+            holder.notifContainer.setVisibility(View.INVISIBLE);
+        }
     }
 
     public static String dateFormater(String dateFromJSON, String expectedFormat, String oldFormat) {
@@ -85,6 +89,7 @@ public class AskTheExpertAdapter extends RecyclerView.Adapter<AskTheExpertAdapte
         public LinearLayout topicList;
         public TextView topicView;
         public TextView dateTopicView;
+        public LinearLayout notifContainer;
 
         public ViewHolder(View v){
             super(v);
@@ -92,6 +97,7 @@ public class AskTheExpertAdapter extends RecyclerView.Adapter<AskTheExpertAdapte
             topicView = (TextView) v.findViewById(R.id.topic);
             dateTopicView = (TextView) v.findViewById(R.id.date_topic);
             topicList = (LinearLayout) v.findViewById(R.id.topicList);
+            notifContainer = (LinearLayout) v.findViewById(R.id.notif_container);
         }
     }
 }
