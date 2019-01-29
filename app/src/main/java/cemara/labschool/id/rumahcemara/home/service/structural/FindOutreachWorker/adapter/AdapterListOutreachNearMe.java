@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cemara.labschool.id.rumahcemara.R;
@@ -129,6 +130,12 @@ public class AdapterListOutreachNearMe extends RecyclerView.Adapter<AdapterListO
             imageViewNearest = v.findViewById(R.id.nearest_img);
             linearLayout = v.findViewById(R.id.layout_article);
         }
+    }
+
+    public void updateData(List<NearestOutreachModel> newUser){
+        articleModels = new ArrayList<>();
+        articleModels.addAll(newUser);
+        notifyDataSetChanged();
     }
 
 }

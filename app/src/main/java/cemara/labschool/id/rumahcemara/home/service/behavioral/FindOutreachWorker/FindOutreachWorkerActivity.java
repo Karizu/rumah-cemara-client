@@ -49,6 +49,7 @@ import cemara.labschool.id.rumahcemara.model.OutreachLocationData;
 import cemara.labschool.id.rumahcemara.model.User;
 import cemara.labschool.id.rumahcemara.model.Worker;
 import cemara.labschool.id.rumahcemara.model.response.OutreachNearMeResponse;
+import cemara.labschool.id.rumahcemara.util.dialog.Loading;
 import cemara.labschool.id.rumahcemara.util.nearest.adapter.NearestAdapter;
 import cemara.labschool.id.rumahcemara.util.nearest.adapter.NearestSearchResultAdapter;
 import cemara.labschool.id.rumahcemara.util.nearest.adapter.NearestSearchResultAdapterApi;
@@ -115,8 +116,8 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
 
         int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
         EditText searchEditText = (EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        searchEditText.setTextColor(getResources().getColor(R.color.border_color));
-        searchEditText.setHintTextColor(getResources().getColor(R.color.border_color));
+        searchEditText.setTextColor(getResources().getColor(R.color.place_autocomplete_search_hint));
+        searchEditText.setHintTextColor(getResources().getColor(R.color.place_autocomplete_search_hint));
 
         searchView.setOnQueryTextListener(this);
 
@@ -141,10 +142,11 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
     }
 
     private void populateData() {
-
+        Loading.show(this);
         AppointmentHelper.getListOutreach(latitude, longitude, new RestCallback<ApiResponse<List<OutreachNearMeResponse>>>() {
             @Override
             public void onSuccess(Headers headers, ApiResponse<List<OutreachNearMeResponse>> body) {
+                Loading.hide(getApplicationContext());
                 if (body != null && body.isStatus()) {
                     List<OutreachNearMeResponse> res = body.getData();
                     System.out.println("Response: " + body.getData());
@@ -173,12 +175,12 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
 
             @Override
             public void onFailed(ErrorResponse error) {
-
+                Loading.hide(getApplicationContext());
             }
 
             @Override
             public void onCanceled() {
-
+                Loading.hide(getApplicationContext());
             }
         });
 
@@ -374,7 +376,7 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
         List<NearestOutreachModel> newWorker = new ArrayList<>();
         String newTextLowerCase = newText.toLowerCase();
         for (NearestOutreachModel user : articleModels) {
-            if (user.getUser().getProfile().getFullname().toLowerCase().contains(newTextLowerCase)) {
+            if (user.getName().toLowerCase().contains(newTextLowerCase)) {
                 newWorker.add(user);
             }
         }

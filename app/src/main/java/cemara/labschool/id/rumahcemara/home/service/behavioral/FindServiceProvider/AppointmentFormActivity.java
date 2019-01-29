@@ -45,6 +45,7 @@ import cemara.labschool.id.rumahcemara.home.service.biomedical.FindOutreachWorke
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.User;
 import cemara.labschool.id.rumahcemara.model.response.OutreachNearMeResponse;
+import cemara.labschool.id.rumahcemara.util.dialog.Loading;
 import io.realm.Realm;
 import okhttp3.Headers;
 import okhttp3.MultipartBody;
@@ -150,10 +151,11 @@ public class AppointmentFormActivity extends AppCompatActivity {
     }
 
     private void initSpinnerDosen() {
-
+        Loading.show(this);
         AppointmentHelper.getListOutreach(latitude, longitude, new RestCallback<ApiResponse<List<OutreachNearMeResponse>>>() {
             @Override
             public void onSuccess(Headers headers, ApiResponse<List<OutreachNearMeResponse>> body) {
+                Loading.hide(getApplicationContext());
                 if (body != null && body.isStatus()) {
                     List<OutreachNearMeResponse> res = body.getData();
                     listValue = new ArrayList<String>();
@@ -176,12 +178,12 @@ public class AppointmentFormActivity extends AppCompatActivity {
 
             @Override
             public void onFailed(ErrorResponse error) {
-
+                Loading.hide(getApplicationContext());
             }
 
             @Override
             public void onCanceled() {
-
+                Loading.hide(getApplicationContext());
             }
         });
 

@@ -47,6 +47,7 @@ import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.NearestOutreachModel;
 import cemara.labschool.id.rumahcemara.model.User;
 import cemara.labschool.id.rumahcemara.model.response.OutreachNearMeResponse;
+import cemara.labschool.id.rumahcemara.util.dialog.Loading;
 import io.realm.Realm;
 import okhttp3.Headers;
 import okhttp3.MultipartBody;
@@ -218,7 +219,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_send_appointment_form)
     void createAppointment() {
-
+        Loading.show(this);
         startDate = ((EditText) findViewById(R.id.appointment_date_start)).getText().toString();
         endDate = ((EditText) findViewById(R.id.appointment_date_end)).getText().toString();
         valueName = listValue.get(appointmentWorkerName.getSelectedItemPosition());
@@ -239,6 +240,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
         AppointmentHelper.createBiomedicalAppointmentOutreach(requestBody, new RestCallback<ApiResponse>() {
             @Override
             public void onSuccess(Headers headers, ApiResponse body) {
+                Loading.hide(getApplicationContext());
                 Log.d("Create Success", "Create Appointment Success");
                 Toast.makeText(getApplicationContext(), "Create Appointment Success", Toast.LENGTH_LONG).show();
                 showDialogAlert(R.layout.dialog_appointment_success);
@@ -260,6 +262,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
 
             @Override
             public void onFailed(ErrorResponse error) {
+                Loading.hide(getApplicationContext());
                 Log.d(error.toString(), "Error");
                 showDialogAlert(R.layout.dialog_appointment_failed);
                 TextView retry = dialog.findViewById(R.id.appointment_retry);
@@ -270,7 +273,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
 
             @Override
             public void onCanceled() {
-
+                Loading.hide(getApplicationContext());
             }
         });
     }

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cemara.labschool.id.rumahcemara.R;
-import cemara.labschool.id.rumahcemara.home.service.biomedical.FindOutreachWorker.AppointmentFormActivity;
+import cemara.labschool.id.rumahcemara.home.service.behavioral.FindOutreachWorker.AppointmentFormActivity;
 import cemara.labschool.id.rumahcemara.model.NearestOutreachModel;
 import cemara.labschool.id.rumahcemara.model.OutreachLocationData;
 
@@ -76,39 +76,42 @@ public class AdapterListOutreachNearMe extends RecyclerView.Adapter<AdapterListO
             TextView tvphone = dialog.findViewById(R.id.nearest_phone);
             TextView tvRange = dialog.findViewById(R.id.nearest_range);
             Glide.with(context).load(articleModel.getUser().getProfile().getPicture()).apply(RequestOptions.circleCropTransform()).into(imgProfile);
-            tvname.setText(name);
-            tvaddress.setText(address);
-            tvcity.setText(city);
-            tvphone.setText(phoneNumber);
-            tvRange.setText(distance);
+            if (tvname != null) {
+                tvname.setText(name);
+            }
+            if (tvaddress != null) {
+                tvaddress.setText(address);
+            }
+            if (tvcity != null) {
+                tvcity.setText(city);
+            }
+            if (tvphone != null) {
+                tvphone.setText(phoneNumber);
+            }
+            if (tvRange != null) {
+                tvRange.setText(distance);
+            }
 
             if (close != null) {
-                close.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
+                close.setOnClickListener(view1 -> dialog.dismiss());
             }
+
             Button btnAppointment = dialog.findViewById(R.id.btn_appointment);
             if (btnAppointment != null) {
-                btnAppointment.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", id);
-                        bundle.putString("user_id", userId);
-                        bundle.putString("imgUrl", srcImage);
-                        bundle.putString("fullname", name);
-                        bundle.putString("address", address);
-                        bundle.putString("phone", phoneNumber);
-                        bundle.putString("group_id", group_id);
-                        bundle.putString("worker_id", worker_id);
-                        bundle.putString("distance", distance);
-                        Intent intent = new Intent(view.getContext(), AppointmentFormActivity.class);
-                        intent.putExtra("myData", bundle);
-                        view.getContext().startActivity(intent);
-                    }
+                btnAppointment.setOnClickListener(view12 -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id", id);
+                    bundle.putString("user_id", userId);
+                    bundle.putString("imgUrl", srcImage);
+                    bundle.putString("fullname", name);
+                    bundle.putString("address", address);
+                    bundle.putString("phone", phoneNumber);
+                    bundle.putString("group_id", group_id);
+                    bundle.putString("worker_id", worker_id);
+                    bundle.putString("distance", distance);
+                    Intent intent = new Intent(view12.getContext(), AppointmentFormActivity.class);
+                    intent.putExtra("myData", bundle);
+                    view12.getContext().startActivity(intent);
                 });
             }
         });

@@ -7,28 +7,21 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.github.angads25.toggle.LabeledSwitch;
 import com.rezkyatinnov.kyandroid.localdata.LocalData;
 import com.rezkyatinnov.kyandroid.reztrofit.ErrorResponse;
 import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
 import com.squareup.picasso.Picasso;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -44,11 +37,12 @@ import cemara.labschool.id.rumahcemara.api.AppointmentHelper;
 import cemara.labschool.id.rumahcemara.home.service.biomedical.FindOutreachWorker.config.CircleTransform;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.User;
+import cemara.labschool.id.rumahcemara.util.dialog.CustomDialogSuccess;
+import cemara.labschool.id.rumahcemara.util.dialog.Loading;
 import io.realm.Realm;
 import okhttp3.Headers;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import cemara.labschool.id.rumahcemara.util.location.SetLocationActivity;
 
 public class AppointmentFormActivity extends AppCompatActivity {
 
@@ -151,7 +145,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_send_appointment)
     void createAppointment(){
-
+        Loading.show(this);
         startDate = ((EditText)findViewById(R.id.appointment_date_start)).getText().toString();
         endDate = ((EditText)findViewById(R.id.appointment_date_end)).getText().toString();
         RequestBody requestBody;
@@ -172,8 +166,14 @@ public class AppointmentFormActivity extends AppCompatActivity {
         AppointmentHelper.createBiomedicalAppointmentOutreach(requestBody, new RestCallback<ApiResponse>() {
             @Override
             public void onSuccess(Headers headers, ApiResponse body) {
+                Loading.hide(getApplicationContext());
                 Log.d("Create Success", "Create Appointment Success");
                 Toast.makeText(getApplicationContext(), "Create Appointment Success", Toast.LENGTH_LONG).show();
+//
+//                CustomDialogSuccess cdd = new CustomDialogSuccess(AppointmentFormActivity.this);
+//                cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//                cdd.show();
+
                 showDialogAlert(R.layout.dialog_appointment_success);
                 TextView gomylist = dialog.findViewById(R.id.appointment_gotomylist);
                 TextView ok = dialog.findViewById(R.id.appointment_ok);
@@ -194,6 +194,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
 
             @Override
             public void onFailed(ErrorResponse error) {
+                Loading.hide(getApplicationContext());
                 Log.d(error.toString(), "Error");
                 showDialogAlert(R.layout.dialog_appointment_failed);
                 TextView retry = dialog.findViewById(R.id.appointment_retry);
@@ -204,7 +205,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
 
             @Override
             public void onCanceled() {
-
+                Loading.hide(getApplicationContext());
             }
         });
     }
@@ -220,8 +221,8 @@ public class AppointmentFormActivity extends AppCompatActivity {
         Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(Objects.requireNonNull(dialog.getWindow()).getAttributes());
-//        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-//        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialog.show();
         dialog.getWindow().setAttributes(lp);
     }
