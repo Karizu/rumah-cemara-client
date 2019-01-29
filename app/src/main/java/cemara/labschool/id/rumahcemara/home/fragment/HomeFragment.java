@@ -86,8 +86,13 @@ public class HomeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.home_fragment, container, false);
         ButterKnife.bind(this, rootView);
         init();
-        getListNews();
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getListNews();
     }
 
     @OnClick(R.id.btn_biomedical)

@@ -29,10 +29,6 @@ public class ArticleList {
     @Expose
     private String creator;
 
-    @SerializedName("place")
-    @Expose
-    private String place;
-
     @SerializedName("created_at")
     @Expose
     private String createdAt;
@@ -102,14 +98,6 @@ public class ArticleList {
 
     public void setCreator(String creator) {
         this.creator = creator;
-    }
-
-    public String getPlace() {
-        return place;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
     }
 
     public String getCreatedAt() {

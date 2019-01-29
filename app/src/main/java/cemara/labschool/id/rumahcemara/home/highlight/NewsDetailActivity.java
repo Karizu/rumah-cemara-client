@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,8 @@ import butterknife.ButterKnife;
 import cemara.labschool.id.rumahcemara.R;
 import cemara.labschool.id.rumahcemara.api.NewsHelper;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.util.MarkEventClickListener;
+import cemara.labschool.id.rumahcemara.util.MarkNewsClickListener;
 import cemara.labschool.id.rumahcemara.util.dialog.Loading;
 import cemara.labschool.id.rumahcemara.util.helper.DateHelper;
 import cemara.labschool.id.rumahcemara.util.news.adapter.NewsAdapter;
@@ -46,7 +49,13 @@ public class NewsDetailActivity extends AppCompatActivity {
     TextView tvDate;
     @BindView(R.id.tvContent)
     TextView tvContent;
+    @BindView(R.id.mark_news_bottom)
+    ImageView markNewsBottom;
+    @BindView(R.id.mark_news_top)
+    ImageView markNewsTop;
 
+
+    cemara.labschool.id.rumahcemara.model.News newsDetail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,13 +83,16 @@ public class NewsDetailActivity extends AppCompatActivity {
             public void onSuccess(Headers headers, ApiResponse<cemara.labschool.id.rumahcemara.model.News> body) {
                 Loading.hide(NewsDetailActivity.this);
                 if (body != null && body.isStatus()) {
-                    cemara.labschool.id.rumahcemara.model.News newsDetail=body.getData();
+                    newsDetail=body.getData();
                     Log.d("aa","sss");
 
                     tvAuthor.setText(newsDetail.getUserCreator().getProfile().getFullname());
                     tvTitle.setText(newsDetail.getTitle());
                     tvDate.setText(DateHelper.dateFormat(DateHelper.stringToDate(newsDetail.getCreatedAt())));
                     tvContent.setText(newsDetail.getContent());
+                    markNewsBottom.setOnClickListener(new MarkNewsClickListener(newsDetail));
+                    markNewsTop.setOnClickListener(new MarkNewsClickListener(newsDetail));
+
                 } else {
 //                        loadingDialog.dismiss();
                     Toast.makeText(NewsDetailActivity.this, body.getMessage(), Toast.LENGTH_SHORT).show();

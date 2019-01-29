@@ -164,29 +164,45 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     @OnClick(R.id.email_sign_in_button)
     public void doSignUp(){
         Loading.show(SignUpActivity.this);
-        Bitmap bitmap = BitmapFactory.decodeFile(profileImage.getAbsolutePath());
+        RequestBody requestBody;
 
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
+        if (profileImage != null) {
+            Bitmap bitmap = BitmapFactory.decodeFile(profileImage.getAbsolutePath());
 
-        RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("username", email.getText().toString())
-                .addFormDataPart("email", email.getText().toString())
-                .addFormDataPart("birth_date", birthDate.getText().toString())
-                .addFormDataPart("fullname", name.getText().toString())
-                .addFormDataPart("password", password.getText().toString())
-                .addFormDataPart("gender", genderSpinner.getSelectedItem().toString())
-                .addFormDataPart("treatment_id", treatmentId.get(typeTreatmentSpinner.getSelectedItemPosition()))
-                .addFormDataPart("type", "client")
-                .addFormDataPart("picture", "photo.jpeg", RequestBody.create(MediaType.parse("image/jpeg"), byteArrayOutputStream.toByteArray()))
-                .build();
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
+
+            requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("username", email.getText().toString())
+                    .addFormDataPart("email", email.getText().toString())
+                    .addFormDataPart("birth_date", birthDate.getText().toString())
+                    .addFormDataPart("fullname", name.getText().toString())
+                    .addFormDataPart("password", password.getText().toString())
+                    .addFormDataPart("gender", genderSpinner.getSelectedItem().toString())
+                    .addFormDataPart("treatment_id", treatmentId.get(typeTreatmentSpinner.getSelectedItemPosition()))
+                    .addFormDataPart("type", "client")
+                    .addFormDataPart("picture", "photo.jpeg", RequestBody.create(MediaType.parse("image/jpeg"), byteArrayOutputStream.toByteArray()))
+                    .build();
+        } else {
+            requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("username", email.getText().toString())
+                    .addFormDataPart("email", email.getText().toString())
+                    .addFormDataPart("birth_date", birthDate.getText().toString())
+                    .addFormDataPart("fullname", name.getText().toString())
+                    .addFormDataPart("password", password.getText().toString())
+                    .addFormDataPart("gender", genderSpinner.getSelectedItem().toString())
+                    .addFormDataPart("treatment_id", treatmentId.get(typeTreatmentSpinner.getSelectedItemPosition()))
+                    .addFormDataPart("type", "client")
+                    .build();
+        }
 
         AuthHelper.register(requestBody, new RestCallback<ApiResponse>() {
             @Override
             public void onSuccess(Headers headers, ApiResponse body) {
                 Intent intent = new Intent(mContext, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
 

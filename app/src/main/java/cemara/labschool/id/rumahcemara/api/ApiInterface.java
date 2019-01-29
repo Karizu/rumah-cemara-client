@@ -26,6 +26,8 @@ import cemara.labschool.id.rumahcemara.model.User;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -63,6 +65,7 @@ public interface ApiInterface {
     @POST("serviceTransaction")
     Call<ApiResponse> createBiomedicalAppointmentOutreach(@Body RequestBody appointment);
 
+
     @POST("topic")
     Call<ApiResponse> createNewTopic(@Body RequestBody newTopicRequest);
 
@@ -80,6 +83,9 @@ public interface ApiInterface {
 
     @GET("generateToken")
     Call<ApiResponse<Token>> generateToken(@Query("user_id") String userId);
+
+    @GET("serviceTransaction/reportStatus")
+    Call<ApiResponse<List<GeneralDataResponse>>> getMyReport (@Query("user_id") String userId);
 
     /***************** News API *********************/
     @GET("news")
@@ -132,4 +138,8 @@ public interface ApiInterface {
 
     @POST("rating")
     Call<ApiResponse> createRating(@Body RequestBody rating);
+    @FormUrlEncoded
+    @POST("userList")
+    Call<ApiResponse> postCreateUserList(@Field("user_id") String userId, @Field("type") String type,@Field("type_id") String typeId,@Field("datetime") String datetime);
+
 }

@@ -3,6 +3,8 @@ package cemara.labschool.id.rumahcemara.mylist.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -66,8 +68,13 @@ public class MyListSaved extends Fragment {
                 false);
 
         recyclerView.setLayoutManager(layoutManager);
-        getSavedNews();
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getSavedNews();
     }
 
     private void getSavedNews() {
