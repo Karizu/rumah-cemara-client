@@ -43,5 +43,15 @@ public class AuthHelper {
         service.getEndpoint().generateToken(userId).enqueue(callback);
     }
 
+    public static void forgotPassword(String email, RestCallback<ApiResponse> callback){
+        Reztrofit<ApiInterface> service = Reztrofit.getInstance();
+        service.getEndpoint().postForgotPassword(email).enqueue(callback);
+    }
+
+    public static void recoverPassword(String email, String number, String password, RestCallback<ApiResponse> callback){
+        Reztrofit<ApiInterface> service = Reztrofit.getInstance();
+        service.getEndpoint().postRecoverPassword(email, number, password).enqueue(callback);
+    }
+
 
 }

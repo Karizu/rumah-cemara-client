@@ -87,6 +87,14 @@ public interface ApiInterface {
     @GET("serviceTransaction/reportStatus")
     Call<ApiResponse<List<GeneralDataResponse>>> getMyReport (@Query("user_id") String userId);
 
+    @POST("forgot")
+    @FormUrlEncoded
+    Call<ApiResponse> postForgotPassword (@Field("email") String email);
+
+    @POST("recover")
+    @FormUrlEncoded
+    Call<ApiResponse> postRecoverPassword (@Field("email") String email, @Field("number") String number, @Field("password") String password);
+
     /***************** News API *********************/
     @GET("news")
     Call<ApiResponse<List<News>>> getNews();

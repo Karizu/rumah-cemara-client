@@ -55,6 +55,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         CardView parentLayout;
         @BindView(R.id.mark_news)
         ImageView markNews;
+        @BindView(R.id.share_news)
+        ImageView share;
 
         ArticleViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -123,6 +125,17 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         });
 
         articleViewHolder.markNews.setOnClickListener(new MarkArticleClickListener(article));
+        articleViewHolder.share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(Intent.EXTRA_TEXT, article.getTitle()+
+                        "\n"+ article.getBanner());
+                mContext.startActivity(Intent.createChooser(sharingIntent, "Share using:"));
+            }
+        });
     }
 
     @Override

@@ -3,6 +3,7 @@ package cemara.labschool.id.rumahcemara.mylist.fragment.Adapter;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -65,11 +66,26 @@ public class MyListAppointmentAdapter extends RecyclerView.Adapter<MyListAppoint
         switch (myAppointmentSelected.getStatus()){
             case 0:
                 holder.statusAppointment.setText("On Progress");
+                holder.statusAppointment.setTextColor(Color.parseColor("#8f8f8f"));
                 holder.chatContainer.setVisibility(View.INVISIBLE);
                 break;
 
             case 1:
                 holder.statusAppointment.setText("Accepted");
+                break;
+        }
+
+        switch (myAppointmentSelected.getService_type().getName()){
+            case "Biomedical":
+                holder.serviceImageView.setImageResource(R.drawable.icon_biomedical);
+                break;
+
+            case "Behavioral":
+                holder.serviceImageView.setImageResource(R.drawable.icon_behavioral);
+                break;
+
+            case "Legal Counseling":
+                holder.serviceImageView.setImageResource(R.drawable.icon_structural);
                 break;
         }
 
