@@ -84,6 +84,8 @@
         <activity android:name=".home.service.structural.FindServiceProvider.FindServiceProviderActivity" />
         <activity android:name=".mylist.fragment.activity.ChatAppointmentActivity" />
         <activity android:name=".options.fragment.activity.WebActivity" />
+        <activity android:name=".auth.activity.ForgotPasswordActivity"/>
+        <activity android:name=".auth.activity.RecoverPasswordActivity"/>
 
     </application>
 
