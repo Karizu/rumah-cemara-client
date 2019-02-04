@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cemara.labschool.id.rumahcemara.R;
@@ -92,23 +93,20 @@ public class AdapterListOutreachNearMe extends RecyclerView.Adapter<AdapterListO
             }
             Button btnAppointment = dialog.findViewById(R.id.btn_appointment);
             if (btnAppointment != null) {
-                btnAppointment.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", id);
-                        bundle.putString("user_id", userId);
-                        bundle.putString("imgUrl", srcImage);
-                        bundle.putString("fullname", name);
-                        bundle.putString("address", address);
-                        bundle.putString("phone", phoneNumber);
-                        bundle.putString("group_id", group_id);
-                        bundle.putString("worker_id", worker_id);
-                        bundle.putString("distance", distance);
-                        Intent intent = new Intent(view.getContext(), AppointmentFormActivity.class);
-                        intent.putExtra("myData", bundle);
-                        view.getContext().startActivity(intent);
-                    }
+                btnAppointment.setOnClickListener(view1 -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id", id);
+                    bundle.putString("user_id", userId);
+                    bundle.putString("imgUrl", srcImage);
+                    bundle.putString("fullname", name);
+                    bundle.putString("address", address);
+                    bundle.putString("phone", phoneNumber);
+                    bundle.putString("group_id", group_id);
+                    bundle.putString("worker_id", worker_id);
+                    bundle.putString("distance", distance);
+                    Intent intent = new Intent(view1.getContext(), AppointmentFormActivity.class);
+                    intent.putExtra("myData", bundle);
+                    view1.getContext().startActivity(intent);
                 });
             }
         });
@@ -131,6 +129,12 @@ public class AdapterListOutreachNearMe extends RecyclerView.Adapter<AdapterListO
             imageViewNearest = v.findViewById(R.id.nearest_img);
             linearLayout = v.findViewById(R.id.layout_article);
         }
+    }
+
+    public void updateData(List<NearestOutreachModel> newUser){
+        articleModels = new ArrayList<>();
+        articleModels.addAll(newUser);
+        notifyDataSetChanged();
     }
 
 }

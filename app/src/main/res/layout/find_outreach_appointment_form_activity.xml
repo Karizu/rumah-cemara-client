@@ -194,29 +194,28 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_grey_transparent"
                     android:layout_marginBottom="@dimen/margin_padding_size_medium">
-                    <AutoCompleteTextView
+                    <EditText
                         android:id="@+id/appointment_location"
                         android:layout_width="0dp"
                         android:layout_weight="10"
                         android:layout_height="wrap_content"
                         android:overScrollMode="always"
-                        android:drawableStart="@drawable/ic_location_on"
                         android:drawablePadding="@dimen/margin_padding_size_small"
                         android:background="@android:color/transparent"
                         android:padding="@dimen/margin_padding_size_small"
                         android:textSize="@dimen/text_size_small" />
-                    <LinearLayout
-                        android:id="@+id/appointment_getlocation"
-                        android:layout_width="40dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/left_radius_grey"
-                        android:gravity="center">
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="@dimen/margin_padding_size_micro"
-                            app:srcCompat="@drawable/icon_location_button"/>
-                    </LinearLayout>
+                    <!--<LinearLayout-->
+                        <!--android:id="@+id/appointment_getlocation"-->
+                        <!--android:layout_width="40dp"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:background="@drawable/left_radius_grey"-->
+                        <!--android:gravity="center">-->
+                        <!--<ImageView-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:padding="@dimen/margin_padding_size_micro"-->
+                            <!--app:srcCompat="@drawable/icon_location_button"/>-->
+                    <!--</LinearLayout>-->
                 </LinearLayout>
 
             </LinearLayout>

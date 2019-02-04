@@ -39,6 +39,7 @@ import cemara.labschool.id.rumahcemara.api.AppointmentHelper;
 import cemara.labschool.id.rumahcemara.home.service.biomedical.FindOutreachWorker.config.CircleTransform;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.User;
+import cemara.labschool.id.rumahcemara.util.dialog.Loading;
 import cemara.labschool.id.rumahcemara.util.location.SetLocationActivity;
 import io.realm.Realm;
 import okhttp3.Headers;
@@ -57,7 +58,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
     @BindView(R.id.appointment_material_description)
     EditText descriptionMaterial;
     @BindView(R.id.appointment_location)
-    AutoCompleteTextView appointmentLocation;
+    EditText appointmentLocation;
     EditText changeTo;
     final Calendar myCalendar = Calendar.getInstance();
     DatePickerDialog.OnDateSetListener date = (datePicker, year, month, day) -> {
@@ -66,6 +67,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
         myCalendar.set(Calendar.DAY_OF_MONTH, day);
         updateLabel(changeTo);
     };
+    private boolean validate = false;
 
     private void updateLabel(EditText date) {
         String myFormat = "MM/dd/yyyy"; //In which you need put here
@@ -80,9 +82,9 @@ public class AppointmentFormActivity extends AppCompatActivity {
 
     String user_id, groupId, workerId;
     String typeProvider = "worker";
-    String serviceTypeId = "17c00365-4987-5f1e-925b-2119fbe5ff8c";
-    String startDate = "2019-01-26";
-    String endDate = "2019-01-28";
+    String serviceTypeId = "b1cd92a3-2f47-5776-aa60-31c58c9f5291";
+    String startDate;
+    String endDate;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -110,12 +112,12 @@ public class AppointmentFormActivity extends AppCompatActivity {
             return false;
         });
 
-        // Get the string array
-        String[] testArray = getResources().getStringArray(R.array.test_array);
-        // Create the adapter and set it to the AutoCompleteTextView
-        ArrayAdapter<String> adapterLocation =
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, testArray);
-        appointmentLocation.setAdapter(adapterLocation);
+//        // Get the string array
+//        String[] testArray = getResources().getStringArray(R.array.test_array);
+//        // Create the adapter and set it to the AutoCompleteTextView
+//        ArrayAdapter<String> adapterLocation =
+//                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, testArray);
+//        appointmentLocation.setAdapter(adapterLocation);
     }
 
     private void populateData(){
@@ -144,62 +146,85 @@ public class AppointmentFormActivity extends AppCompatActivity {
         tvDistance.setText(distance);
     }
 
+    private void validateField() {
+
+        startDate = ((EditText) findViewById(R.id.appointment_date_start)).getText().toString();
+        endDate = ((EditText) findViewById(R.id.appointment_date_end)).getText().toString();
+
+        if (descriptionMaterial.getText().toString().length() == 0) {
+            descriptionMaterial.setError("Description is required!");
+        }
+        if (startDate.length() == 0) {
+            Toast.makeText(this, "Start Date is required", Toast.LENGTH_SHORT).show();
+        }
+        if (endDate.length() == 0) {
+            Toast.makeText(this, "End Date is required", Toast.LENGTH_SHORT).show();
+        }
+        Loading.hide(getApplicationContext());
+    }
+
     @OnClick(R.id.btn_send_appointment)
-    void createAppointment(){
+    void createAppointment() {
+        Loading.show(this);
+        validateField();
 
-        startDate = ((EditText)findViewById(R.id.appointment_date_start)).getText().toString();
-        endDate = ((EditText)findViewById(R.id.appointment_date_end)).getText().toString();
-        RequestBody requestBody;
-        requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("group_id", groupId)
-                .addFormDataPart("user_id", user_id)
-                .addFormDataPart("provider_id", workerId)
-                .addFormDataPart("service_type_id", serviceTypeId)
-                .addFormDataPart("worker_id", workerId)
-                .addFormDataPart("start_date", startDate)
-                .addFormDataPart("end_date", endDate)
-                .addFormDataPart("description", descriptionMaterial.getText().toString())
-                .addFormDataPart("type_provider", typeProvider)
-                .build();
+        if (descriptionMaterial.getText().toString().length() != 0 && startDate.length() != 0 && endDate.length() != 0) {
+            Loading.show(this);
+            RequestBody requestBody;
+            requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("group_id", groupId)
+                    .addFormDataPart("user_id", user_id)
+                    .addFormDataPart("provider_id", workerId)
+                    .addFormDataPart("service_type_id", serviceTypeId)
+                    .addFormDataPart("worker_id", workerId)
+                    .addFormDataPart("start_date", startDate)
+                    .addFormDataPart("end_date", endDate)
+                    .addFormDataPart("description", descriptionMaterial.getText().toString())
+                    .addFormDataPart("type_provider", typeProvider)
+                    .addFormDataPart("location", appointmentLocation.getText().toString())
+                    .build();
 
-        AppointmentHelper.createBiomedicalAppointmentOutreach(requestBody, new RestCallback<ApiResponse>() {
-            @Override
-            public void onSuccess(Headers headers, ApiResponse body) {
-                Log.d("Create Success", "Create Appointment Success");
-                Toast.makeText(getApplicationContext(), "Create Appointment Success", Toast.LENGTH_LONG).show();
-                showDialogAlert(R.layout.dialog_appointment_success);
-                TextView gomylist = dialog.findViewById(R.id.appointment_gotomylist);
-                TextView ok = dialog.findViewById(R.id.appointment_ok);
-                gomylist.setOnClickListener(view -> {
-                    Intent intent = new Intent(AppointmentFormActivity.this, MainActivity.class);
-                    intent.putExtra("frag", "mylistfragment");
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                });
-                ok.setOnClickListener(view -> {
-                    Intent intent = new Intent(AppointmentFormActivity.this, MainActivity.class);
-                    intent.putExtra("frag", "homeFragment");
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                });
-            }
+            AppointmentHelper.createBiomedicalAppointmentOutreach(requestBody, new RestCallback<ApiResponse>() {
+                @Override
+                public void onSuccess(Headers headers, ApiResponse body) {
+                    Loading.hide(getApplicationContext());
+                    Log.d("Create Success", "Create Appointment Success");
+                    Toast.makeText(getApplicationContext(), "Create Appointment Success", Toast.LENGTH_LONG).show();
+                    showDialogAlert(R.layout.dialog_appointment_success);
+                    TextView gomylist = dialog.findViewById(R.id.appointment_gotomylist);
+                    TextView ok = dialog.findViewById(R.id.appointment_ok);
+                    gomylist.setOnClickListener(view -> {
+                        Intent intent = new Intent(AppointmentFormActivity.this, MainActivity.class);
+                        intent.putExtra("frag", "mylistfragment");
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    });
+                    ok.setOnClickListener(view -> {
+                        Intent intent = new Intent(AppointmentFormActivity.this, MainActivity.class);
+                        intent.putExtra("frag", "homeFragment");
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    });
+                }
 
-            @Override
-            public void onFailed(ErrorResponse error) {
-                Log.d(error.toString(), "Error");
-                showDialogAlert(R.layout.dialog_appointment_failed);
-                TextView retry = dialog.findViewById(R.id.appointment_retry);
-                TextView ok = dialog.findViewById(R.id.appointment_ok);
-                retry.setOnClickListener(view -> dialog.findViewById(R.id.btn_send_appointment).callOnClick());
-                ok.setOnClickListener(view -> dialog.dismiss());
-            }
+                @Override
+                public void onFailed(ErrorResponse error) {
+                    Loading.hide(getApplicationContext());
+                    Log.d(error.toString(), "Error");
+                    showDialogAlert(R.layout.dialog_appointment_failed);
+                    TextView retry = dialog.findViewById(R.id.appointment_retry);
+                    TextView ok = dialog.findViewById(R.id.appointment_ok);
+                    retry.setOnClickListener(view -> dialog.findViewById(R.id.btn_send_appointment).callOnClick());
+                    ok.setOnClickListener(view -> dialog.dismiss());
+                }
 
-            @Override
-            public void onCanceled() {
-
-            }
-        });
+                @Override
+                public void onCanceled() {
+                    Loading.hide(getApplicationContext());
+                }
+            });
+        }
     }
 
     private void showDialogAlert(int layout) {
@@ -234,11 +259,13 @@ public class AppointmentFormActivity extends AppCompatActivity {
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
-    @OnClick(R.id.appointment_getlocation)
-    public void getLocation(){
-        Intent intent = new Intent(this, SetLocationActivity.class);
-        startActivityForResult(intent,1);
-    }
+
+//    @OnClick(R.id.appointment_getlocation)
+//    public void getLocation(){
+//        Intent intent = new Intent(this, SetLocationActivity.class);
+//        startActivityForResult(intent,1);
+//    }
+
     public void setToolbar() {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);

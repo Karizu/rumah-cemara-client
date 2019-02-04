@@ -1,70 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    android:layout_marginTop="@dimen/margin_padding_size_small"
-    android:layout_marginLeft="@dimen/margin_padding_size_small"
-    android:layout_marginRight="@dimen/margin_padding_size_small"
-    android:id="@+id/row_appointment"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="5dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:id="@+id/layout_article"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/image"
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/row_appointment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_padding_size_small"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="@dimen/standard_touch_size"
-            android:layout_height="@dimen/standard_touch_size"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/margin_padding_size_medium"
-            android:layout_marginRight="@dimen/margin_padding_size_medium"
-            android:src="@drawable/select_dp" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/margin_padding_size_small"
-            android:background="@drawable/line" />
+        android:layout_marginLeft="@dimen/margin_padding_size_small"
+        android:layout_marginTop="@dimen/margin_padding_size_small"
+        android:layout_marginRight="@dimen/margin_padding_size_small"
+        android:layout_marginBottom="@dimen/margin_padding_size_small"
+        app:cardCornerRadius="5dp">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="8"
+            android:id="@+id/image"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_padding_size_small"
-            android:layout_marginRight="@dimen/margin_padding_size_small"
+            android:layout_margin="@dimen/margin_padding_size_small"
             android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Akmal M Kristanto"
-                android:textColor="@color/Black"
-                android:textSize="@dimen/text_size_small"
-                android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="@dimen/standard_touch_size"
+                android:layout_height="@dimen/standard_touch_size"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/margin_padding_size_medium"
+                android:layout_marginRight="@dimen/margin_padding_size_medium"
+                android:src="@drawable/select_dp" />
 
-            <TextView
-                android:id="@+id/status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Complete"
-                android:textColor="@color/Gray"
-                android:textSize="@dimen/text_size_micro" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/margin_padding_size_small"
+                android:background="@drawable/line" />
 
-            <TextView
-                android:id="@+id/appointment_name"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/legal_aid"
-                android:visibility="gone"
-                android:textSize="@dimen/text_size_micro" />
+                android:layout_marginLeft="@dimen/margin_padding_size_small"
+                android:layout_marginRight="@dimen/margin_padding_size_small"
+                android:layout_weight="8"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvFullname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Akmal M Kristanto"
+                    android:textColor="@color/Black"
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Complete"
+                    android:textColor="@color/Gray"
+                    android:textSize="@dimen/text_size_micro" />
+
+                <TextView
+                    android:id="@+id/appointment_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/legal_aid"
+                    android:textSize="@dimen/text_size_micro"
+                    android:visibility="gone" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
+</FrameLayout>

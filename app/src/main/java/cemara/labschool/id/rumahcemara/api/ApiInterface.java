@@ -6,10 +6,12 @@ import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.Article;
 import cemara.labschool.id.rumahcemara.model.Chat;
 import cemara.labschool.id.rumahcemara.model.Event;
+import cemara.labschool.id.rumahcemara.model.HistoryList;
 import cemara.labschool.id.rumahcemara.model.ListReminder;
 import cemara.labschool.id.rumahcemara.model.ListSaved;
 import cemara.labschool.id.rumahcemara.model.Token;
 import cemara.labschool.id.rumahcemara.model.response.GeneralDataResponse;
+import cemara.labschool.id.rumahcemara.model.response.HistoryListResponse;
 import cemara.labschool.id.rumahcemara.model.response.OutreachLocationDataResponse;
 import cemara.labschool.id.rumahcemara.model.response.OutreachNearMeResponse;
 import cemara.labschool.id.rumahcemara.model.response.ProviderNearMeResponse;
@@ -63,7 +65,6 @@ public interface ApiInterface {
     @POST("serviceTransaction")
     Call<ApiResponse> createBiomedicalAppointmentOutreach(@Body RequestBody appointment);
 
-
     @POST("topic")
     Call<ApiResponse> createNewTopic(@Body RequestBody newTopicRequest);
 
@@ -84,6 +85,14 @@ public interface ApiInterface {
 
     @GET("serviceTransaction/reportStatus")
     Call<ApiResponse<List<GeneralDataResponse>>> getMyReport (@Query("user_id") String userId);
+
+    @POST("forgot")
+    @FormUrlEncoded
+    Call<ApiResponse> postForgotPassword (@Field("email") String email);
+
+    @POST("recover")
+    @FormUrlEncoded
+    Call<ApiResponse> postRecoverPassword (@Field("email") String email, @Field("number") String number, @Field("password") String password);
 
     /***************** News API *********************/
     @GET("news")
@@ -130,6 +139,12 @@ public interface ApiInterface {
     @GET("userList")
     Call<ApiResponse<List<ListSaved>>> getListSaved(@Query("user_id") String userId, @Query("type") String type);
 
+    /***************** List Appointment History API *********************/
+    @GET("serviceTransaction/myHistory")
+    Call<ApiResponse<List<HistoryListResponse>>> getHistoryAppointment(@Query("user_id") String userId);
+
+    @POST("rating")
+    Call<ApiResponse> createRating(@Body RequestBody rating);
     @FormUrlEncoded
     @POST("userList")
     Call<ApiResponse> postCreateUserList(@Field("user_id") String userId, @Field("type") String type,@Field("type_id") String typeId,@Field("datetime") String datetime);

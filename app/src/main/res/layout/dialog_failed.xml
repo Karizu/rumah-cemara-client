@@ -4,12 +4,11 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    style="@style/sfDisplayFont"
-    android:theme="@style/DialogTheme">
+    android:background="@drawable/dialog_theme">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/margin_padding_size_medium"
+        android:padding="@dimen/margin_padding_size_small"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,19 +20,20 @@
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:layout_margin="@dimen/margin_padding_size_micro"
-                android:src="@drawable/icon_berhasil" />
+                android:src="@drawable/icon_gagal" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textColor="@color/Black"
                 android:textSize="@dimen/text_size_medium"
-                android:text="Your Appointment has been sent"/>
+                android:text="Failed Send Your Appointment"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/NormalGreyText"
-                android:text="Check Your Appointment List"/>
+                android:layout_marginBottom="@dimen/margin_padding_size_micro"
+                android:text="Bad Connection"/>
 
         </LinearLayout>
         <View
@@ -47,23 +47,26 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
+                android:id="@+id/appointment_retry"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="@dimen/margin_padding_size_small"
+                android:padding="@dimen/margin_padding_size_micro"
                 android:gravity="center_horizontal"
-                android:textColor="@color/green_text"
-                android:text="Go to My List"/>
-            <view
+                android:textColor="@color/red_text"
+                android:text="RETRY"/>
+            <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/line"/>
             <TextView
+                android:id="@+id/appointment_ok"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:padding="@dimen/margin_padding_size_small"
-                android:textColor="@color/green_text"
+                android:padding="@dimen/margin_padding_size_micro"
+                android:textColor="@color/red_text"
                 android:layout_weight="1"
+                style="@style/ButtonDialog"
                 android:gravity="center_horizontal"
                 android:text="OK"/>
         </LinearLayout>

@@ -5,6 +5,7 @@
     <color name="colorAccent">@color/FocusColorText</color>
 
     <!--list color-->
+    <color name="transparent">#55555555</color>
     <color name="White">#FFFFFF</color>
     <color name="Ivory">#FFFFF0</color>
     <color name="LightYellow">#FFFFE0</color>

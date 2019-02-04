@@ -6,8 +6,10 @@
     android:orientation="vertical"
     android:background="@color/White"
     tools:context=".mylist.fragment.MyListSaved">
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/saved_list_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
 </LinearLayout>

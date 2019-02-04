@@ -1,6 +1,7 @@
 package cemara.labschool.id.rumahcemara.home.service.biomedical.FindOutreachWorker;
 
 import android.annotation.SuppressLint;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -18,6 +19,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
@@ -55,8 +57,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cemara.labschool.id.rumahcemara.R;
+import cemara.labschool.id.rumahcemara.util.dialog.Loading;
 import cemara.labschool.id.rumahcemara.util.nearest.adapter.NearestAdapter;
 import cemara.labschool.id.rumahcemara.util.nearest.adapter.NearestSearchResultAdapter;
+import cemara.labschool.id.rumahcemara.util.nearest.adapter.adapter.nearest.search.biomedical.NearestSearchResultAdapterApi;
 import cemara.labschool.id.rumahcemara.util.nearest.modal.Nearest;
 
 import cemara.labschool.id.rumahcemara.api.Api;
@@ -73,7 +77,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FindOutreachWorkerActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
+public class FindOutreachWorkerActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener, SearchView.OnQueryTextListener {
     private GoogleMap mMap, mOutreach;
     private static final String TAG = "FindOutreachWorker";
     @BindView(R.id.toolbar)
@@ -88,7 +92,7 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
     NearestAdapter nearestAdapter;
     double longitude, latitude;
     private List<NearestOutreachModel> articleModels;
-    private RecyclerView.Adapter adapter;
+    private AdapterListOutreachNearMe adapter;
     private Context activity;
     private LinearLayoutManager layoutManager;
     String sBearerToken;
@@ -104,12 +108,14 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
     BottomSheetBehavior sheetBehavior;
 
     List<Nearest> nearestSearchList = new ArrayList<>();
-    NearestSearchResultAdapter nearestSearchAdapter;
+    NearestSearchResultAdapterApi nearestSearchAdapter;
 
     private GoogleApiClient mGoogleApiClient;
     private Location mLocation;
     private LocationManager locationManager;
     private LocationRequest mLocationRequest;
+    int TAG_CODE_PERMISSION_LOCATION;
+    String Latitude, Longitude;
 
     Location mLastLocation;
 
@@ -132,20 +138,56 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
-        setupAutocomplete();
+
+        SearchView searchView = findViewById(R.id.search_view);
+        searchView.setQueryHint("Seacrh Outreach Worker Name or Location");
+
+        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        EditText searchEditText = (EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchEditText.setTextColor(getResources().getColor(R.color.place_autocomplete_search_hint));
+        searchEditText.setHintTextColor(getResources().getColor(R.color.place_autocomplete_search_hint));
+
+        searchView.setOnQueryTextListener(this);
+
+        searchView.setOnClickListener(v -> {
+
+                    getListNearestSearch();
+                    searchView.setIconified(false);
+                }
+        );
+
+//        setupAutocomplete();
         sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
         sheetBehavior.setHideable(true);//Important to add
         sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
-        latitude = -6.893870;
-        longitude = 107.631200;
+        Bundle bundle = getIntent().getBundleExtra("myData");   //<< get Bundle from Intent
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
+        latitude = Double.parseDouble(bundle.getString("latitude"));
+        longitude = Double.parseDouble(bundle.getString("longitude"));
+//        latitude = -6.893870;
+//        longitude = 107.631200;
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            Log.i("fuck", "need permissions....");
+            ActivityCompat.requestPermissions(this, new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,},
+                    TAG_CODE_PERMISSION_LOCATION);
+        }
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
+
+//        mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                .addConnectionCallbacks(this)
+//                .addOnConnectionFailedListener(this)
+//                .addApi(LocationServices.API)
+//                .build();
+//        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         bottomSheetExpand();
 //        getListNearest();
@@ -171,7 +213,7 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
                 Toast toast = Toast.makeText(getApplicationContext(), String.valueOf(place.getAddress()), Toast.LENGTH_SHORT);
                 toast.show();
 
-                getListNearestSearch();
+//                getListNearestSearch();
             }
 
             @SuppressLint("LongLogTag")
@@ -226,10 +268,11 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
     }
 
     private void populateData() {
-
+        Loading.show(this);
         AppointmentHelper.getListOutreach(latitude, longitude, new RestCallback<ApiResponse<List<OutreachNearMeResponse>>>() {
             @Override
             public void onSuccess(Headers headers, ApiResponse<List<OutreachNearMeResponse>> body) {
+                Loading.hide(getApplicationContext());
                 if (body != null && body.isStatus()) {
                     List<OutreachNearMeResponse> res = body.getData();
                     System.out.println("Response: " + body.getData());
@@ -256,12 +299,12 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
 
             @Override
             public void onFailed(ErrorResponse error) {
-
+                Loading.hide(getApplicationContext());
             }
 
             @Override
             public void onCanceled() {
-
+                Loading.hide(getApplicationContext());
             }
         });
 
@@ -293,18 +336,50 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
 //             sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 ////             btnBottomSheet.setText("Expand sheet");
 //         }
-        nearestSearchList.clear();
-        nearestSearchList.add(new Nearest(R.drawable.select_dp, "Searched", "2 km", "1a"));
-        nearestSearchList.add(new Nearest(R.drawable.select_dp, "and", "4 km", "2a"));
-        nearestSearchList.add(new Nearest(R.drawable.select_dp, "Found", "1 km", "3a"));
-        nearestSearchAdapter = new NearestSearchResultAdapter(getApplicationContext(), nearestSearchList,"outreach");
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        resultRecyclerView.setLayoutManager(layoutManager);
-        resultRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        resultRecyclerView.setAdapter(nearestSearchAdapter);
-        nearestSearchAdapter.notifyDataSetChanged();
 
+        AppointmentHelper.getListOutreach(latitude, longitude, new RestCallback<ApiResponse<List<OutreachNearMeResponse>>>() {
+            @Override
+            public void onSuccess(Headers headers, ApiResponse<List<OutreachNearMeResponse>> body) {
+                if (body != null && body.isStatus()) {
+                    List<OutreachNearMeResponse> res = body.getData();
+                    System.out.println("Response List Search: " + body.getData());
+                    articleModels = new ArrayList<>();
+                    for (int i = 0; i < res.size(); i++) {
+//                        OutreachLocationData outreachLocationData = res.get(i).getOutreachLocationData();
+//                        workerModels.add(outreachLocationData);
+                        OutreachNearMeResponse article = res.get(i);
+                        articleModels.add(new NearestOutreachModel(article.getId(),
+                                article.getUser_id(),
+                                article.getUser().getProfile().getPicture(),
+                                article.getUser().getProfile().getFullname(),
+                                article.getDescription(),
+                                article.getUser().getProfile().getAddress(),
+                                article.getUser().getProfile().getCity(),
+                                article.getUser().getProfile().getPhoneNumber(),
+                                article.getDistance(),
+                                article.getUser(),
+                                article.getGroup()));
+                    }
+
+                    nearestSearchAdapter = new NearestSearchResultAdapterApi(articleModels, activity);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                    resultRecyclerView.setLayoutManager(layoutManager);
+                    resultRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                    resultRecyclerView.setAdapter(nearestSearchAdapter);
+                }
+            }
+
+            @Override
+            public void onFailed(ErrorResponse error) {
+
+            }
+
+            @Override
+            public void onCanceled() {
+
+            }
+        });
     }
 
 
@@ -348,80 +423,119 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
 
     }
 
-    @Override
-    public void onConnected(Bundle connectionHint) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        } startLocationUpdates();
-        mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if(mLocation == null){
-            startLocationUpdates();
-        }
-        if (mLocation != null) {
-            latitude = mLocation.getLatitude();
-            longitude = mLocation.getLongitude();
-            System.out.println("LatLng: "+latitude+" "+longitude);
-        } else {
-            // Toast.makeText(this, "Location not Detected", Toast.LENGTH_SHORT).show();
-        }
-    }
+//    @Override
+//    public void onConnected(Bundle connectionHint) {
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return;
+//        } startLocationUpdates();
+//        mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+//        if(mLocation == null){
+//            startLocationUpdates();
+//        }
+//        if (mLocation != null) {
+//            latitude = mLocation.getLatitude();
+//            longitude = mLocation.getLongitude();
+//            System.out.println("LatLng: "+latitude+" "+longitude);
+//        } else {
+//            // Toast.makeText(this, "Location not Detected", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
-    protected void startLocationUpdates() {
-        // Create the location request
-        mLocationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(10)
-                .setFastestInterval(5);
-        // Request location updates
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
-                mLocationRequest, this);
-        Log.d("reque", "--->>>>");
-    }
+//    protected void startLocationUpdates() {
+//        // Create the location request
+//        mLocationRequest = LocationRequest.create()
+//                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+//                .setInterval(10)
+//                .setFastestInterval(5);
+//        // Request location updates
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return;
+//        }
+//        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
+//                mLocationRequest, (com.google.android.gms.location.LocationListener) this);
+//        Log.d("reque", "--->>>>");
+//    }
 
-    @Override
-    public void onConnectionSuspended(int i) {
-        Log.i(TAG, "Connection Suspended");
-        mGoogleApiClient.connect();
-    }
+//    @Override
+//    public void onConnectionSuspended(int i) {
+//        Log.i(TAG, "Connection Suspended");
+//        mGoogleApiClient.connect();
+//    }
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.i(TAG, "Connection failed. Error: " + connectionResult.getErrorCode());
-    }
+//    @Override
+//    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+//        Log.i(TAG, "Connection failed. Error: " + connectionResult.getErrorCode());
+//    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        mGoogleApiClient.connect();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
-        }
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        mGoogleApiClient.connect();
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        if (mGoogleApiClient.isConnected()) {
+//            mGoogleApiClient.disconnect();
+//        }
+//    }
 
     @Override
     public void onLocationChanged(Location location) {
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+        Log.d("Latitude", String.valueOf(latitude));
+        Log.d("Longitude", String.valueOf(longitude));
+    }
 
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        Log.d("Latitude","status");
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        Log.d("Latitude","enabled");
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Log.d("Latitude","disable");
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+
+        List<NearestOutreachModel> newWorker = new ArrayList<>();
+        String newTextLowerCase = newText.toLowerCase();
+        for (NearestOutreachModel user : articleModels) {
+            if (user.getName().toLowerCase().contains(newTextLowerCase)) {
+                newWorker.add(user);
+            }
+        }
+
+//        adapter.updateData(newWorker);
+        nearestSearchAdapter.updateData(newWorker);
+        return true;
     }
 }

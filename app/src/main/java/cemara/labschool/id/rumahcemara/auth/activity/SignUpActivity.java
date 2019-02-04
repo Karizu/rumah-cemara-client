@@ -1,12 +1,16 @@
 package cemara.labschool.id.rumahcemara.auth.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -51,6 +55,7 @@ import pl.aprilapps.easyphotopicker.EasyImage;
 public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     private final int REQEUST_CAMERA = 1, REQUEST_GALLERY = 2;
+    private final int MY_PERMISSIONS_REQUEST_CAMERA = 100;
     private Context mContext;
     private List<String> treatmentId;
     private ArrayList<String> dataTreatment;
@@ -106,6 +111,12 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         settingTypeTreatmentSpinner();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        checkPermissionGrant();
+    }
+
     private void settingGenderSpinner() {
         // Spinner Drop down elements
         List<String> gender = new ArrayList<String>();
@@ -114,7 +125,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         gender.add("Lainnya");
 
         // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.spinner_text, gender);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, gender);
 
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -139,7 +150,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                     }
 
                     // Creating adapter for spinner
-                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_text, dataTreatment);
+                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(mContext, R.layout.support_simple_spinner_dropdown_item, dataTreatment);
 
                     // Drop down layout style - list view with radio button
                     dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -281,5 +292,59 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    private void checkPermissionGrant(){
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.CAMERA)) {
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CAMERA},
+                        MY_PERMISSIONS_REQUEST_CAMERA);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_CAMERA: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 }
