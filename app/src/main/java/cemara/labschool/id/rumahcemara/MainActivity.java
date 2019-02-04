@@ -108,27 +108,29 @@ public class MainActivity extends AppCompatActivity {
         });
         setupViewPager(viewPager);
     }
+
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
         Intent intent = getIntent();
         String frag = null;
         try {
-          frag = Objects.requireNonNull(intent.getExtras()).getString("frag");
-        }catch (Exception ignored){}
-
-    if (frag != null){
-        switch(frag){
-            case "mylistfragment":
-                viewPager.setCurrentItem(1);
-                break;
-
-            case "homeFragment":
-                viewPager.setCurrentItem(0);
-                break;
+            frag = Objects.requireNonNull(intent.getExtras()).getString("frag");
+        } catch (Exception ignored) {
         }
-    }
+
+        if (frag != null) {
+            switch (frag) {
+                case "mylistfragment":
+                    viewPager.setCurrentItem(1);
+                    break;
+
+                case "homeFragment":
+                    viewPager.setCurrentItem(0);
+                    break;
+            }
+        }
 
     }
 

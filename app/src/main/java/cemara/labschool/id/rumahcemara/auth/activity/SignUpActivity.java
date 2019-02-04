@@ -125,7 +125,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         gender.add("Lainnya");
 
         // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.spinner_text, gender);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, gender);
 
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -150,7 +150,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                     }
 
                     // Creating adapter for spinner
-                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_text, dataTreatment);
+                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(mContext, R.layout.support_simple_spinner_dropdown_item, dataTreatment);
 
                     // Drop down layout style - list view with radio button
                     dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

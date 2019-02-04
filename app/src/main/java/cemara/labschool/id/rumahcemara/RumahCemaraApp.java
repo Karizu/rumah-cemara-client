@@ -14,7 +14,7 @@ public class RumahCemaraApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        Kyandroid.init(this, ApiInterface.BASE_URL, ApiInterface.class,"rumahcemaraapp", Context.MODE_PRIVATE
-                ,"rumahcemara_db", 1 , false, new KyandroidRealmModule(), new RumahCemaraRealmModule());
+        Kyandroid.init(this, ApiInterface.BASE_URL, ApiInterface.class, "rumahcemaraapp", Context.MODE_PRIVATE
+                , "rumahcemara_db", 1, false, new KyandroidRealmModule(), new RumahCemaraRealmModule());
     }
 }

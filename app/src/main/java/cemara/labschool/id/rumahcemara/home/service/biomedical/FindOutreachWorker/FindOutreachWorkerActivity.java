@@ -1,6 +1,7 @@
 package cemara.labschool.id.rumahcemara.home.service.biomedical.FindOutreachWorker;
 
 import android.annotation.SuppressLint;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -76,7 +77,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FindOutreachWorkerActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener, SearchView.OnQueryTextListener {
+public class FindOutreachWorkerActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener, SearchView.OnQueryTextListener {
     private GoogleMap mMap, mOutreach;
     private static final String TAG = "FindOutreachWorker";
     @BindView(R.id.toolbar)
@@ -113,6 +114,8 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
     private Location mLocation;
     private LocationManager locationManager;
     private LocationRequest mLocationRequest;
+    int TAG_CODE_PERMISSION_LOCATION;
+    String Latitude, Longitude;
 
     Location mLastLocation;
 
@@ -158,15 +161,33 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
         sheetBehavior.setHideable(true);//Important to add
         sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
-        latitude = -6.893870;
-        longitude = 107.631200;
+        Bundle bundle = getIntent().getBundleExtra("myData");   //<< get Bundle from Intent
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
+        latitude = Double.parseDouble(bundle.getString("latitude"));
+        longitude = Double.parseDouble(bundle.getString("longitude"));
+//        latitude = -6.893870;
+//        longitude = 107.631200;
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            Log.i("fuck", "need permissions....");
+            ActivityCompat.requestPermissions(this, new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,},
+                    TAG_CODE_PERMISSION_LOCATION);
+        }
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
+
+//        mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                .addConnectionCallbacks(this)
+//                .addOnConnectionFailedListener(this)
+//                .addApi(LocationServices.API)
+//                .build();
+//        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         bottomSheetExpand();
 //        getListNearest();
@@ -402,81 +423,99 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
 
     }
 
-    @Override
-    public void onConnected(Bundle connectionHint) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        } startLocationUpdates();
-        mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if(mLocation == null){
-            startLocationUpdates();
-        }
-        if (mLocation != null) {
-            latitude = mLocation.getLatitude();
-            longitude = mLocation.getLongitude();
-            System.out.println("LatLng: "+latitude+" "+longitude);
-        } else {
-            // Toast.makeText(this, "Location not Detected", Toast.LENGTH_SHORT).show();
-        }
-    }
+//    @Override
+//    public void onConnected(Bundle connectionHint) {
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return;
+//        } startLocationUpdates();
+//        mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+//        if(mLocation == null){
+//            startLocationUpdates();
+//        }
+//        if (mLocation != null) {
+//            latitude = mLocation.getLatitude();
+//            longitude = mLocation.getLongitude();
+//            System.out.println("LatLng: "+latitude+" "+longitude);
+//        } else {
+//            // Toast.makeText(this, "Location not Detected", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
-    protected void startLocationUpdates() {
-        // Create the location request
-        mLocationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(10)
-                .setFastestInterval(5);
-        // Request location updates
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
-                mLocationRequest, this);
-        Log.d("reque", "--->>>>");
-    }
+//    protected void startLocationUpdates() {
+//        // Create the location request
+//        mLocationRequest = LocationRequest.create()
+//                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+//                .setInterval(10)
+//                .setFastestInterval(5);
+//        // Request location updates
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return;
+//        }
+//        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
+//                mLocationRequest, (com.google.android.gms.location.LocationListener) this);
+//        Log.d("reque", "--->>>>");
+//    }
 
-    @Override
-    public void onConnectionSuspended(int i) {
-        Log.i(TAG, "Connection Suspended");
-        mGoogleApiClient.connect();
-    }
+//    @Override
+//    public void onConnectionSuspended(int i) {
+//        Log.i(TAG, "Connection Suspended");
+//        mGoogleApiClient.connect();
+//    }
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.i(TAG, "Connection failed. Error: " + connectionResult.getErrorCode());
-    }
+//    @Override
+//    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+//        Log.i(TAG, "Connection failed. Error: " + connectionResult.getErrorCode());
+//    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        mGoogleApiClient.connect();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
-        }
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        mGoogleApiClient.connect();
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        if (mGoogleApiClient.isConnected()) {
+//            mGoogleApiClient.disconnect();
+//        }
+//    }
 
     @Override
     public void onLocationChanged(Location location) {
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+        Log.d("Latitude", String.valueOf(latitude));
+        Log.d("Longitude", String.valueOf(longitude));
+    }
 
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        Log.d("Latitude","status");
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        Log.d("Latitude","enabled");
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Log.d("Latitude","disable");
     }
 
     @Override

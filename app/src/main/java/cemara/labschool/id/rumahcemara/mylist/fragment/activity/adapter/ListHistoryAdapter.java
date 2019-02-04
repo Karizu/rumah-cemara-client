@@ -1,6 +1,7 @@
 package cemara.labschool.id.rumahcemara.mylist.fragment.activity.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,23 +11,45 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.rezkyatinnov.kyandroid.localdata.LocalData;
+import com.rezkyatinnov.kyandroid.reztrofit.ErrorResponse;
+import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
+import cemara.labschool.id.rumahcemara.MainActivity;
 import cemara.labschool.id.rumahcemara.R;
+import cemara.labschool.id.rumahcemara.api.AppointmentHelper;
+import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.HistoryListModel;
+import cemara.labschool.id.rumahcemara.model.User;
 import cemara.labschool.id.rumahcemara.mylist.fragment.activity.DetailHistoryAppointment;
+import cemara.labschool.id.rumahcemara.util.dialog.Loading;
+import io.realm.Realm;
+import okhttp3.Headers;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class ListHistoryAdapter extends RecyclerView.Adapter<ListHistoryAdapter.ViewHolder> {
     private List<HistoryListModel> articleModels;
     private Context context;
+    Dialog dialog;
+    String ratingValue;
 
     public ListHistoryAdapter(List<HistoryListModel> articleModels, Context context) {
         this.articleModels = articleModels;
@@ -55,7 +78,7 @@ public class ListHistoryAdapter extends RecyclerView.Adapter<ListHistoryAdapter.
         final String mStatus = articleModel.getStatus();
         String status = "";
 
-        switch (mStatus){
+        switch (mStatus) {
             case "2":
                 status = "Rejected";
                 break;
@@ -78,21 +101,112 @@ public class ListHistoryAdapter extends RecyclerView.Adapter<ListHistoryAdapter.
         holder.textViewStatus.setText(status);
         Glide.with(context).load(srcImg).apply(RequestOptions.circleCropTransform()).into(holder.imageViewNearest);
 
-        String finalStatus = status;
         holder.linearLayout.setOnClickListener(view -> {
 
-            Bundle bundle = new Bundle();
-            bundle.putString("id", id);
-            bundle.putString("name", name);
-            bundle.putString("srcImg", srcImg);
-            bundle.putString("phone", phone);
-            bundle.putString("serviceName", serviceName);
-            bundle.putString("date", date);
-            bundle.putString("status", finalStatus);
-            bundle.putString("providerId", providerId);
-            Intent intent = new Intent(view.getContext(), DetailHistoryAppointment.class);
-            intent.putExtra("myData", bundle);
-            view.getContext().startActivity(intent);
+            Realm realm = LocalData.getRealm();
+            User user = realm.where(User.class).findFirst();
+            String user_id = user.getId();
+
+            showRatingDialog(R.layout.my_list_appointment_history_dialog);
+            RatingBar ratingBar = dialog.findViewById(R.id.ratingBar);
+            ratingBar.setOnRatingBarChangeListener((ratingBar1, v, b) -> {
+                switch ((int) ratingBar1.getRating()) {
+                    case 1:
+                        ratingValue = "1";
+                        break;
+                    case 2:
+                        ratingValue = "2";
+                        break;
+                    case 3:
+                        ratingValue = "3";
+                        break;
+                    case 4:
+                        ratingValue = "4";
+                        break;
+                    case 5:
+                        ratingValue = "5";
+                        break;
+                    default:
+                }
+            });
+            ImageView imgClose = dialog.findViewById(R.id.ic_close);
+            TextView tvPhone = dialog.findViewById(R.id.tvPhone);
+            TextView tvName = dialog.findViewById(R.id.tvName);
+            TextView tvDate = dialog.findViewById(R.id.tvDate);
+            TextView tvServiceName = dialog.findViewById(R.id.tvServiceName);
+            EditText komentar = dialog.findViewById(R.id.txt_komentar);
+            ImageView imgProfile = dialog.findViewById(R.id.img_user);
+            Button btnRate = dialog.findViewById(R.id.btn_rate);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
+            try {
+                java.util.Date dates = sdf.parse(date);
+                String formated = new SimpleDateFormat("EEEE, dd MMM yyyy").format(dates);
+                tvDate.setText(formated);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            tvName.setText(name);
+            Glide.with(context).load(srcImg).apply(RequestOptions.circleCropTransform()).into(imgProfile);
+            tvServiceName.setText(serviceName);
+            tvPhone.setText(phone);
+            btnRate.setOnClickListener(v -> {
+                Loading.show(context);
+                if (komentar.getText().toString().isEmpty()) {
+
+                    Loading.hide(context);
+                    Toast.makeText(context, "Please fill in feedback text box", Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    RequestBody requestBody;
+                    requestBody = new MultipartBody.Builder()
+                            .setType(MultipartBody.FORM)
+                            .addFormDataPart("service_transaction_id", id)
+                            .addFormDataPart("user_id", user_id)
+                            .addFormDataPart("provider_id", providerId)
+                            .addFormDataPart("type", "provider")
+                            .addFormDataPart("rating", ratingValue)
+                            .addFormDataPart("description", komentar.getText().toString())
+                            .build();
+
+                    AppointmentHelper.createAppointmentRating(requestBody, new RestCallback<ApiResponse>() {
+                        @Override
+                        public void onSuccess(Headers headers, ApiResponse body) {
+                            Loading.hide(context);
+                            Toast.makeText(context, "Thank you for sharing your feedback", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(context, MainActivity.class);
+                            intent.putExtra("frag", "homeFragment");
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            view.getContext().startActivity(intent);
+                        }
+
+                        @Override
+                        public void onFailed(ErrorResponse error) {
+                            Loading.hide(context);
+                            Log.d("onFailed", error.getMessage());
+                        }
+
+                        @Override
+                        public void onCanceled() {
+                            Loading.hide(context);
+                        }
+                    });
+                }
+            });
+//            Bundle bundle = new Bundle();
+//            bundle.putString("id", id);
+//            bundle.putString("name", name);
+//            bundle.putString("srcImg", srcImg);
+//            bundle.putString("phone", phone);
+//            bundle.putString("serviceName", serviceName);
+//            bundle.putString("date", date);
+//            bundle.putString("status", finalStatus);
+//            bundle.putString("providerId", providerId);
+//            Intent intent = new Intent(view.getContext(), DetailHistoryAppointment.class);
+//            intent.putExtra("myData", bundle);
+//            view.getContext().startActivity(intent);
 
         });
     }
@@ -116,6 +230,22 @@ public class ListHistoryAdapter extends RecyclerView.Adapter<ListHistoryAdapter.
             textViewStatus = v.findViewById(R.id.tvStatus);
             linearLayout = v.findViewById(R.id.layout_article);
         }
+    }
+
+    private void showRatingDialog(int layout) {
+        dialog = new Dialog(Objects.requireNonNull(context));
+        //SET TITLE
+        dialog.setTitle("Detail Biological Appointment");
+
+        //set content
+        dialog.setContentView(layout);
+        dialog.setCanceledOnTouchOutside(false);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(Objects.requireNonNull(dialog.getWindow()).getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
 }

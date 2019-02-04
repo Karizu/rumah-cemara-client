@@ -136,8 +136,13 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
         bottomSheetExpand();
 //        getListNearest();
 
-        latitude = -6.893870;
-        longitude = 107.631200;
+        Bundle bundle = getIntent().getBundleExtra("myData");   //<< get Bundle from Intent
+
+        latitude = Double.parseDouble(bundle.getString("latitude"));
+        longitude = Double.parseDouble(bundle.getString("longitude"));
+
+//        latitude = -6.893870;
+//        longitude = 107.631200;
 
         populateData();
     }

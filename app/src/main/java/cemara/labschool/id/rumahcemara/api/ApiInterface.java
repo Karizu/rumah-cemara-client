@@ -65,7 +65,6 @@ public interface ApiInterface {
     @POST("serviceTransaction")
     Call<ApiResponse> createBiomedicalAppointmentOutreach(@Body RequestBody appointment);
 
-
     @POST("topic")
     Call<ApiResponse> createNewTopic(@Body RequestBody newTopicRequest);
 

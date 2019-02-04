@@ -1,12 +1,23 @@
 package cemara.labschool.id.rumahcemara.home.service.structural;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.gms.location.LocationRequest;
 
 import java.util.Objects;
 
@@ -17,28 +28,64 @@ import cemara.labschool.id.rumahcemara.R;
 import cemara.labschool.id.rumahcemara.home.service.structural.FindOutreachWorker.FindOutreachWorkerActivity;
 import cemara.labschool.id.rumahcemara.home.service.structural.FindServiceProvider.FindServiceProviderActivity;
 
-public class LegalCounselingAppointmentActivity extends AppCompatActivity {
+public class LegalCounselingAppointmentActivity extends AppCompatActivity implements LocationListener {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar_img)
     ImageView toolbarImg;
+    @BindView(R.id.tvLatitude)
+    TextView setLatitude;
+    @BindView(R.id.tvLongitude)
+    TextView setLongitude;
+
+    Double latitude, longitude;
+    private LocationManager locationManager;
+    private LocationRequest mLocationRequest;
+    int TAG_CODE_PERMISSION_LOCATION;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.behavioral_appointment_activity);
         ButterKnife.bind(this);
         setToolbar();
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            Log.i("fuck", "need permissions....");
+            ActivityCompat.requestPermissions(this, new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,},
+                    TAG_CODE_PERMISSION_LOCATION);
+        }
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
     }
 
     @OnClick(R.id.find_service_provider)
     public void toFindServiceProvider(){
-        startActivity(new Intent(this, FindServiceProviderActivity.class));
+        Bundle bundle = new Bundle();
+        bundle.putString("latitude", setLatitude.getText().toString());
+        bundle.putString("longitude", setLongitude.getText().toString());
+        if (!setLatitude.getText().toString().equals("")){
+            Intent intent = new Intent(this, FindServiceProviderActivity.class);
+            intent.putExtra("myData",bundle);
+            startActivity(intent);
+        }
     }
     @OnClick(R.id.find_outreach_worker)
     public void toFindOutreachWorker(){
-        startActivity(new Intent(this, FindOutreachWorkerActivity.class));
+        Bundle bundle = new Bundle();
+        bundle.putString("latitude", setLatitude.getText().toString());
+        bundle.putString("longitude", setLongitude.getText().toString());
+        if (!setLatitude.getText().toString().equals("")){
+            Intent intent = new Intent(this, FindOutreachWorkerActivity.class);
+            intent.putExtra("myData",bundle);
+            startActivity(intent);
+        }
     }
     public void setToolbar() {
         setSupportActionBar(toolbar);
@@ -55,4 +102,28 @@ public class LegalCounselingAppointmentActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+        setLatitude.setText(String.valueOf(latitude));
+        setLongitude.setText(String.valueOf(longitude));
+        Log.d("Latitude", String.valueOf(latitude));
+        Log.d("Longitude", String.valueOf(longitude));
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        Log.d("Latitude","status");
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        Log.d("Latitude","enabled");
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Log.d("Latitude","disable");
+    }
 }

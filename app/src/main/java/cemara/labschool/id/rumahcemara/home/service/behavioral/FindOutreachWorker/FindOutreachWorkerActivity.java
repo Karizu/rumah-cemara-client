@@ -133,8 +133,13 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
         sheetBehavior.setHideable(true);//Important to add
         sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
-        latitude = -6.893870;
-        longitude = 107.631200;
+        Bundle bundle = getIntent().getBundleExtra("myData");   //<< get Bundle from Intent
+
+        latitude = Double.parseDouble(bundle.getString("latitude"));
+        longitude = Double.parseDouble(bundle.getString("longitude"));
+
+//        latitude = -6.893870;
+//        longitude = 107.631200;
 
         bottomSheetExpand();
 //        getListNearest();
