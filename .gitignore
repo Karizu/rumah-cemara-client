@@ -77,3 +77,7 @@ lint/tmp/
 # lint/reports/
 .idea/modules.xml
 .idea/caches/gradle_models.ser
+.idea/caches/gradle_models.ser
+app/src/main/res/.DS_Store
+*.ser
+.idea/caches/gradle_models.ser
