@@ -387,11 +387,16 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mOutreach = googleMap;
-        LatLng indo = new LatLng(-2.5489, 118.0149);
-        LatLng outreach = new LatLng(latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(indo).title("Marker in Indonesia").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_map)));
-        mOutreach.addMarker(new MarkerOptions().position(outreach).title("Outreach").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_people)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(indo));
+        LatLng indo = new LatLng(latitude, longitude);
+        LatLng outreach = new LatLng(-6.894870, 107.635200);
+        LatLng outreach2 = new LatLng(-6.893770, 107.634100);
+        LatLng outreach3 = new LatLng(-6.892670, 107.633000);
+        mMap.addMarker(new MarkerOptions().position(indo).title("Lokasi Anda").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_map)));
+//        mOutreach.addMarker(new MarkerOptions().position(outreach).title("Outreach").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_people)));
+//        mOutreach.addMarker(new MarkerOptions().position(outreach2).title("Outreach").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_people)));
+//        mOutreach.addMarker(new MarkerOptions().position(outreach3).title("Outreach").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_people)));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(indo));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 16.0f));
     }
 
     public void setToolbar() {

@@ -57,7 +57,7 @@ import cemara.labschool.id.rumahcemara.util.nearest.modal.Nearest;
 import okhttp3.Headers;
 
 public class FindOutreachWorkerActivity extends AppCompatActivity implements OnMapReadyCallback, SearchView.OnQueryTextListener {
-    private GoogleMap mMap;
+    private GoogleMap mMap, mOutreach;
     private static final String TAG = "FindServiceProviderActivity";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -336,9 +336,17 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng indo = new LatLng(-2.5489, 118.0149);
-        mMap.addMarker(new MarkerOptions().position(indo).title("Marker in Indonesia").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_map)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(indo));
+        mOutreach = googleMap;
+        LatLng indo = new LatLng(latitude, longitude);
+        LatLng outreach = new LatLng(-6.894870, 107.635200);
+        LatLng outreach2 = new LatLng(-6.893770, 107.634100);
+        LatLng outreach3 = new LatLng(-6.892670, 107.633000);
+        mMap.addMarker(new MarkerOptions().position(indo).title("Lokasi Anda").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_map)));
+//        mOutreach.addMarker(new MarkerOptions().position(outreach).title("Outreach").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_people)));
+//        mOutreach.addMarker(new MarkerOptions().position(outreach2).title("Outreach").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_people)));
+//        mOutreach.addMarker(new MarkerOptions().position(outreach3).title("Outreach").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_people)));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(indo));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 16.0f));
     }
 
     public void setToolbar() {

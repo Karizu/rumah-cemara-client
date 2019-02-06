@@ -56,12 +56,18 @@ public class AdapterListOutreachNearMe extends RecyclerView.Adapter<AdapterListO
         final String group_id = articleModel.getUser().getGroupId();
         final String worker_id = articleModel.getUser().getId();
         final String mDistance = articleModel.getDistance();
-        final String distance = mDistance.substring(0,4) + " km";
+        String distance = null;
+        if (mDistance.length()>1){
+            distance = mDistance.substring(0,4) + " km";
+        } else {
+            distance = mDistance + " km";
+        }
 
         holder.textViewName.setText(name);
         holder.textViewRange.setText(distance);
         Glide.with(context).load(articleModel.getUser().getProfile().getPicture()).apply(RequestOptions.circleCropTransform()).into(holder.imageViewNearest);
 
+        String finalDistance = distance;
         holder.linearLayout.setOnClickListener(view -> {
             View viewSheet = LayoutInflater.from(view.getContext()).inflate(R.layout.find_outreach_worker_bottom_sheet_dialog, null);
             Log.d( "onClick: ",String.valueOf(viewSheet));
@@ -89,7 +95,7 @@ public class AdapterListOutreachNearMe extends RecyclerView.Adapter<AdapterListO
                 tvphone.setText(phoneNumber);
             }
             if (tvRange != null) {
-                tvRange.setText(distance);
+                tvRange.setText(finalDistance);
             }
 
             if (close != null) {
@@ -108,7 +114,7 @@ public class AdapterListOutreachNearMe extends RecyclerView.Adapter<AdapterListO
                     bundle.putString("phone", phoneNumber);
                     bundle.putString("group_id", group_id);
                     bundle.putString("worker_id", worker_id);
-                    bundle.putString("distance", distance);
+                    bundle.putString("distance", finalDistance);
                     Intent intent = new Intent(view12.getContext(), AppointmentFormActivity.class);
                     intent.putExtra("myData", bundle);
                     view12.getContext().startActivity(intent);

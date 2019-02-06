@@ -6,12 +6,9 @@
     android:layout_height="500dp"
     android:layout_gravity="center"
     android:layout_marginLeft="16dp"
-    android:layout_marginTop="16dp"
     android:layout_marginRight="16dp"
-    android:layout_marginBottom="16dp"
     android:orientation="vertical"
-    android:background="@color/White"
-    android:padding="10dp">
+    android:background="@color/White">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -27,6 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_searc_close"
+                android:layout_marginTop="6dp"
                 android:padding="@dimen/margin_padding_size_small"
                 android:layout_gravity="right"
                 tools:ignore="RtlHardcoded" />

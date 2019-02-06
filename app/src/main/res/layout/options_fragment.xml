@@ -133,6 +133,15 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/margin_padding_size_medium"
                             android:text="@string/notification"
+                            android:textSize="@dimen/text_size_medium"
+                            android:visibility="gone"/>
+
+                        <Switch
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_padding_size_medium"
+                            android:text="@string/notification"
+                            android:textColor="@color/NormalGreyText"
                             android:textSize="@dimen/text_size_medium" />
 
                         <View

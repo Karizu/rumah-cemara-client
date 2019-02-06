@@ -113,6 +113,7 @@ public class AppointmentListHistory extends AppCompatActivity {
                                 article.getGroup(),
                                 article.getUser(),
                                 article.getService_type(),
+                                article.getRating(),
                                 article.getProvider_worker()
                                 ));
                     }

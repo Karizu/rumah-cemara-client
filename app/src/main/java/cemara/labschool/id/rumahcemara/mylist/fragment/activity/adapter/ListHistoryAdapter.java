@@ -1,6 +1,7 @@
 package cemara.labschool.id.rumahcemara.mylist.fragment.activity.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -38,6 +39,7 @@ import cemara.labschool.id.rumahcemara.api.AppointmentHelper;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.HistoryListModel;
 import cemara.labschool.id.rumahcemara.model.User;
+import cemara.labschool.id.rumahcemara.mylist.fragment.activity.AppointmentListHistory;
 import cemara.labschool.id.rumahcemara.mylist.fragment.activity.DetailHistoryAppointment;
 import cemara.labschool.id.rumahcemara.util.dialog.Loading;
 import io.realm.Realm;
@@ -76,6 +78,18 @@ public class ListHistoryAdapter extends RecyclerView.Adapter<ListHistoryAdapter.
         final String date = articleModel.getUpdated_at();
         final String providerId = articleModel.getProvider_id();
         final String mStatus = articleModel.getStatus();
+        final String vRating;
+        Float valRating = null;
+        String Comment = null;
+        String mRating;
+        if(articleModel.getRating() == null){
+            mRating = "null";
+        } else {
+            mRating = "notnull";
+            vRating = articleModel.getRating().getRating();
+            valRating = Float.valueOf(vRating);
+            Comment = articleModel.getRating().getDescription();
+        }
         String status = "";
 
         switch (mStatus) {
@@ -100,6 +114,10 @@ public class ListHistoryAdapter extends RecyclerView.Adapter<ListHistoryAdapter.
 //        }
         holder.textViewStatus.setText(status);
         Glide.with(context).load(srcImg).apply(RequestOptions.circleCropTransform()).into(holder.imageViewNearest);
+
+        String finalMRating = mRating;
+        Float finalValRating = valRating;
+        String finalComment = Comment;
 
         holder.linearLayout.setOnClickListener(view -> {
 
@@ -129,7 +147,12 @@ public class ListHistoryAdapter extends RecyclerView.Adapter<ListHistoryAdapter.
                     default:
                 }
             });
+
             ImageView imgClose = dialog.findViewById(R.id.ic_close);
+            imgClose.setOnClickListener(v -> {
+                ((Activity) context).finish();
+            });
+
             TextView tvPhone = dialog.findViewById(R.id.tvPhone);
             TextView tvName = dialog.findViewById(R.id.tvName);
             TextView tvDate = dialog.findViewById(R.id.tvDate);
@@ -151,12 +174,22 @@ public class ListHistoryAdapter extends RecyclerView.Adapter<ListHistoryAdapter.
             Glide.with(context).load(srcImg).apply(RequestOptions.circleCropTransform()).into(imgProfile);
             tvServiceName.setText(serviceName);
             tvPhone.setText(phone);
+
+            if (finalMRating.equals("notnull")){
+                ratingBar.setRating(finalValRating);
+                komentar.setText(finalComment);
+                btnRate.setText("Completed");
+                ratingBar.setEnabled(false);
+                komentar.setEnabled(false);
+                btnRate.setEnabled(false);
+            }
+
             btnRate.setOnClickListener(v -> {
                 Loading.show(context);
                 if (komentar.getText().toString().isEmpty()) {
 
                     Loading.hide(context);
-                    Toast.makeText(context, "Please fill in feedback text box", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Please fill in comment text box", Toast.LENGTH_LONG).show();
 
                 } else {
 
@@ -247,5 +280,7 @@ public class ListHistoryAdapter extends RecyclerView.Adapter<ListHistoryAdapter.
         dialog.show();
         dialog.getWindow().setAttributes(lp);
     }
+
+
 
 }
