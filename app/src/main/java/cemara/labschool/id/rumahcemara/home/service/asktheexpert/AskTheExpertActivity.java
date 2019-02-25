@@ -156,15 +156,17 @@ public class AskTheExpertActivity extends AppCompatActivity {
         EditText newTopic = dialog.findViewById(R.id.topic);
         Button submitTopic = dialog.findViewById(R.id.btnCreateTopic);
 
-        submitTopic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        submitTopic.setOnClickListener(view -> {
+            if (newTopic.getText().toString().equals("")){
+                newTopic.setError("Topic is required");
+            } else {
                 Loading.show(activity);
                 RequestBody requestBody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
                         .addFormDataPart("user_id", user.getId())
                         .addFormDataPart("question", newTopic.getText().toString())
                         .build();
+
                 publishTopic(requestBody);
             }
         });

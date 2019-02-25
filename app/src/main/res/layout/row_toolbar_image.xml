@@ -18,8 +18,8 @@
             android:layout_gravity="center"
             android:background="@null"
             android:contentDescription="@string/app_name"
-            app:srcCompat="@drawable/logo_header"
-            android:src="@drawable/logo_header"
+            app:srcCompat="@drawable/logo_klik_header"
+            android:src="@drawable/logo_klik_header"
             />
 
 </android.support.v7.widget.Toolbar>

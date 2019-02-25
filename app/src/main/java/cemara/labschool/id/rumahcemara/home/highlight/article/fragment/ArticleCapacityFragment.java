@@ -78,7 +78,7 @@ public class ArticleCapacityFragment extends Fragment {
 
     private void getListNews() {
         Loading.show(getContext());
-        ArticleHelper.getArticleTraining(new RestCallback<ApiResponse<List<Article>>>() {
+        ArticleHelper.getArticleCapacity(new RestCallback<ApiResponse<List<Article>>>() {
             @Override
             public void onSuccess(Headers headers, ApiResponse<List<cemara.labschool.id.rumahcemara.model.Article>> body) {
                 Loading.hide(getContext());

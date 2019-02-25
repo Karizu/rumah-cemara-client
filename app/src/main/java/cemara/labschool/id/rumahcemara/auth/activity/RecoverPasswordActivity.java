@@ -41,29 +41,47 @@ public class RecoverPasswordActivity extends AppCompatActivity {
         mContext = this;
     }
 
+    private void validationData(){
+        if (email.getText().toString().equals("")){
+            email.setError("Email is required");
+        }
+        if (number.getText().toString().equals("")){
+            number.setError("Number is required");
+        }
+        if (newPassword.getText().toString().equals("")){
+            newPassword.setError("New password is required");
+        }
+    }
+
     @OnClick(R.id.recover_btn)
     public void doRecover() {
-        Loading.show(mContext);
-        AuthHelper.recoverPassword(email.getText().toString(), number.getText().toString(),
-                newPassword.getText().toString(), new RestCallback<ApiResponse>() {
-                    @Override
-                    public void onSuccess(Headers headers, ApiResponse body) {
-                        Loading.hide(mContext);
-                        Toast.makeText(mContext, "Recover Password Success", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(mContext, LoginActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    }
+        if (email.getText().toString().equals("")
+        || number.getText().toString().equals("")
+        || newPassword.getText().toString().equals("")) {
+            Toast.makeText(mContext, "Please fill all data", Toast.LENGTH_LONG).show();
+        } else {
+            Loading.show(mContext);
+            AuthHelper.recoverPassword(email.getText().toString(), number.getText().toString(),
+                    newPassword.getText().toString(), new RestCallback<ApiResponse>() {
+                        @Override
+                        public void onSuccess(Headers headers, ApiResponse body) {
+                            Loading.hide(mContext);
+                            Toast.makeText(mContext, "Recover Password Success", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(mContext, LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
 
-                    @Override
-                    public void onFailed(ErrorResponse error) {
-                        Loading.hide(mContext);
-                    }
+                        @Override
+                        public void onFailed(ErrorResponse error) {
+                            Loading.hide(mContext);
+                        }
 
-                    @Override
-                    public void onCanceled() {
-                        Loading.hide(mContext);
-                    }
-                });
+                        @Override
+                        public void onCanceled() {
+                            Loading.hide(mContext);
+                        }
+                    });
+        }
     }
 }

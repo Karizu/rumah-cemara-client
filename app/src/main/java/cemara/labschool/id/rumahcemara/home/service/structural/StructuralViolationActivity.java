@@ -138,51 +138,56 @@ public class StructuralViolationActivity extends AppCompatActivity {
         Loading.show(mContext);
         RequestBody requestBody;
 
-        if (attachment != null) {
-            Bitmap bitmap = BitmapFactory.decodeFile(attachment.getAbsolutePath());
-
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, byteArrayOutputStream);
-
-            requestBody = new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("group_id", "5431993f-239b-5349-b275-f587a9f7fdfc")
-                    .addFormDataPart("user_id", userId)
-                    .addFormDataPart("provider_id", "5431993f-239b-5349-b275-f587a9f7fdfc")
-                    .addFormDataPart("service_type_id", "17c00365-4987-5f1e-925b-2119fbe5ff8f")
-                    .addFormDataPart("description", description.getText().toString())
-                    .addFormDataPart("type_provider", "provider")
-                    .addFormDataPart("attachment", "photo.jpeg", RequestBody.create(MediaType.parse("image/jpeg"), byteArrayOutputStream.toByteArray()))
-                    .build();
+        if (description.getText().toString().equals("")){
+            Loading.hide(getApplicationContext());
+            description.setError("This field is required");
         } else {
-            requestBody = new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("group_id", "5431993f-239b-5349-b275-f587a9f7fdfc")
-                    .addFormDataPart("user_id", userId)
-                    .addFormDataPart("provider_id", "5431993f-239b-5349-b275-f587a9f7fdfc")
-                    .addFormDataPart("service_type_id", "17c00365-4987-5f1e-925b-2119fbe5ff8f")
-                    .addFormDataPart("description", description.getText().toString())
-                    .addFormDataPart("type_provider", "provider")
-                    .build();
+            if (attachment != null) {
+                Bitmap bitmap = BitmapFactory.decodeFile(attachment.getAbsolutePath());
+
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 10, byteArrayOutputStream);
+
+                requestBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("group_id", "5431993f-239b-5349-b275-f587a9f7fdfc")
+                        .addFormDataPart("user_id", userId)
+                        .addFormDataPart("provider_id", "5431993f-239b-5349-b275-f587a9f7fdfc")
+                        .addFormDataPart("service_type_id", "259d7e03-c7a7-5706-bc4d-12ddb924b6ca")
+                        .addFormDataPart("description", description.getText().toString())
+                        .addFormDataPart("type_provider", "provider")
+                        .addFormDataPart("attachment", "photo.jpeg", RequestBody.create(MediaType.parse("image/jpeg"), byteArrayOutputStream.toByteArray()))
+                        .build();
+            } else {
+                requestBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("group_id", "5431993f-239b-5349-b275-f587a9f7fdfc")
+                        .addFormDataPart("user_id", userId)
+                        .addFormDataPart("provider_id", "5431993f-239b-5349-b275-f587a9f7fdfc")
+                        .addFormDataPart("service_type_id", "259d7e03-c7a7-5706-bc4d-12ddb924b6ca")
+                        .addFormDataPart("description", description.getText().toString())
+                        .addFormDataPart("type_provider", "provider")
+                        .build();
+            }
+
+            AppointmentHelper.createBiomedicalAppointmentOutreach(requestBody, new RestCallback<ApiResponse>() {
+                @Override
+                public void onSuccess(Headers headers, ApiResponse body) {
+                    Intent intent = new Intent(mContext, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onFailed(ErrorResponse error) {
+                    Loading.hide(mContext);
+                }
+
+                @Override
+                public void onCanceled() {
+                    Loading.hide(mContext);
+                }
+            });
         }
-
-        AppointmentHelper.createBiomedicalAppointmentOutreach(requestBody, new RestCallback<ApiResponse>() {
-            @Override
-            public void onSuccess(Headers headers, ApiResponse body) {
-                Intent intent = new Intent(mContext, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onFailed(ErrorResponse error) {
-                Loading.hide(mContext);
-            }
-
-            @Override
-            public void onCanceled() {
-                Loading.hide(mContext);
-            }
-        });
     }
 }

@@ -53,7 +53,7 @@
                     android:layout_marginStart="@dimen/margin_padding_size_medium"
                     android:contentDescription="logo rumah cemara"
                     android:scaleType="fitXY"
-                    android:src="@drawable/logo_login"
+                    android:src="@drawable/logo_klik_login"
                     tools:ignore="RtlHardcoded" />
             </RelativeLayout>
 

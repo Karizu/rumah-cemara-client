@@ -203,7 +203,6 @@
                 android:layout_weight="10"
                 android:text=""
                 android:background="@android:color/transparent"
-                android:drawableStart="@drawable/icon_alamat"
                 android:drawablePadding="@dimen/margin_padding_size_small"
                 android:overScrollMode="always"
                 android:inputType="none"
@@ -211,19 +210,19 @@
                 android:padding="@dimen/margin_padding_size_small"
                 android:textSize="@dimen/text_size_small" />
 
-            <LinearLayout
-                android:id="@+id/appointment_getlocation"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/left_radius_grey"
-                android:gravity="center">
+            <!--<LinearLayout-->
+                <!--android:id="@+id/appointment_getlocation"-->
+                <!--android:layout_width="40dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:background="@drawable/left_radius_grey"-->
+                <!--android:gravity="center">-->
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="@dimen/margin_padding_size_micro"
-                    app:srcCompat="@drawable/icon_location_button" />
-            </LinearLayout>
+                <!--<ImageView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:padding="@dimen/margin_padding_size_micro"-->
+                    <!--app:srcCompat="@drawable/icon_location_button" />-->
+            <!--</LinearLayout>-->
         </LinearLayout>
 
     </LinearLayout>

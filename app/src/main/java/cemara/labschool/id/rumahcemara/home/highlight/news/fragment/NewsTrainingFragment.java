@@ -90,7 +90,7 @@ public class NewsTrainingFragment extends Fragment {
                     Log.d("Training","Lists");
 
                     // Insert Pager
-                    int maxPager=newsLists.size()> Constants.MAX_NEWS_PAGER?Constants.MAX_NEWS_PAGER: newsLists.size();
+                    int maxPager=newsLists.size()> Constants.MAX_NEWS_PAGER?Constants.MAX_NEWS_PAGER : newsLists.size();
                     for(int i=0;i<maxPager;i++){
                         newsPager.add(newsLists.get(0));//Always get position 0 , because always delete item already get below
                         newsLists.remove(0);

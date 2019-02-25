@@ -6,6 +6,7 @@ import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.Article;
 import cemara.labschool.id.rumahcemara.model.Chat;
 import cemara.labschool.id.rumahcemara.model.Event;
+import cemara.labschool.id.rumahcemara.model.GenerateToken;
 import cemara.labschool.id.rumahcemara.model.HistoryList;
 import cemara.labschool.id.rumahcemara.model.ListReminder;
 import cemara.labschool.id.rumahcemara.model.ListSaved;
@@ -36,7 +37,9 @@ import retrofit2.http.Query;
 
 public interface ApiInterface {
 
-    String BASE_URL = "http://37.72.172.144/rumah-cemara-api/public/api/";
+//    String BASE_URL = "http://37.72.172.144/rumah-cemara-api/public/api/";
+
+    String BASE_URL = "http://68.183.226.23/rumah-cemara-api/public/api/";
 
     @GET("userLocation/nearMe")
     Call<ApiResponse<List<OutreachNearMeResponse>>> getOutreachListNearMe(@Query("lat") Double latitude, @Query("long") Double longitude, @Query("radius") int radius);
@@ -131,7 +134,6 @@ public interface ApiInterface {
 
     @GET("eventCategories")
     Call<ApiResponse<List<Event>>> getEventCategories();
-
 
     /***************** List API *********************/
     @GET("userList")

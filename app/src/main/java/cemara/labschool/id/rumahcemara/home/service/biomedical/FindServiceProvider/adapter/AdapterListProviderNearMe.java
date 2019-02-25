@@ -87,31 +87,23 @@ public class AdapterListProviderNearMe extends RecyclerView.Adapter<AdapterListP
             tvRange.setText(finalDistance);
 
             if (close != null) {
-                close.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
+                close.setOnClickListener(view1 -> dialog.dismiss());
             }
             Button btnAppointment = dialog.findViewById(R.id.btn_appointment);
             if (btnAppointment != null) {
-                btnAppointment.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", id);
-                        bundle.putString("imgUrl", srcImage);
-                        bundle.putString("fullname", name);
-                        bundle.putString("address", address);
-                        bundle.putString("phone", phoneNumber);
-                        bundle.putString("group_id", group_id);
-                        bundle.putString("worker_id", worker_id);
-                        bundle.putString("distance", finalDistance);
-                        Intent intent = new Intent(view.getContext(), AppointmentFormActivity.class);
-                        intent.putExtra("myData", bundle);
-                        view.getContext().startActivity(intent);
-                    }
+                btnAppointment.setOnClickListener(view12 -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id", id);
+                    bundle.putString("imgUrl", srcImage);
+                    bundle.putString("fullname", name);
+                    bundle.putString("address", address);
+                    bundle.putString("phone", phoneNumber);
+                    bundle.putString("group_id", group_id);
+                    bundle.putString("worker_id", worker_id);
+                    bundle.putString("distance", finalDistance);
+                    Intent intent = new Intent(view12.getContext(), AppointmentFormActivity.class);
+                    intent.putExtra("myData", bundle);
+                    view12.getContext().startActivity(intent);
                 });
             }
         });

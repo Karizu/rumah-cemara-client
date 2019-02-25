@@ -32,7 +32,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/logo_header" />
+                    android:src="@drawable/logo_klik_header" />
 
             </LinearLayout>
 

@@ -50,12 +50,9 @@ public class NewsActivity extends AppCompatActivity {
         toolbar.setNavigationIcon(R.drawable.icon_back);
         toolbarTitle.setText(getString(R.string.news));
         toolbarImg.setImageResource(R.drawable.icon_news);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //What to do on back clicked
-                onBackPressed();
-            }
+        toolbar.setNavigationOnClickListener(v -> {
+            //What to do on back clicked
+            onBackPressed();
         });
     }
 }

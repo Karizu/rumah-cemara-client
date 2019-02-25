@@ -172,61 +172,85 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         });
     }
 
+    private void validationData(){
+        if (email.getText().toString().equals("")){
+            email.setError("Email is required");
+        }
+        if (birthDate.getText().toString().equals("")){
+            birthDate.setError("Birth date is required");
+        }
+        if (name.getText().toString().equals("")){
+            name.setError("Name is required");
+        }
+        if (password.getText().toString().equals("")){
+            password.setError("Password is required");
+        }
+    }
+
     @OnClick(R.id.email_sign_in_button)
     public void doSignUp(){
-        Loading.show(SignUpActivity.this);
-        RequestBody requestBody;
-
-        if (profileImage != null) {
-            Bitmap bitmap = BitmapFactory.decodeFile(profileImage.getAbsolutePath());
-
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
-
-            requestBody = new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("username", email.getText().toString())
-                    .addFormDataPart("email", email.getText().toString())
-                    .addFormDataPart("birth_date", birthDate.getText().toString())
-                    .addFormDataPart("fullname", name.getText().toString())
-                    .addFormDataPart("password", password.getText().toString())
-                    .addFormDataPart("gender", genderSpinner.getSelectedItem().toString())
-                    .addFormDataPart("treatment_id", treatmentId.get(typeTreatmentSpinner.getSelectedItemPosition()))
-                    .addFormDataPart("type", "client")
-                    .addFormDataPart("picture", "photo.jpeg", RequestBody.create(MediaType.parse("image/jpeg"), byteArrayOutputStream.toByteArray()))
-                    .build();
+        if (email.getText().toString().equals("")
+                || birthDate.getText().toString().equals("")
+                || name.getText().toString().equals("")
+                || password.getText().toString().equals("")) {
+            Toast.makeText(mContext, "Please fill all data", Toast.LENGTH_LONG).show();
         } else {
-            requestBody = new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("username", email.getText().toString())
-                    .addFormDataPart("email", email.getText().toString())
-                    .addFormDataPart("birth_date", birthDate.getText().toString())
-                    .addFormDataPart("fullname", name.getText().toString())
-                    .addFormDataPart("password", password.getText().toString())
-                    .addFormDataPart("gender", genderSpinner.getSelectedItem().toString())
-                    .addFormDataPart("treatment_id", treatmentId.get(typeTreatmentSpinner.getSelectedItemPosition()))
-                    .addFormDataPart("type", "client")
-                    .build();
+            Loading.show(SignUpActivity.this);
+            RequestBody requestBody;
+
+            if (profileImage != null) {
+                Bitmap bitmap = BitmapFactory.decodeFile(profileImage.getAbsolutePath());
+
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
+
+                requestBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("username", email.getText().toString())
+                        .addFormDataPart("email", email.getText().toString())
+                        .addFormDataPart("birth_date", birthDate.getText().toString())
+                        .addFormDataPart("fullname", name.getText().toString())
+                        .addFormDataPart("password", password.getText().toString())
+                        .addFormDataPart("gender", genderSpinner.getSelectedItem().toString())
+                        .addFormDataPart("treatment_id", treatmentId.get(typeTreatmentSpinner.getSelectedItemPosition()))
+                        .addFormDataPart("type", "client")
+                        .addFormDataPart("picture", "photo.jpeg", RequestBody.create(MediaType.parse("image/jpeg"), byteArrayOutputStream.toByteArray()))
+                        .build();
+            } else {
+                requestBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("username", email.getText().toString())
+                        .addFormDataPart("email", email.getText().toString())
+                        .addFormDataPart("birth_date", birthDate.getText().toString())
+                        .addFormDataPart("fullname", name.getText().toString())
+                        .addFormDataPart("password", password.getText().toString())
+                        .addFormDataPart("gender", genderSpinner.getSelectedItem().toString())
+                        .addFormDataPart("treatment_id", treatmentId.get(typeTreatmentSpinner.getSelectedItemPosition()))
+                        .addFormDataPart("type", "client")
+                        .build();
+            }
+
+            AuthHelper.register(requestBody, new RestCallback<ApiResponse>() {
+                @Override
+                public void onSuccess(Headers headers, ApiResponse body) {
+                    Loading.hide(getApplicationContext());
+                    Toast.makeText(mContext, "Thanks for signing up! Please wait for verification by administrator", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(mContext, LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onFailed(ErrorResponse error) {
+                    Loading.hide(getApplicationContext());
+                }
+
+                @Override
+                public void onCanceled() {
+                    Loading.hide(getApplicationContext());
+                }
+            });
         }
-
-        AuthHelper.register(requestBody, new RestCallback<ApiResponse>() {
-            @Override
-            public void onSuccess(Headers headers, ApiResponse body) {
-                Intent intent = new Intent(mContext, LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onFailed(ErrorResponse error) {
-
-            }
-
-            @Override
-            public void onCanceled() {
-
-            }
-        });
     }
 
     @OnClick(R.id.birthDateTextInputEditText)

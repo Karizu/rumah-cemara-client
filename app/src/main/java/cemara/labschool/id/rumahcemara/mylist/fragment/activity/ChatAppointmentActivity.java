@@ -115,7 +115,8 @@ public class ChatAppointmentActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        String centrifugoAddress = "ws://37.72.172.144:5050/connection/websocket";
+//        String centrifugoAddress = "ws://37.72.172.144:5050/connection/websocket";
+        String centrifugoAddress = "ws://68.183.226.23:5050/connection/websocket";
         String userId = profile.getUserId();
         String userToken = ""; //nullable
         String token = tokenChat.getToken();

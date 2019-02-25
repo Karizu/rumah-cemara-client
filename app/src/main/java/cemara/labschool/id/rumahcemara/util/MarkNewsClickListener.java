@@ -56,7 +56,6 @@ public class MarkNewsClickListener implements View.OnClickListener {
                     public void onSuccess(Headers headers, ApiResponse body) {
                         Loading.hide(v.getContext());
                         if (body != null && body.isStatus()) {
-
                             Toast.makeText(v.getContext(), "News Marked", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(v.getContext(), body.getMessage(), Toast.LENGTH_SHORT).show();

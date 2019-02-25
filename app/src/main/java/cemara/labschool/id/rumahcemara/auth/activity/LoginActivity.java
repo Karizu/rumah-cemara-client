@@ -54,16 +54,18 @@ public class LoginActivity extends AppCompatActivity {
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 1;
+    private Context mContext;
 
-    Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try{
+        try {
             //getSupportActionBar().hide(); //<< this
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
         setContentView(R.layout.login_activity);
         ButterKnife.bind(this);
+        mContext = this;
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
@@ -92,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.sign_up)
-    public void signUp(View view){
+    public void signUp(View view) {
         Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
         startActivity(intent);
     }
@@ -163,6 +165,7 @@ public class LoginActivity extends AppCompatActivity {
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
+            Loading.hide(getApplicationContext());
             focusView.requestFocus();
         } else {
             // Show a progress spinner, and kick off a background task to
@@ -175,8 +178,9 @@ public class LoginActivity extends AppCompatActivity {
             AuthHelper.login(loginRequest, new RestCallback<ApiResponse<User>>() {
                 @Override
                 public void onSuccess(Headers headers, ApiResponse<User> body) {
+                    Loading.hide(getApplicationContext());
                     if (body != null && body.isStatus()) {
-                        Session.save(new SessionObject("Authorization", "Bearer "+body.getToken(),true));
+                        Session.save(new SessionObject("Authorization", "Bearer " + body.getToken(), true));
                         LocalData.saveOrUpdate(body.getData());
 
                         RequestBody requestBody = new MultipartBody.Builder()
@@ -233,7 +237,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailed(ErrorResponse error) {
-                    Toast.makeText(LoginActivity.this,"Gagal Login (user atau password salah)", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "We cant find an account with this credentials. Please make sure you entered the right information", Toast.LENGTH_LONG).show();
                     Loading.hide(LoginActivity.this);
                 }
 
@@ -252,10 +256,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 3;
     }
 
-    private void checkPermissionGrant(){
+    private void checkPermissionGrant() {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)

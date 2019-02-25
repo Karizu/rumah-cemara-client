@@ -73,6 +73,7 @@
             android:id="@+id/btn_appointment"
             android:layout_width="wrap_content"
             android:layout_marginTop="@dimen/margin_padding_size_micro"
+            android:layout_marginBottom="5dp"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/icon_purpose_white"
             android:background="@drawable/btn_rounded_blackyellow"
@@ -80,6 +81,5 @@
             android:text="Purpose Appointment"/>
 
     </LinearLayout>
-
 
 </RelativeLayout>

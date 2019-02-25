@@ -40,26 +40,30 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_submit)
     public void doForgotPassword() {
-        Loading.show(mContext);
-        AuthHelper.forgotPassword(email.getText().toString(), new RestCallback<ApiResponse>() {
-            @Override
-            public void onSuccess(Headers headers, ApiResponse body) {
-                Loading.hide(mContext);
-                Toast.makeText(mContext, "Please Check your email to recover the password", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(mContext, RecoverPasswordActivity.class);
-                startActivity(intent);
-            }
+        if (email.getText().toString().equals("")){
+            email.setError("Email is required");
+        } else {
+            Loading.show(mContext);
+            AuthHelper.forgotPassword(email.getText().toString(), new RestCallback<ApiResponse>() {
+                @Override
+                public void onSuccess(Headers headers, ApiResponse body) {
+                    Loading.hide(mContext);
+                    Toast.makeText(mContext, "Please Check your email to recover the password", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(mContext, RecoverPasswordActivity.class);
+                    startActivity(intent);
+                }
 
-            @Override
-            public void onFailed(ErrorResponse error) {
-                Loading.hide(mContext);
-            }
+                @Override
+                public void onFailed(ErrorResponse error) {
+                    Loading.hide(mContext);
+                }
 
-            @Override
-            public void onCanceled() {
-                Loading.hide(mContext);
-            }
-        });
+                @Override
+                public void onCanceled() {
+                    Loading.hide(mContext);
+                }
+            });
+        }
     }
 
 }

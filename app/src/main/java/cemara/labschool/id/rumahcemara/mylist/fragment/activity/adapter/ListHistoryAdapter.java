@@ -127,6 +127,7 @@ public class ListHistoryAdapter extends RecyclerView.Adapter<ListHistoryAdapter.
 
             showRatingDialog(R.layout.my_list_appointment_history_dialog);
             RatingBar ratingBar = dialog.findViewById(R.id.ratingBar);
+            ratingBar.setRating(4);
             ratingBar.setOnRatingBarChangeListener((ratingBar1, v, b) -> {
                 switch ((int) ratingBar1.getRating()) {
                     case 1:
@@ -186,10 +187,13 @@ public class ListHistoryAdapter extends RecyclerView.Adapter<ListHistoryAdapter.
 
             btnRate.setOnClickListener(v -> {
                 Loading.show(context);
-                if (komentar.getText().toString().isEmpty()) {
-
+                if (komentar.getText().toString().isEmpty() || ratingValue == null) {
                     Loading.hide(context);
-                    Toast.makeText(context, "Please fill in comment text box", Toast.LENGTH_LONG).show();
+                    if (ratingValue == null){
+                        Toast.makeText(context, "Please fill in rating bar", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(context, "Please fill in comment text box", Toast.LENGTH_LONG).show();
+                    }
 
                 } else {
 

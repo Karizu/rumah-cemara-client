@@ -99,20 +99,13 @@ public class HomeFragment extends Fragment {
     public void dialogBiomedical() {
         showDialog(R.layout.dialog_biomedical);
         final CardView biomedical_appointment = dialog.findViewById(R.id.btn_biomedical_appointment);
-        biomedical_appointment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        biomedical_appointment.setOnClickListener(view -> {
 //                toast();
-                startActivity(new Intent(getContext(), BiomedicalAppointmentActivity.class));
-            }
+            startActivity(new Intent(getContext(), BiomedicalAppointmentActivity.class));
         });
+
         ImageView closeDialog = dialog.findViewById(R.id.btn_close);
-        closeDialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
+        closeDialog.setOnClickListener(view -> dialog.dismiss());
     }
 
     @OnClick(R.id.btn_behavioral)
@@ -120,18 +113,9 @@ public class HomeFragment extends Fragment {
         showDialog(R.layout.dialog_behavioral);
         CardView behavioral_appointment = dialog.findViewById(R.id.btn_behavioral_appointment);
         ImageView closeDialog = dialog.findViewById(R.id.btn_close);
-        closeDialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        behavioral_appointment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), CounselingAppointmentActivity.class));
-            }
-        });
+        closeDialog.setOnClickListener(view -> dialog.dismiss());
+
+        behavioral_appointment.setOnClickListener(view -> startActivity(new Intent(getContext(), CounselingAppointmentActivity.class)));
     }
 
     @OnClick(R.id.btn_structural)
@@ -141,35 +125,24 @@ public class HomeFragment extends Fragment {
         CardView legal_aid = dialog.findViewById(R.id.btn_legal_aid);
         CardView violation_report = dialog.findViewById(R.id.btn_violation_report);
         ImageView closeDialog = dialog.findViewById(R.id.btn_close);
-        closeDialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        structural_appointment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        closeDialog.setOnClickListener(view -> dialog.dismiss());
+
+        structural_appointment.setOnClickListener(view -> {
 //                toast();
-                Intent intent = new Intent(getContext(), LegalCounselingAppointmentActivity.class);
-                startActivity(intent);
-            }
+            Intent intent = new Intent(getContext(), LegalCounselingAppointmentActivity.class);
+            startActivity(intent);
         });
-        legal_aid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+
+        legal_aid.setOnClickListener(view -> {
 //                toast();
-                Intent intent = new Intent(getContext(), StructuralLegalAidActivity.class);
-                startActivity(intent);
-            }
+            Intent intent = new Intent(getContext(), StructuralLegalAidActivity.class);
+            startActivity(intent);
         });
-        violation_report.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+
+        violation_report.setOnClickListener(view -> {
 //                toast();
-                Intent intent = new Intent(getContext(), StructuralViolationActivity.class);
-                startActivity(intent);
-            }
+            Intent intent = new Intent(getContext(), StructuralViolationActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -207,7 +180,11 @@ public class HomeFragment extends Fragment {
                     List<cemara.labschool.id.rumahcemara.model.News> newsLists=body.getData();
                     Log.d("aa","sss");
                     for(int i=0;i<newsLists.size();i++){
-                        newsList.add(new News(newsLists.get(i).getId(), newsLists.get(i).getTitle(), newsLists.get(i).getUserCreator().getProfile().getFullname(), DateHelper.dateFormat(DateHelper.stringToDate(newsLists.get(i).getCreatedAt())), newsLists.get(i).getBanner()));
+                        newsList.add(new News(newsLists.get(i).getId(),
+                                newsLists.get(i).getTitle(),
+                                newsLists.get(i).getUserCreator().getProfile().getFullname(),
+                                DateHelper.dateFormat(DateHelper.stringToDate(newsLists.get(i).getCreatedAt())),
+                                newsLists.get(i).getBanner()));
                     }
                     //newsList.add(new News("1", "testing", "test", "June 20 2019", R.drawable.img_news));
 
@@ -239,16 +216,13 @@ public class HomeFragment extends Fragment {
 
     private void init() {
 
-        btnHighlight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (highlightItem.getVisibility() == View.VISIBLE) {
-                    highlightItem.setVisibility(View.GONE);
-                    btnHighlight.setImageResource(R.drawable.list_menu_icon_unselected);
-                } else {
-                    highlightItem.setVisibility(View.VISIBLE);
-                    btnHighlight.setImageResource(R.drawable.list_menu_icon_selected);
-                }
+        btnHighlight.setOnClickListener(view -> {
+            if (highlightItem.getVisibility() == View.VISIBLE) {
+                highlightItem.setVisibility(View.GONE);
+                btnHighlight.setImageResource(R.drawable.list_menu_icon_unselected);
+            } else {
+                highlightItem.setVisibility(View.VISIBLE);
+                btnHighlight.setImageResource(R.drawable.list_menu_icon_selected);
             }
         });
     }

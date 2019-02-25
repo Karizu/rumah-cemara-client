@@ -90,13 +90,9 @@ public class AdapterListOutreachNearMe extends RecyclerView.Adapter<AdapterListO
             tvRange.setText(finalDistance);
 
             if (close != null) {
-                close.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
+                close.setOnClickListener(view12 -> dialog.dismiss());
             }
+
             Button btnAppointment = dialog.findViewById(R.id.btn_appointment);
             if (btnAppointment != null) {
                 btnAppointment.setOnClickListener(view1 -> {
