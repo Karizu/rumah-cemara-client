@@ -76,10 +76,12 @@
                     style="@style/SignUpTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:theme="@style/SignUpTextInputLayoutTheme">
+                    android:layout_marginTop="4dp">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/nameTextInputEditText"
+                        tools:targetApi="jelly_bean"
+                        android:textSize="14sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/name" />
@@ -90,10 +92,12 @@
                     style="@style/SignUpTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:theme="@style/SignUpTextInputLayoutTheme">
+                    android:layout_marginTop="4dp">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/birthDateTextInputEditText"
+                        tools:targetApi="jelly_bean"
+                        android:textSize="14sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/birth_date" />
@@ -105,10 +109,12 @@
                     style="@style/SignUpTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:theme="@style/SignUpTextInputLayoutTheme">
+                    android:layout_marginTop="4dp">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/emailTextInputEditText"
+                        tools:targetApi="jelly_bean"
+                        android:textSize="14sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/email"
@@ -121,10 +127,12 @@
                     style="@style/SignUpTextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:theme="@style/SignUpTextInputLayoutTheme">
+                    android:layout_marginTop="4dp">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/passwordTextInputEditText"
+                        tools:targetApi="jelly_bean"
+                        android:textSize="14sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/password"
@@ -135,10 +143,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_padding_size_small"
-                    android:layout_marginTop="@dimen/margin_padding_size_small"
-                    android:layout_marginRight="@dimen/margin_padding_size_semi_large"
-                    android:layout_marginBottom="@dimen/margin_padding_size_small">
+                    android:layout_marginTop="@dimen/margin_padding_size_small">
 
                     <View
                         android:layout_width="match_parent"
@@ -169,9 +174,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_padding_size_small"
-                    android:layout_marginTop="@dimen/margin_padding_size_small"
-                    android:layout_marginRight="@dimen/margin_padding_size_semi_large"
+                    android:layout_marginTop="6dp"
                     android:layout_marginBottom="@dimen/margin_padding_size_small">
 
                     <View
