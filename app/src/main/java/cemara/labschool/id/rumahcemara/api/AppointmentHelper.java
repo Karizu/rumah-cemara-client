@@ -20,9 +20,19 @@ public class AppointmentHelper {
         service.getEndpoint().getOutreachListNearMe(latitude, longitude, 30).enqueue(callback);
     }
 
-    public static void getListProvider(Double latitude, Double longitude, RestCallback<ApiResponse<List<ProviderNearMeResponse>>> callback){
+    public static void getListProviderBiomedical(Double latitude, Double longitude, RestCallback<ApiResponse<List<ProviderNearMeResponse>>> callback){
         Reztrofit<ApiInterface> service = Reztrofit.getInstance();
-        service.getEndpoint().getProviderListNearMe(latitude, longitude, 30).enqueue(callback);
+        service.getEndpoint().getProviderListNearMe(latitude, longitude, 30, "74b991aa-cf71-5f8f-990c-742081b2f601").enqueue(callback);
+    }
+
+    public static void getListProviderBehavioral(Double latitude, Double longitude, RestCallback<ApiResponse<List<ProviderNearMeResponse>>> callback){
+        Reztrofit<ApiInterface> service = Reztrofit.getInstance();
+        service.getEndpoint().getProviderListNearMe(latitude, longitude, 30, "17c00365-4987-5f1e-925b-2119fbe5ff8a").enqueue(callback);
+    }
+
+    public static void getListProviderLegalCounseling(Double latitude, Double longitude, RestCallback<ApiResponse<List<ProviderNearMeResponse>>> callback){
+        Reztrofit<ApiInterface> service = Reztrofit.getInstance();
+        service.getEndpoint().getProviderListNearMe(latitude, longitude, 30, "b1cd92a3-2f47-5776-aa60-31c58c9f5291").enqueue(callback);
     }
 
     public static void createBiomedicalAppointmentOutreach(RequestBody appointment, RestCallback<ApiResponse> callback){

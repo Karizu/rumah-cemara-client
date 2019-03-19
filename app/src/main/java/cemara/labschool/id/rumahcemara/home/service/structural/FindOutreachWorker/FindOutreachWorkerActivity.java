@@ -332,15 +332,38 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
         mMap = googleMap;
         mOutreach = googleMap;
         LatLng indo = new LatLng(latitude, longitude);
-        LatLng outreach = new LatLng(-6.894870, 107.635200);
-        LatLng outreach2 = new LatLng(-6.893770, 107.634100);
-        LatLng outreach3 = new LatLng(-6.892670, 107.633000);
         mMap.addMarker(new MarkerOptions().position(indo).title("Lokasi Anda").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_map)));
-//        mOutreach.addMarker(new MarkerOptions().position(outreach).title("Outreach").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_people)));
-//        mOutreach.addMarker(new MarkerOptions().position(outreach2).title("Outreach").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_people)));
-//        mOutreach.addMarker(new MarkerOptions().position(outreach3).title("Outreach").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_people)));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(indo));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 16.0f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15.0f));
+
+        AppointmentHelper.getListOutreach(latitude, longitude, new RestCallback<ApiResponse<List<OutreachNearMeResponse>>>() {
+            @Override
+            public void onSuccess(Headers headers, ApiResponse<List<OutreachNearMeResponse>> body) {
+                if (body != null && body.isStatus()) {
+                    List<OutreachNearMeResponse> res = body.getData();
+                    System.out.println("Response: " + body.getData());
+                    Double lat, longi;
+                    articleModels = new ArrayList<>();
+                    for (int i = 0; i < res.size(); i++) {
+                        OutreachNearMeResponse article = res.get(i);
+                        lat = Double.valueOf(article.getLat());
+                        longi = Double.valueOf(article.getLongitude());
+                        Log.d("lat, longi", lat + " " + longi);
+                        LatLng outreach = new LatLng(lat, longi);
+                        mOutreach.addMarker(new MarkerOptions().position(outreach).title(article.getUser().getProfile().getFullname()).icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_people)));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailed(ErrorResponse error) {
+
+            }
+
+            @Override
+            public void onCanceled() {
+
+            }
+        });
     }
 
     public void setToolbar() {

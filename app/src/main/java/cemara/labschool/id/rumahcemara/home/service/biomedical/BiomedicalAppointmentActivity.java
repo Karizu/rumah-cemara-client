@@ -16,8 +16,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 
 import java.util.Objects;
 
@@ -43,6 +46,7 @@ public class BiomedicalAppointmentActivity extends AppCompatActivity implements 
     private LocationManager locationManager;
     private LocationRequest mLocationRequest;
     int TAG_CODE_PERMISSION_LOCATION;
+    private FusedLocationProviderClient fusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,17 @@ public class BiomedicalAppointmentActivity extends AppCompatActivity implements 
                     TAG_CODE_PERMISSION_LOCATION);
         }
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, location -> {
+                    // Got last known location. In some rare situations this can be null.
+                    if (location != null) {
+                        // Logic to handle location object
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
+                    }
+                });
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
     }
@@ -67,24 +82,28 @@ public class BiomedicalAppointmentActivity extends AppCompatActivity implements 
     @OnClick(R.id.find_service_provider)
     public void toFindServiceProvider(){
         Bundle bundle = new Bundle();
-        bundle.putString("latitude", setLatitude.getText().toString());
-        bundle.putString("longitude", setLongitude.getText().toString());
-        if (!setLatitude.getText().toString().equals("")){
+        bundle.putString("latitude", String.valueOf(latitude));
+        bundle.putString("longitude", String.valueOf(longitude));
+        if (latitude != null){
             Intent intent = new Intent(this, FindServiceProviderActivity.class);
             intent.putExtra("myData",bundle);
             startActivity(intent);
+        } else {
+            Toast.makeText(this, "Searching Location", Toast.LENGTH_SHORT).show();
         }
     }
 
     @OnClick(R.id.find_outreach_worker)
     public void toFindOutreachWorker(){
         Bundle bundle = new Bundle();
-        bundle.putString("latitude", setLatitude.getText().toString());
-        bundle.putString("longitude", setLongitude.getText().toString());
-        if (!setLatitude.getText().toString().equals("")){
+        bundle.putString("latitude", String.valueOf(latitude));
+        bundle.putString("longitude", String.valueOf(longitude));
+        if (latitude != null){
             Intent intent = new Intent(this, FindOutreachWorkerActivity.class);
             intent.putExtra("myData",bundle);
             startActivity(intent);
+        } else {
+            Toast.makeText(this, "Searching Location", Toast.LENGTH_SHORT).show();
         }
     }
 

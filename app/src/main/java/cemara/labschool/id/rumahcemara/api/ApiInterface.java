@@ -45,7 +45,7 @@ public interface ApiInterface {
     Call<ApiResponse<List<OutreachNearMeResponse>>> getOutreachListNearMe(@Query("lat") Double latitude, @Query("long") Double longitude, @Query("radius") int radius);
 
     @GET("groupLocation/nearMe")
-    Call<ApiResponse<List<ProviderNearMeResponse>>> getProviderListNearMe(@Query("lat") Double latitude, @Query("long") Double longitude, @Query("radius") int radius);
+    Call<ApiResponse<List<ProviderNearMeResponse>>> getProviderListNearMe(@Query("lat") Double latitude, @Query("long") Double longitude, @Query("radius") int radius, @Query("service_type") String serviceType);
 
     @POST("register")
     Call<ApiResponse> postRegister(@Body RequestBody registerRequest);

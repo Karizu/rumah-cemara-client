@@ -9,6 +9,10 @@ public class News  {
     @Expose
     private String id;
 
+    @SerializedName("news_category_id")
+    @Expose
+    private String news_category_id;
+
     @SerializedName("title")
     @Expose
     private String title;
@@ -35,6 +39,14 @@ public class News  {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getNews_category_id() {
+        return news_category_id;
+    }
+
+    public void setNews_category_id(String news_category_id) {
+        this.news_category_id = news_category_id;
     }
 
     public String getTitle() {

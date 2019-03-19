@@ -25,6 +25,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cemara.labschool.id.rumahcemara.api.ListHelper;
+import cemara.labschool.id.rumahcemara.home.highlight.ArticleDetailActivity;
+import cemara.labschool.id.rumahcemara.home.highlight.EventDetailActivity;
 import cemara.labschool.id.rumahcemara.home.highlight.NewsDetailActivity;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.User;
@@ -106,6 +108,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final NewsAdapter.NewsViewHolder newsViewHolder, int position) {
+        String CategoryId;
         News news = newsList.get(position);
         Log.d("News", "" + newsList.size());
         newsViewHolder.txtTitle.setText(news.getTitle());
@@ -115,26 +118,43 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         //Glide.with(mContext).load(news.getNewsImage()).into(newsViewHolder.imgNews);
         Glide.with(mContext).load(news.getBanner()).into(newsViewHolder.imgNews);
         //click
+        CategoryId = news.getNewsCategoryId();
+        Log.d("Category Id", CategoryId);
         newsViewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, NewsDetailActivity.class);
-                intent.putExtra("id",news.getNewsId());
-                mContext.startActivity(intent);
+                if (CategoryId.equals("993df927-7e72-555f-9abb-74d695ac172f")){
+                    Intent intent = new Intent(mContext, NewsDetailActivity.class);
+                    intent.putExtra("id",news.getNewsId());
+                    mContext.startActivity(intent);
+                }
+                if (CategoryId.equals("2784d424-99a3-4078-b32f-a0f63b984c86") ||
+                        CategoryId.equals("3a11c4b3-cb8a-4dc8-970f-33f5b6132844") ||
+                        CategoryId.equals("2750251b-eb91-5e02-a055-52e57983f49e")){
+                    Intent intent = new Intent(mContext, ArticleDetailActivity.class);
+                    intent.putExtra("id",news.getNewsId());
+                    mContext.startActivity(intent);
+                }
+                if (CategoryId.equals("2750251b-eb91-5e02-a055-52e57983f49e") ||
+                        CategoryId.equals("e79c0889-a2aa-5327-868d-e6d91c85ecf4") ||
+                        CategoryId.equals("026334b8-47cf-5274-a523-82c9b69cf93e")){
+                    Intent intent = new Intent(mContext, EventDetailActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.putExtra("id",news.getNewsId());
+                    mContext.startActivity(intent);
+                }
+
             }
         });
         newsViewHolder.markNews.setOnClickListener(new MarkNewsClickListener(news));
 
-        newsViewHolder.shareNews.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        newsViewHolder.shareNews.setOnClickListener(view -> {
 
-                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                sharingIntent.setType("text/plain");
-                sharingIntent.putExtra(Intent.EXTRA_TEXT, news.getTitle()+
-                        "\n"+ news.getBanner());
-                mContext.startActivity(Intent.createChooser(sharingIntent, "Share using:"));
-            }
+            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+            sharingIntent.setType("text/plain");
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, news.getTitle()+
+                    "\n"+ news.getBanner());
+            mContext.startActivity(Intent.createChooser(sharingIntent, "Share using:"));
         });
     }
 

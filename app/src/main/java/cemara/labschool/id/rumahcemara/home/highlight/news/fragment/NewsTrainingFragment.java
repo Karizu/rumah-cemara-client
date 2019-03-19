@@ -96,7 +96,11 @@ public class NewsTrainingFragment extends Fragment {
                         newsLists.remove(0);
                     }
                     for(int i=0;i<newsLists.size();i++){
-                        newsList.add(new News(newsLists.get(i).getId(), newsLists.get(i).getTitle(), newsLists.get(i).getUserCreator().getProfile().getFullname(), DateHelper.dateFormat(DateHelper.stringToDate(newsLists.get(i).getCreatedAt())), newsLists.get(i).getBanner()));
+                        newsList.add(new News(newsLists.get(i).getId(),
+                                newsLists.get(i).getTitle(),
+                                newsLists.get(i).getUserCreator().getProfile().getFullname(),
+                                DateHelper.dateFormat(DateHelper.stringToDate(newsLists.get(i).getCreatedAt())),
+                                newsLists.get(i).getBanner()));
                     }
                     //newsList.add(new News("1", "testing", "test", "June 20 2019", R.drawable.img_news));
 

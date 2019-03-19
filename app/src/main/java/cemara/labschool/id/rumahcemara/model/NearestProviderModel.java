@@ -13,6 +13,8 @@ public class NearestProviderModel {
     private String name;
     private String description;
     private String address;
+    private String latitude;
+    private String longitude;
     private String city;
     private String phoneNumber;
     private String distance;
@@ -26,6 +28,22 @@ public class NearestProviderModel {
         this.name = name;
         this.description = description;
         this.address = address;
+        this.city = city;
+        this.phoneNumber = phoneNumber;
+        this.distance = distance;
+        this.user = user;
+        this.group = group;
+    }
+
+    public NearestProviderModel(String id, String group_id, String srcImage, String name, String description, String address, String latitude, String longitude, String city, String phoneNumber, String distance, User user, Group group) {
+        this.id = id;
+        this.group_id = group_id;
+        this.srcImage = srcImage;
+        this.name = name;
+        this.description = description;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.city = city;
         this.phoneNumber = phoneNumber;
         this.distance = distance;
@@ -79,6 +97,22 @@ public class NearestProviderModel {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 
     public String getCity() {

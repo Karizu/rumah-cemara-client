@@ -147,7 +147,7 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
 
     private void populateData() {
         Loading.show(this);
-        AppointmentHelper.getListProvider(latitude, longitude, new RestCallback<ApiResponse<List<ProviderNearMeResponse>>>() {
+        AppointmentHelper.getListProviderBiomedical(latitude, longitude, new RestCallback<ApiResponse<List<ProviderNearMeResponse>>>() {
             @Override
             public void onSuccess(Headers headers, ApiResponse<List<ProviderNearMeResponse>> body) {
                 Loading.hide(getApplicationContext());
@@ -285,7 +285,7 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
 //             sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 ////             btnBottomSheet.setText("Expand sheet");
 //         }
-        AppointmentHelper.getListProvider(latitude, longitude, new RestCallback<ApiResponse<List<ProviderNearMeResponse>>>() {
+        AppointmentHelper.getListProviderBiomedical(latitude, longitude, new RestCallback<ApiResponse<List<ProviderNearMeResponse>>>() {
             @Override
             public void onSuccess(Headers headers, ApiResponse<List<ProviderNearMeResponse>> body) {
                 if (body != null && body.isStatus()) {
@@ -334,15 +334,39 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
         mMap = googleMap;
         mOutreach = googleMap;
         LatLng indo = new LatLng(latitude, longitude);
-        LatLng outreach = new LatLng(-6.894870, 107.635200);
-        LatLng outreach2 = new LatLng(-6.894770, 107.635100);
-        LatLng outreach3 = new LatLng(-6.894670, 107.635000);
         mMap.addMarker(new MarkerOptions().position(indo).title("Lokasi Anda").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_map)));
-//        mOutreach.addMarker(new MarkerOptions().position(outreach).title("Service Provider").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_rs)));
-//        mOutreach.addMarker(new MarkerOptions().position(outreach2).title("Service Provider").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_rs)));
-//        mOutreach.addMarker(new MarkerOptions().position(outreach3).title("Service Provider").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_rs)));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(indo));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 16.0f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15.0f));
+
+        AppointmentHelper.getListProviderBiomedical(latitude, longitude, new RestCallback<ApiResponse<List<ProviderNearMeResponse>>>() {
+            @Override
+            public void onSuccess(Headers headers, ApiResponse<List<ProviderNearMeResponse>> body) {
+
+                if (body != null && body.isStatus()) {
+                    List<ProviderNearMeResponse> res = body.getData();
+                    System.out.println("Response: " + body.getData());
+                    Double lat, longi;
+                    articleModels = new ArrayList<>();
+                    for (int i = 0; i < res.size(); i++) {
+                        ProviderNearMeResponse article = res.get(i);
+                        lat = Double.valueOf(article.getLat());
+                        longi = Double.valueOf(article.getLongitude());
+                        Log.d("lat, longi", lat + " " + longi);
+                        LatLng outreach = new LatLng(lat, longi);
+                        mOutreach.addMarker(new MarkerOptions().position(outreach).title(article.getGroup().getName()).icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_rs)));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailed(ErrorResponse error) {
+                error.getDescription();
+            }
+
+            @Override
+            public void onCanceled() {
+
+            }
+        });
     }
 
     public void setToolbar() {

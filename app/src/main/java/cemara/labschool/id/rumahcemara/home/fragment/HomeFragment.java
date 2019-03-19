@@ -1,11 +1,17 @@
 package cemara.labschool.id.rumahcemara.home.fragment;
 
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,7 +39,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cemara.labschool.id.rumahcemara.MainActivity;
+import cemara.labschool.id.rumahcemara.api.ArticleHelper;
 import cemara.labschool.id.rumahcemara.api.AuthHelper;
+import cemara.labschool.id.rumahcemara.api.EventHelper;
 import cemara.labschool.id.rumahcemara.api.NewsHelper;
 import cemara.labschool.id.rumahcemara.auth.activity.LoginActivity;
 import cemara.labschool.id.rumahcemara.R;
@@ -47,8 +55,12 @@ import cemara.labschool.id.rumahcemara.home.service.structural.LegalCounselingAp
 import cemara.labschool.id.rumahcemara.home.service.structural.StructuralLegalAidActivity;
 import cemara.labschool.id.rumahcemara.home.service.structural.StructuralViolationActivity;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.model.Article;
 import cemara.labschool.id.rumahcemara.model.User;
+import cemara.labschool.id.rumahcemara.util.article.model.adapter.ArticleAdapter;
 import cemara.labschool.id.rumahcemara.util.dialog.Loading;
+import cemara.labschool.id.rumahcemara.util.event.model.Event;
+import cemara.labschool.id.rumahcemara.util.events.adapter.EventsAdapter;
 import cemara.labschool.id.rumahcemara.util.firebase.MyFirebaseMessagingService;
 import cemara.labschool.id.rumahcemara.util.helper.DateHelper;
 import cemara.labschool.id.rumahcemara.util.news.adapter.NewsAdapter;
@@ -62,7 +74,7 @@ import okhttp3.RequestBody;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements LocationListener {
 
 
     @BindView(R.id.btn_highlight_menu)
@@ -72,8 +84,13 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     NewsAdapter newsAdapter;
+    ArticleAdapter articleAdapter;
+    EventsAdapter eventsAdapter;
     List<News> newsList = new ArrayList<>();
+    List<cemara.labschool.id.rumahcemara.util.article.model.Article> articlesList = new ArrayList<>();
+    List<Event> eventsList = new ArrayList<>();
     Dialog dialog;
+    int TAG_CODE_PERMISSION_LOCATION;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -86,13 +103,26 @@ public class HomeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.home_fragment, container, false);
         ButterKnife.bind(this, rootView);
         init();
+
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            Log.i("uuh!", "need permissions....");
+            ActivityCompat.requestPermissions(getActivity(), new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,},
+                    TAG_CODE_PERMISSION_LOCATION);
+        }
+
+        getListNews();
+
         return rootView;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        getListNews();
+//        getListNews();
     }
 
     @OnClick(R.id.btn_biomedical)
@@ -179,13 +209,122 @@ public class HomeFragment extends Fragment {
                 if (body != null && body.isStatus()) {
                     List<cemara.labschool.id.rumahcemara.model.News> newsLists=body.getData();
                     Log.d("aa","sss");
-                    for(int i=0;i<newsLists.size();i++){
-                        newsList.add(new News(newsLists.get(i).getId(),
-                                newsLists.get(i).getTitle(),
-                                newsLists.get(i).getUserCreator().getProfile().getFullname(),
-                                DateHelper.dateFormat(DateHelper.stringToDate(newsLists.get(i).getCreatedAt())),
-                                newsLists.get(i).getBanner()));
+                    Log.d("Size", String.valueOf(newsLists.size()));
+                    if (newsLists.size() >= 3){
+                        Log.d("News","Masuk First If");
+                        for(int i=0;i<3;i++){
+                            newsList.add(new News(newsLists.get(i).getId(),
+                                    newsLists.get(i).getNews_category_id(),
+                                    newsLists.get(i).getTitle(),
+                                    newsLists.get(i).getUserCreator().getProfile().getFullname(),
+                                    DateHelper.dateFormat(DateHelper.stringToDate(newsLists.get(i).getCreatedAt())),
+                                    newsLists.get(i).getBanner()));
+                        }
+                    } else {
+                        for(int i=0;i<newsLists.size();i++){
+                            newsList.add(new News(newsLists.get(i).getId(),
+                                    newsLists.get(i).getNews_category_id(),
+                                    newsLists.get(i).getTitle(),
+                                    newsLists.get(i).getUserCreator().getProfile().getFullname(),
+                                    DateHelper.dateFormat(DateHelper.stringToDate(newsLists.get(i).getCreatedAt())),
+                                    newsLists.get(i).getBanner()));
+                        }
                     }
+
+
+                    ArticleHelper.getArticle(new RestCallback<ApiResponse<List<Article>>>() {
+                        @Override
+                        public void onSuccess(Headers headers, ApiResponse<List<Article>> body) {
+                            Loading.hide(getContext());
+                            if (body != null && body.isStatus()) {
+                                List<cemara.labschool.id.rumahcemara.model.Article> newsArticles=body.getData();
+                                if (newsArticles.size() >= 3){
+                                    for (int i=0; i<3; i++){
+                                        newsList.add(new News(newsArticles.get(i).getId(),
+                                                newsArticles.get(i).getArticleCategoryId(),
+                                                newsArticles.get(i).getTitle(),
+                                                newsArticles.get(i).getUserCreator().getProfile().getFullname(),
+                                                DateHelper.dateFormat(DateHelper.stringToDate(newsArticles.get(i).getCreatedAt())),
+                                                newsArticles.get(i).getBanner()));
+                                    }
+                                } else {
+                                    for (int i=0; i<newsArticles.size(); i++){
+                                        newsList.add(new News(newsArticles.get(i).getId(),
+                                                newsArticles.get(i).getArticleCategoryId(),
+                                                newsArticles.get(i).getTitle(),
+                                                newsArticles.get(i).getUserCreator().getProfile().getFullname(),
+                                                DateHelper.dateFormat(DateHelper.stringToDate(newsArticles.get(i).getCreatedAt())),
+                                                newsArticles.get(i).getBanner()));
+                                    }
+                                }
+                            }
+
+//                            articleAdapter = new ArticleAdapter(getActivity(), articlesList);
+//                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+//                            recyclerView.setLayoutManager(layoutManager);
+//                            recyclerView.setItemAnimator(new DefaultItemAnimator());
+//                            recyclerView.setAdapter(articleAdapter);
+//                            articleAdapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onFailed(ErrorResponse error) {
+                            Loading.hide(getContext());
+                            Log.d("Error", error.getMessage());
+                            Toast.makeText(getContext(),"Gagal Ambil Data", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onCanceled() {
+                            Loading.hide(getContext());
+                        }
+                    });
+
+                        EventHelper.getEvent(new RestCallback<ApiResponse<List<cemara.labschool.id.rumahcemara.model.Event>>>() {
+                        @Override
+                        public void onSuccess(Headers headers, ApiResponse<List<cemara.labschool.id.rumahcemara.model.Event>> body) {
+                            if (body != null && body.isStatus()) {
+                                List<cemara.labschool.id.rumahcemara.model.Event> newsEvents=body.getData();
+                                if (newsEvents.size() >= 3){
+                                    for (int i=0; i<3; i++){
+                                        newsList.add(new News(newsEvents.get(i).getId(),
+                                                newsEvents.get(i).getEventCategoryId(),
+                                                newsEvents.get(i).getTitle(),
+                                                newsEvents.get(i).getUserCreator().getProfile().getFullname(),
+                                                DateHelper.dateFormat(DateHelper.stringToDate(newsEvents.get(i).getCreatedAt())),
+                                                newsEvents.get(i).getBanner()));
+                                    }
+                                } else {
+                                    for (int i=0; i<newsEvents.size(); i++){
+                                        newsList.add(new News(newsEvents.get(i).getId(),
+                                                newsEvents.get(i).getEventCategoryId(),
+                                                newsEvents.get(i).getTitle(),
+                                                newsEvents.get(i).getUserCreator().getProfile().getFullname(),
+                                                DateHelper.dateFormat(DateHelper.stringToDate(newsEvents.get(i).getCreatedAt())),
+                                                newsEvents.get(i).getBanner()));
+                                    }
+                                }
+                            }
+
+//                            newsAdapter = new NewsAdapter(getActivity(), newsList);
+//                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+//                            recyclerView.setLayoutManager(layoutManager);
+//                            recyclerView.setItemAnimator(new DefaultItemAnimator());
+//                            recyclerView.setAdapter(newsAdapter);
+//                            newsAdapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onFailed(ErrorResponse error) {
+                            Toast.makeText(getContext(),"Gagal Ambil Data", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onCanceled() {
+
+                        }
+                    });
+
                     //newsList.add(new News("1", "testing", "test", "June 20 2019", R.drawable.img_news));
 
                     newsAdapter = new NewsAdapter(getActivity(), newsList);
@@ -248,4 +387,23 @@ public class HomeFragment extends Fragment {
         dialog.getWindow().setAttributes(lp);
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
 }

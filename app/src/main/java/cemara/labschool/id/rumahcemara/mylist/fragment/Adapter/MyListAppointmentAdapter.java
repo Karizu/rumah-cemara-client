@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.Image;
+import android.opengl.Visibility;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -134,6 +135,8 @@ public class MyListAppointmentAdapter extends RecyclerView.Adapter<MyListAppoint
         EditText dateEnd = dialog.findViewById(R.id.appointment_date_end);
         EditText desc = dialog.findViewById(R.id.description_appointment);
         AutoCompleteTextView location = dialog.findViewById(R.id.appointment_location);
+        TextView tvLocation = dialog.findViewById(R.id.tvLocation);
+        LinearLayout layLocation = dialog.findViewById(R.id.layLocation);
 
         switch (providerType){
             case "worker":
@@ -164,7 +167,9 @@ public class MyListAppointmentAdapter extends RecyclerView.Adapter<MyListAppoint
                 dateStart.setText(myAppointment.getStart_date());
                 dateEnd.setText(myAppointment.getEnd_date());
                 desc.setText(myAppointment.getDescription());
-                location.setText(myAppointment.getLocation());
+//                location.setText(myAppointment.getLocation());
+                tvLocation.setVisibility(View.GONE);
+                layLocation.setVisibility(View.GONE);
 
                 break;
         }

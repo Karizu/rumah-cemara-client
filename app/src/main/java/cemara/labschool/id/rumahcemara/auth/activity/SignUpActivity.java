@@ -15,9 +15,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -62,6 +64,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     private List<String> treatmentId;
     private ArrayList<String> dataTreatment;
     private File profileImage;
+    private Calendar calendar;
 
 
     @BindView(R.id.profilePictureImageView)
@@ -111,6 +114,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
         settingGenderSpinner();
         settingTypeTreatmentSpinner();
+
+        calendar = Calendar.getInstance();
     }
 
     @Override
@@ -118,6 +123,19 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         super.onStart();
         checkPermissionGrant();
     }
+
+    final DatePickerDialog.OnDateSetListener updateDate = new DatePickerDialog.OnDateSetListener() {
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            // TODO Auto-generated method stub
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, monthOfYear);
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateLabel();
+        }
+    };
 
     private void settingGenderSpinner() {
         // Spinner Drop down elements
@@ -245,6 +263,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                 @Override
                 public void onFailed(ErrorResponse error) {
                     Loading.hide(getApplicationContext());
+                    Log.d("Error Register", error.getDescription());
+                    Toast.makeText(mContext, error.getHttpStatus().getReasonPhrase(), Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -257,9 +277,11 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
     @OnClick(R.id.birthDateTextInputEditText)
     public void setBirthDate(){
-        new DatePickerDialog(this, date, myCalendar
+        DatePickerDialog dialog = new DatePickerDialog(this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                myCalendar.get(Calendar.DAY_OF_MONTH));
+        dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        dialog.show();
     }
 
     @OnClick(R.id.sign_in)

@@ -15,7 +15,7 @@ public class ProviderLocationData extends RealmObject {
     @SerializedName("lat")
     @Expose
     private String lat;
-    @SerializedName("longitude")
+    @SerializedName("long")
     @Expose
     private String longitude;
     @SerializedName("description")

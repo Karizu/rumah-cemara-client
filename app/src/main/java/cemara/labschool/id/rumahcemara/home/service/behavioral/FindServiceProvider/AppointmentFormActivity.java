@@ -233,7 +233,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
         Loading.hide(getApplicationContext());
     }
 
-    @OnClick(R.id.btn_send_appointment)
+    @OnClick(R.id.btn_send_appointment_form)
     void createAppointment() {
         Loading.show(this);
         validateField();

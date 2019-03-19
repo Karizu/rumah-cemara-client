@@ -1,5 +1,8 @@
 package cemara.labschool.id.rumahcemara.model.response;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import cemara.labschool.id.rumahcemara.model.Group;
 import cemara.labschool.id.rumahcemara.model.ProviderWorker;
 import cemara.labschool.id.rumahcemara.model.Rating;
@@ -11,6 +14,8 @@ public class OutreachLocationDataResponse {
     private String id;
     private String user_id;
     private String lat;
+    @SerializedName("long")
+    @Expose
     private String longitude;
     private String description;
     private String created_at;

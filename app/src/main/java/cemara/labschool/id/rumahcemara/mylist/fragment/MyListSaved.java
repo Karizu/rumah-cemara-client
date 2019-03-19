@@ -105,19 +105,20 @@ public class MyListSaved extends Fragment {
                                     )
                             );
                         }else {
-                            savedList.add(
-                                    new ListSaved(
-                                            res.get(i).getNews().getId()
-                                            ,res.get(i).getNews().getTitle()
-                                            ,res.get(i).getNews().getCreator()
-                                            ,res.get(i).getNews().getCreatedAt()
-                                            ,res.get(i).getNews().getIsBanner()
-                                            ,res.get(i).getNews().getBanner()
-                                            ,false
-                                    )
-                            );
+                            if (res.get(i).getNews()!=null){
+                                savedList.add(
+                                        new ListSaved(
+                                                res.get(i).getNews().getId()
+                                                ,res.get(i).getNews().getTitle()
+                                                ,res.get(i).getNews().getCreator()
+                                                ,res.get(i).getNews().getCreatedAt()
+                                                ,res.get(i).getNews().getIsBanner()
+                                                ,res.get(i).getNews().getBanner()
+                                                ,false
+                                        )
+                                );
+                            }
                         }
-
                     }
                     eventAdapter = new ListSavedAdapter(getContext(), savedList);
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());

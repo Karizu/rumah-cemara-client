@@ -2,12 +2,21 @@ package cemara.labschool.id.rumahcemara.util.news.model;
 
 public class News {
     private String newsId;
+    private String newsCategoryId;
     private String title;
     private String author;
     private String dateCreated;
     private int newsImage;
     private String banner;
 
+    public News(String newsId, String newsCategoryId, String title, String author, String dateCreated, String banner){
+        this.newsId = newsId;
+        this.newsCategoryId = newsCategoryId;
+        this.title = title;
+        this.author = author;
+        this.dateCreated = dateCreated;
+        this.banner = banner;
+    }
     public News(String newsId, String title, String author, String dateCreated, int newsImage){
         this.newsId = newsId;
         this.title = title;
@@ -33,6 +42,14 @@ public class News {
     }
     public void setNewsId(String newsId){
         this.newsId = newsId;
+    }
+
+    public String getNewsCategoryId() {
+        return newsCategoryId;
+    }
+
+    public void setNewsCategoryId(String newsCategoryId) {
+        this.newsCategoryId = newsCategoryId;
     }
 
     public String getAuthor() {
