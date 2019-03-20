@@ -7,6 +7,8 @@ import java.util.List;
 
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.Article;
+import cemara.labschool.id.rumahcemara.model.Category;
+import cemara.labschool.id.rumahcemara.model.CategoryModel;
 import cemara.labschool.id.rumahcemara.model.News;
 
 public class ArticleHelper {
@@ -23,8 +25,8 @@ public class ArticleHelper {
         Reztrofit<ApiInterface> service = Reztrofit.getInstance();
         service.getEndpoint().getArticleWithCategory(newsCategoryId).enqueue(callback);
     }
-    public static void getArticleCampaign(RestCallback<ApiResponse<List<Article>>> callback){
-        getArticleWithCategory(CAMPAIGN_CATEGORY_ID,callback);
+    public static void getArticleCampaign(String id, RestCallback<ApiResponse<List<Article>>> callback){
+        getArticleWithCategory(id,callback);
     }
 
     public static void getArticleCapacity(RestCallback<ApiResponse<List<Article>>> callback){
@@ -38,6 +40,10 @@ public class ArticleHelper {
     public static void getArticleDetail(String id,RestCallback<ApiResponse<Article>> callback){
         Reztrofit<ApiInterface> service = Reztrofit.getInstance();
         service.getEndpoint().getArticleDetail(id).enqueue(callback);
+    }
+    public static void getArticleCategory(RestCallback<ApiResponse<List<CategoryModel>>> callback){
+        Reztrofit<ApiInterface> service = Reztrofit.getInstance();
+        service.getEndpoint().getArticleCategories().enqueue(callback);
     }
 
 }

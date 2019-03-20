@@ -43,11 +43,12 @@ import okhttp3.Headers;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewsCampaignFragment extends Fragment {
+public class NewsFragment extends Fragment {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     NewsAdapter newsAdapter;
     List<News> newsList = new ArrayList<>();
+    String id;
     //carousel
     @BindView(R.id.carousel)
     CarouselView customCarouselView;
@@ -61,7 +62,7 @@ public class NewsCampaignFragment extends Fragment {
     List<cemara.labschool.id.rumahcemara.model.News> newsPager=new ArrayList<>();
 
     View rootView;
-    public NewsCampaignFragment() {
+    public NewsFragment() {
         // Required empty public constructor
     }
 
@@ -72,6 +73,10 @@ public class NewsCampaignFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.news_campaign_fragment, container, false);
         ButterKnife.bind(this, rootView);
+        try {
+            assert getArguments() != null;
+            id = getArguments().getString("id", "");
+        }catch (Exception ignored){}
         getListNews();
         return rootView;
     }

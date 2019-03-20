@@ -115,6 +115,7 @@ public class LoginActivity extends AppCompatActivity {
         try {
             checkPermissionGrant();
             Session.get("Authorization");
+            Log.d("TOKENNNN", Session.get("Authorization").getValue());
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -180,6 +181,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onSuccess(Headers headers, ApiResponse<User> body) {
                     Loading.hide(getApplicationContext());
                     if (body != null && body.isStatus()) {
+                        Log.d("TOKEN : ", body.getToken());
                         Session.save(new SessionObject("Authorization", "Bearer " + body.getToken(), true));
                         LocalData.saveOrUpdate(body.getData());
 

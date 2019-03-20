@@ -6,6 +6,7 @@ import com.rezkyatinnov.kyandroid.reztrofit.Reztrofit;
 import java.util.List;
 
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.model.CategoryModel;
 import cemara.labschool.id.rumahcemara.model.Event;
 
 public class EventHelper {
@@ -22,8 +23,8 @@ public class EventHelper {
         Reztrofit<ApiInterface> service = Reztrofit.getInstance();
         service.getEndpoint().getEventWithCategory(newsCategoryId).enqueue(callback);
     }
-    public static void getEventCampaign(RestCallback<ApiResponse<List<Event>>> callback){
-        getEventWithCategory(CAMPAIGN_CATEGORY_ID,callback);
+    public static void getEventCampaign(String id, RestCallback<ApiResponse<List<Event>>> callback){
+        getEventWithCategory(id,callback);
     }
 
     public static void getEventCapacity(RestCallback<ApiResponse<List<Event>>> callback){
@@ -37,6 +38,10 @@ public class EventHelper {
     public static void getEventDetail(String id,RestCallback<ApiResponse<Event>> callback){
         Reztrofit<ApiInterface> service = Reztrofit.getInstance();
         service.getEndpoint().getEventDetail(id).enqueue(callback);
+    }
+    public static void getEventCategory(RestCallback<ApiResponse<List<CategoryModel>>> callback){
+        Reztrofit<ApiInterface> service = Reztrofit.getInstance();
+        service.getEndpoint().getEventCategories().enqueue(callback);
     }
 
 }

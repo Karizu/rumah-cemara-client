@@ -1,16 +1,20 @@
 package cemara.labschool.id.rumahcemara.home.highlight.article.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import cemara.labschool.id.rumahcemara.home.highlight.article.fragment.ArticleCampaignFragment;
-import cemara.labschool.id.rumahcemara.home.highlight.article.fragment.ArticleCapacityFragment;
-import cemara.labschool.id.rumahcemara.home.highlight.article.fragment.ArticleTrainingFragment;
+
+import java.util.List;
+
+import cemara.labschool.id.rumahcemara.home.highlight.article.fragment.ArticleFragment;
+import cemara.labschool.id.rumahcemara.model.Category;
 
 
 public class TabArticleAdapter extends FragmentPagerAdapter {
     private Context context;
+    private List<Category> categoryList;
     private String id;
 
     public TabArticleAdapter(FragmentManager fm, Context context, String id){
@@ -19,9 +23,22 @@ public class TabArticleAdapter extends FragmentPagerAdapter {
         this.id = id;
     }
 
+    public TabArticleAdapter(FragmentManager fm, Context context, List<Category> categoryList, String id) {
+        super(fm);
+        this.context = context;
+        this.categoryList = categoryList;
+        this.id = id;
+    }
+
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
+        Fragment articleFragment = new ArticleFragment();
+        Bundle args = new Bundle();
+        args.putString("id", categoryList.get(position).getId());
+        articleFragment.setArguments(args);
+
+        return articleFragment;
+       /* switch (position) {
             case 0:
                 return new ArticleTrainingFragment();
             case 1:
@@ -30,25 +47,26 @@ public class TabArticleAdapter extends FragmentPagerAdapter {
                 return new ArticleCapacityFragment();
             default:
                 return null;
-        }
+        }*/
     }
     @Override
     public int getCount() {
-        return 3;
+        return categoryList.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
         // Generate title based on item position
-        switch (position) {
+        /*switch (position) {
             case 0:
-                return context.getString(cemara.labschool.id.rumahcemara.R.string.training_and_education);
+                return categoryList.get(position).getName();
             case 1:
-                return context.getString(cemara.labschool.id.rumahcemara.R.string.campaign_and_nformation);
+                return categoryList.get(position).getName();
             case 2:
-                return context.getString(cemara.labschool.id.rumahcemara.R.string.capacity_building);
+                return categoryList.get(position).getName();
             default:
                 return null;
-        }
+        }*/
+        return categoryList.get(position).getName();
     }
 }

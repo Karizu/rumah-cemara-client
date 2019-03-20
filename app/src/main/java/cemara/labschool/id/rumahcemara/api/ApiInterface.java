@@ -4,6 +4,8 @@ import java.util.List;
 
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.Article;
+import cemara.labschool.id.rumahcemara.model.Category;
+import cemara.labschool.id.rumahcemara.model.CategoryModel;
 import cemara.labschool.id.rumahcemara.model.Chat;
 import cemara.labschool.id.rumahcemara.model.Event;
 import cemara.labschool.id.rumahcemara.model.GenerateToken;
@@ -104,7 +106,7 @@ public interface ApiInterface {
     @GET("news")
     Call<ApiResponse<List<News>>> getNewsWithCategory(@Query("news_category_id") String newsCategoryId);
     @GET("newsCategories")
-    Call<ApiResponse<List<News>>> getNewsCategories();
+    Call<ApiResponse<List<CategoryModel>>> getNewsCategories();
 
     @GET("news/{news_id}")
     Call<ApiResponse<News>> getNewsDetail(@Path("news_id") String id);
@@ -120,7 +122,7 @@ public interface ApiInterface {
     Call<ApiResponse<Article>> getArticleDetail(@Path("article_id") String id);
 
     @GET("articleCategories")
-    Call<ApiResponse<List<Article>>> getArticleCategories();
+    Call<ApiResponse<List<CategoryModel>>> getArticleCategories();
 
     /***************** Event API *********************/
     @GET("event")
@@ -133,7 +135,7 @@ public interface ApiInterface {
     Call<ApiResponse<Event>> getEventDetail(@Path("event_id") String id);
 
     @GET("eventCategories")
-    Call<ApiResponse<List<Event>>> getEventCategories();
+    Call<ApiResponse<List<CategoryModel>>> getEventCategories();
 
     /***************** List API *********************/
     @GET("userList")

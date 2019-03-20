@@ -6,6 +6,7 @@ import com.rezkyatinnov.kyandroid.reztrofit.Reztrofit;
 import java.util.List;
 
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.model.CategoryModel;
 import cemara.labschool.id.rumahcemara.model.News;
 import cemara.labschool.id.rumahcemara.model.Treatment;
 
@@ -38,6 +39,10 @@ public class NewsHelper {
     public static void getNewsDetail(String id,RestCallback<ApiResponse<News>> callback){
         Reztrofit<ApiInterface> service = Reztrofit.getInstance();
         service.getEndpoint().getNewsDetail(id).enqueue(callback);
+    }
+    public static void getNewsCategory(RestCallback<ApiResponse<List<CategoryModel>>> callback){
+        Reztrofit<ApiInterface> service = Reztrofit.getInstance();
+        service.getEndpoint().getNewsCategories().enqueue(callback);
     }
 
 }
