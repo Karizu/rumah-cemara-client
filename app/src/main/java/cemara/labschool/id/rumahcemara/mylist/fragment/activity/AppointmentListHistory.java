@@ -173,7 +173,7 @@ public class AppointmentListHistory extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.icon_back);
-        toolbarTitle.setText("Appointment History");
+        toolbarTitle.setText("Riwayat Janji");
         toolbarImg.setVisibility(View.GONE);
         toolbar.setNavigationOnClickListener(v -> {
             //What to do on back clicked

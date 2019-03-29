@@ -1,6 +1,9 @@
 package cemara.labschool.id.rumahcemara.home.service.biomedical.FindOutreachWorker;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,14 +11,11 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +24,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,11 +32,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
@@ -55,27 +54,18 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import cemara.labschool.id.rumahcemara.R;
 import cemara.labschool.id.rumahcemara.util.dialog.Loading;
 import cemara.labschool.id.rumahcemara.util.nearest.adapter.NearestAdapter;
-import cemara.labschool.id.rumahcemara.util.nearest.adapter.NearestSearchResultAdapter;
 import cemara.labschool.id.rumahcemara.util.nearest.adapter.adapter.nearest.search.biomedical.NearestSearchResultAdapterApi;
 import cemara.labschool.id.rumahcemara.util.nearest.modal.Nearest;
 
-import cemara.labschool.id.rumahcemara.api.Api;
 import cemara.labschool.id.rumahcemara.api.AppointmentHelper;
 import cemara.labschool.id.rumahcemara.home.service.biomedical.FindOutreachWorker.adapter.AdapterListOutreachNearMe;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.NearestOutreachModel;
-import cemara.labschool.id.rumahcemara.model.response.OutreachLocationDataResponse;
 import cemara.labschool.id.rumahcemara.model.response.OutreachNearMeResponse;
-import cemara.labschool.id.rumahcemara.util.nearest.adapter.NearestAdapter;
-import cemara.labschool.id.rumahcemara.util.nearest.modal.Nearest;
 import okhttp3.Headers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class FindOutreachWorkerActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener, SearchView.OnQueryTextListener {
     private GoogleMap mMap, mOutreach;
@@ -95,7 +85,8 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
     private AdapterListOutreachNearMe adapter;
     private Context activity;
     private LinearLayoutManager layoutManager;
-    String sBearerToken;
+    private Dialog dialog;
+
     @BindView(R.id.bottom_sheet)
     LinearLayout layoutBottomSheet;
     @BindView(R.id.result_recycler)
@@ -275,31 +266,44 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
                 Loading.hide(getApplicationContext());
                 if (body != null && body.isStatus()) {
                     List<OutreachNearMeResponse> res = body.getData();
-                    System.out.println("Response: " + body.getData());
-                    articleModels = new ArrayList<>();
-                    for (int i = 0; i < res.size(); i++) {
-                        OutreachNearMeResponse article = res.get(i);
-                        articleModels.add(new NearestOutreachModel(article.getId(),
-                                article.getUser_id(),
-                                article.getUser().getProfile().getPicture(),
-                                article.getUser().getProfile().getFullname(),
-                                article.getDescription(),
-                                article.getUser().getProfile().getAddress(),
-                                article.getUser().getProfile().getCity(),
-                                article.getUser().getProfile().getPhoneNumber(),
-                                article.getDistance(),
-                                article.getUser(),
-                                article.getGroup()));
-                    }
+                    if (res.size() != 0){
+                        System.out.println("Response: " + body.getData());
+                        articleModels = new ArrayList<>();
+                        for (int i = 0; i < res.size(); i++) {
+                            OutreachNearMeResponse article = res.get(i);
+                            articleModels.add(new NearestOutreachModel(article.getId(),
+                                    article.getUser_id(),
+                                    article.getUser().getProfile().getPicture(),
+                                    article.getUser().getProfile().getFullname(),
+                                    article.getDescription(),
+                                    article.getUser().getProfile().getAddress(),
+                                    article.getUser().getProfile().getCity(),
+                                    article.getUser().getProfile().getPhoneNumber(),
+                                    article.getDistance(),
+                                    article.getUser(),
+                                    article.getGroup()));
+                        }
 
-                    adapter = new AdapterListOutreachNearMe(articleModels, activity);
-                    recyclerView.setAdapter(adapter);
+                        adapter = new AdapterListOutreachNearMe(articleModels, activity);
+                        recyclerView.setAdapter(adapter);
+                    } else {
+                        showDialogAlert(R.layout.dialog_appointment_out_of_range_outreach);
+                        TextView ok = dialog.findViewById(R.id.appointment_ok);
+                        ok.setOnClickListener(view -> onBackPressed());
+                    }
+                } else {
+                    showDialogAlert(R.layout.dialog_appointment_out_of_range_outreach);
+                    TextView ok = dialog.findViewById(R.id.appointment_ok);
+                    ok.setOnClickListener(view -> onBackPressed());
                 }
             }
 
             @Override
             public void onFailed(ErrorResponse error) {
                 Loading.hide(getApplicationContext());
+                showDialogAlert(R.layout.dialog_bad_connection);
+                TextView ok = dialog.findViewById(R.id.appointment_ok);
+                ok.setOnClickListener(view -> onBackPressed());
             }
 
             @Override
@@ -310,6 +314,23 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
 
     }
 
+    private void showDialogAlert(int layout) {
+        dialog = new Dialog(this);
+        //SET TITLE
+        dialog.setTitle("");
+
+        //set content
+        dialog.setContentView(layout);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(Objects.requireNonNull(dialog.getWindow()).getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
 
     private void getListNearest() {
         nearestList.add(new Nearest(R.drawable.select_dp, "Jika Tester", "2 km", "1"));

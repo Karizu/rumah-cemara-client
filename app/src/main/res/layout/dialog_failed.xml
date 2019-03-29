@@ -27,13 +27,13 @@
                 android:textStyle="bold"
                 android:textColor="@color/Black"
                 android:textSize="@dimen/text_size_medium"
-                android:text="Failed Send Your Appointment"/>
+                android:text="Formulir Gagal Dikirim"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/NormalGreyText"
                 android:layout_marginBottom="@dimen/margin_padding_size_micro"
-                android:text="Bad Connection"/>
+                android:text="Koneksi Terputus"/>
 
         </LinearLayout>
         <View

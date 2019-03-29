@@ -47,13 +47,13 @@ public class MyListAdapter extends FragmentPagerAdapter {
         // Generate title based on item position
         switch (position) {
             case 0:
-                return "My Appointment";
+                return "Janji";
             case 1:
-                return "My Reminder";
+                return "Pengingat";
             case 2:
-                return "Saved";
+                return "Bookmark";
             case 3:
-                return "Report Status";
+                return "Status Laporan";
             default:
                 return null;
         }

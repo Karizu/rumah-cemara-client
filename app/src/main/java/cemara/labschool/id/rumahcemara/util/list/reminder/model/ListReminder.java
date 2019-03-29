@@ -2,6 +2,7 @@ package cemara.labschool.id.rumahcemara.util.list.reminder.model;
 
 public class ListReminder {
     private String eventId;
+    private String idList;
     private String title;
     private String address;
     private int newsImage;
@@ -9,6 +10,15 @@ public class ListReminder {
 
     public ListReminder(String eventId, String title, String address, int newsImage, String banner) {
         this.eventId = eventId;
+        this.title = title;
+        this.address = address;
+        this.newsImage = newsImage;
+        this.banner = banner;
+    }
+
+    public ListReminder(String eventId, String idList, String title, String address, int newsImage, String banner) {
+        this.eventId = eventId;
+        this.idList = idList;
         this.title = title;
         this.address = address;
         this.newsImage = newsImage;
@@ -53,5 +63,13 @@ public class ListReminder {
 
     public void setBanner(String banner) {
         this.banner = banner;
+    }
+
+    public String getIdList() {
+        return idList;
+    }
+
+    public void setIdList(String idList) {
+        this.idList = idList;
     }
 }

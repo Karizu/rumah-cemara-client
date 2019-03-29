@@ -5,6 +5,8 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -23,13 +25,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.rezkyatinnov.kyandroid.localdata.LocalData;
 import com.rezkyatinnov.kyandroid.reztrofit.ErrorResponse;
 import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
-import com.rezkyatinnov.kyandroid.session.Session;
-import com.rezkyatinnov.kyandroid.session.SessionObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,17 +38,14 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cemara.labschool.id.rumahcemara.MainActivity;
+import cemara.labschool.id.rumahcemara.R;
 import cemara.labschool.id.rumahcemara.api.ArticleHelper;
-import cemara.labschool.id.rumahcemara.api.AuthHelper;
 import cemara.labschool.id.rumahcemara.api.EventHelper;
 import cemara.labschool.id.rumahcemara.api.NewsHelper;
-import cemara.labschool.id.rumahcemara.auth.activity.LoginActivity;
-import cemara.labschool.id.rumahcemara.R;
-import cemara.labschool.id.rumahcemara.home.service.asktheexpert.AskTheExpertActivity;
 import cemara.labschool.id.rumahcemara.home.highlight.article.ArticleActivity;
 import cemara.labschool.id.rumahcemara.home.highlight.event.EventActivity;
 import cemara.labschool.id.rumahcemara.home.highlight.news.NewsActivity;
+import cemara.labschool.id.rumahcemara.home.service.asktheexpert.AskTheExpertActivity;
 import cemara.labschool.id.rumahcemara.home.service.behavioral.CounselingAppointmentActivity;
 import cemara.labschool.id.rumahcemara.home.service.biomedical.BiomedicalAppointmentActivity;
 import cemara.labschool.id.rumahcemara.home.service.structural.LegalCounselingAppointmentActivity;
@@ -56,19 +53,15 @@ import cemara.labschool.id.rumahcemara.home.service.structural.StructuralLegalAi
 import cemara.labschool.id.rumahcemara.home.service.structural.StructuralViolationActivity;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.Article;
-import cemara.labschool.id.rumahcemara.model.User;
 import cemara.labschool.id.rumahcemara.util.article.model.adapter.ArticleAdapter;
 import cemara.labschool.id.rumahcemara.util.dialog.Loading;
 import cemara.labschool.id.rumahcemara.util.event.model.Event;
 import cemara.labschool.id.rumahcemara.util.events.adapter.EventsAdapter;
-import cemara.labschool.id.rumahcemara.util.firebase.MyFirebaseMessagingService;
+import cemara.labschool.id.rumahcemara.util.events.model.Events;
 import cemara.labschool.id.rumahcemara.util.helper.DateHelper;
 import cemara.labschool.id.rumahcemara.util.news.adapter.NewsAdapter;
 import cemara.labschool.id.rumahcemara.util.news.model.News;
-import cemara.labschool.id.rumahcemara.R;
 import okhttp3.Headers;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 
 
 /**
@@ -88,7 +81,7 @@ public class HomeFragment extends Fragment implements LocationListener {
     EventsAdapter eventsAdapter;
     List<News> newsList = new ArrayList<>();
     List<cemara.labschool.id.rumahcemara.util.article.model.Article> articlesList = new ArrayList<>();
-    List<Event> eventsList = new ArrayList<>();
+    List<Events> eventsList = new ArrayList<>();
     Dialog dialog;
     int TAG_CODE_PERMISSION_LOCATION;
 
@@ -102,9 +95,8 @@ public class HomeFragment extends Fragment implements LocationListener {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.home_fragment, container, false);
         ButterKnife.bind(this, rootView);
-        init();
 
-        if (ContextCompat.checkSelfPermission(getActivity(),
+        if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             Log.i("uuh!", "need permissions....");
@@ -115,6 +107,7 @@ public class HomeFragment extends Fragment implements LocationListener {
         }
 
         getListNews();
+        init();
 
         return rootView;
     }
@@ -205,7 +198,6 @@ public class HomeFragment extends Fragment implements LocationListener {
         NewsHelper.getNews( new RestCallback<ApiResponse<List<cemara.labschool.id.rumahcemara.model.News>>>() {
             @Override
             public void onSuccess(Headers headers, ApiResponse<List<cemara.labschool.id.rumahcemara.model.News>> body) {
-                Loading.hide(getContext());
                 if (body != null && body.isStatus()) {
                     List<cemara.labschool.id.rumahcemara.model.News> newsLists=body.getData();
                     Log.d("aa","sss");
@@ -218,7 +210,9 @@ public class HomeFragment extends Fragment implements LocationListener {
                                     newsLists.get(i).getTitle(),
                                     newsLists.get(i).getUserCreator().getProfile().getFullname(),
                                     DateHelper.dateFormat(DateHelper.stringToDate(newsLists.get(i).getCreatedAt())),
-                                    newsLists.get(i).getBanner()));
+                                    newsLists.get(i).getBanner(),
+                                    newsLists.get(i).getContent(),
+                                    newsLists.get(i).getUserCreator()));
                         }
                     } else {
                         for(int i=0;i<newsLists.size();i++){
@@ -227,7 +221,9 @@ public class HomeFragment extends Fragment implements LocationListener {
                                     newsLists.get(i).getTitle(),
                                     newsLists.get(i).getUserCreator().getProfile().getFullname(),
                                     DateHelper.dateFormat(DateHelper.stringToDate(newsLists.get(i).getCreatedAt())),
-                                    newsLists.get(i).getBanner()));
+                                    newsLists.get(i).getBanner(),
+                                    newsLists.get(i).getContent(),
+                                    newsLists.get(i).getUserCreator()));
                         }
                     }
 
@@ -245,7 +241,9 @@ public class HomeFragment extends Fragment implements LocationListener {
                                                 newsArticles.get(i).getTitle(),
                                                 newsArticles.get(i).getUserCreator().getProfile().getFullname(),
                                                 DateHelper.dateFormat(DateHelper.stringToDate(newsArticles.get(i).getCreatedAt())),
-                                                newsArticles.get(i).getBanner()));
+                                                newsArticles.get(i).getBanner(),
+                                                newsArticles.get(i).getContent(),
+                                                newsArticles.get(i).getUserCreator()));
                                     }
                                 } else {
                                     for (int i=0; i<newsArticles.size(); i++){
@@ -254,15 +252,17 @@ public class HomeFragment extends Fragment implements LocationListener {
                                                 newsArticles.get(i).getTitle(),
                                                 newsArticles.get(i).getUserCreator().getProfile().getFullname(),
                                                 DateHelper.dateFormat(DateHelper.stringToDate(newsArticles.get(i).getCreatedAt())),
-                                                newsArticles.get(i).getBanner()));
+                                                newsArticles.get(i).getBanner(),
+                                                newsArticles.get(i).getContent(),
+                                                newsArticles.get(i).getUserCreator()));
                                     }
                                 }
                             }
 
-//                            articleAdapter = new ArticleAdapter(getActivity(), articlesList);
-//                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-//                            recyclerView.setLayoutManager(layoutManager);
-//                            recyclerView.setItemAnimator(new DefaultItemAnimator());
+                            newsAdapter = new NewsAdapter(getActivity(), articlesList, "home_news", "article", "art");
+                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                            recyclerView.setLayoutManager(layoutManager);
+                            recyclerView.setItemAnimator(new DefaultItemAnimator());
 //                            recyclerView.setAdapter(articleAdapter);
 //                            articleAdapter.notifyDataSetChanged();
                         }
@@ -283,6 +283,7 @@ public class HomeFragment extends Fragment implements LocationListener {
                         EventHelper.getEvent(new RestCallback<ApiResponse<List<cemara.labschool.id.rumahcemara.model.Event>>>() {
                         @Override
                         public void onSuccess(Headers headers, ApiResponse<List<cemara.labschool.id.rumahcemara.model.Event>> body) {
+                            Loading.hide(getContext());
                             if (body != null && body.isStatus()) {
                                 List<cemara.labschool.id.rumahcemara.model.Event> newsEvents=body.getData();
                                 if (newsEvents.size() >= 3){
@@ -292,7 +293,9 @@ public class HomeFragment extends Fragment implements LocationListener {
                                                 newsEvents.get(i).getTitle(),
                                                 newsEvents.get(i).getUserCreator().getProfile().getFullname(),
                                                 DateHelper.dateFormat(DateHelper.stringToDate(newsEvents.get(i).getCreatedAt())),
-                                                newsEvents.get(i).getBanner()));
+                                                newsEvents.get(i).getBanner(),
+                                                newsEvents.get(i).getContent(),
+                                                newsEvents.get(i).getUserCreator()));
                                     }
                                 } else {
                                     for (int i=0; i<newsEvents.size(); i++){
@@ -301,15 +304,17 @@ public class HomeFragment extends Fragment implements LocationListener {
                                                 newsEvents.get(i).getTitle(),
                                                 newsEvents.get(i).getUserCreator().getProfile().getFullname(),
                                                 DateHelper.dateFormat(DateHelper.stringToDate(newsEvents.get(i).getCreatedAt())),
-                                                newsEvents.get(i).getBanner()));
+                                                newsEvents.get(i).getBanner(),
+                                                newsEvents.get(i).getContent(),
+                                                newsEvents.get(i).getUserCreator()));
                                     }
                                 }
                             }
 
-//                            newsAdapter = new NewsAdapter(getActivity(), newsList);
-//                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-//                            recyclerView.setLayoutManager(layoutManager);
-//                            recyclerView.setItemAnimator(new DefaultItemAnimator());
+                            newsAdapter = new NewsAdapter(getActivity(), eventsList, "home_news", "event");
+                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                            recyclerView.setLayoutManager(layoutManager);
+                            recyclerView.setItemAnimator(new DefaultItemAnimator());
 //                            recyclerView.setAdapter(newsAdapter);
 //                            newsAdapter.notifyDataSetChanged();
                         }
@@ -332,18 +337,20 @@ public class HomeFragment extends Fragment implements LocationListener {
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setAdapter(newsAdapter);
-                    newsAdapter.notifyDataSetChanged();
+//                    newsAdapter.notifyDataSetChanged();
 
                 } else {
 //                        loadingDialog.dismiss();
-                    Toast.makeText(getContext(), body.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), Objects.requireNonNull(body).getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailed(ErrorResponse error) {
-                Toast.makeText(getContext(),"Gagal Ambil Data", Toast.LENGTH_SHORT).show();
                 Loading.hide(getContext());
+                showDialogAlert(R.layout.dialog_bad_connection);
+                TextView ok = dialog.findViewById(R.id.appointment_ok);
+                ok.setOnClickListener(view -> dialog.dismiss());
             }
 
             @Override
@@ -351,6 +358,24 @@ public class HomeFragment extends Fragment implements LocationListener {
                 Loading.hide(getContext());
             }
         });
+    }
+
+    private void showDialogAlert(int layout) {
+        dialog = new Dialog(Objects.requireNonNull(getActivity()));
+        //SET TITLE
+        dialog.setTitle("");
+
+        //set content
+        dialog.setContentView(layout);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(Objects.requireNonNull(dialog.getWindow()).getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
     private void init() {
@@ -366,15 +391,10 @@ public class HomeFragment extends Fragment implements LocationListener {
         });
     }
 
-    private void toast() {
-        Toast toast = Toast.makeText(getContext(), "On Progress", Toast.LENGTH_SHORT);
-        toast.show();
-    }
-
     private void showDialog(int layout) {
         dialog = new Dialog(Objects.requireNonNull(getContext()));
         //SET TITLE
-        dialog.setTitle("Biomedical");
+        dialog.setTitle("");
 
         //set content
         dialog.setContentView(layout);

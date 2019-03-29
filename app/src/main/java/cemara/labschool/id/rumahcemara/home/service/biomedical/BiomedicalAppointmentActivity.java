@@ -72,6 +72,9 @@ public class BiomedicalAppointmentActivity extends AppCompatActivity implements 
                         // Logic to handle location object
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
+
+                        Log.d("latitude", String.valueOf(latitude));
+                        Log.d("longitude", String.valueOf(longitude));
                     }
                 });
 
@@ -111,7 +114,7 @@ public class BiomedicalAppointmentActivity extends AppCompatActivity implements 
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.icon_back);
-        toolbarTitle.setText("Biomedical Appointment");
+        toolbarTitle.setText("Biomedical");
         toolbarImg.setImageResource(R.drawable.icon_biomedical_white);
         toolbar.setNavigationOnClickListener(v -> {
             //What to do on back clicked
@@ -125,8 +128,8 @@ public class BiomedicalAppointmentActivity extends AppCompatActivity implements 
         longitude = location.getLongitude();
         setLatitude.setText(String.valueOf(latitude));
         setLongitude.setText(String.valueOf(longitude));
-        Log.d("Latitude", String.valueOf(latitude));
-        Log.d("Longitude", String.valueOf(longitude));
+//        Log.d("Latitude", String.valueOf(latitude));
+//        Log.d("Longitude", String.valueOf(longitude));
     }
 
     @Override

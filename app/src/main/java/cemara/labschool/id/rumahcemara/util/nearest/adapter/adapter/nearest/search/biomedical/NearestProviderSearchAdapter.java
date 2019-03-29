@@ -69,7 +69,7 @@ public class NearestProviderSearchAdapter extends RecyclerView.Adapter<NearestPr
     public void onBindViewHolder(@NonNull NearestProviderSearchAdapter.NearestViewHolder nearestViewHolder, final int position) {
         final NearestProviderModel articleModel = nearestsList.get(position);
         final String id = articleModel.getId();
-        final String srcImage = articleModel.getSrcImage();
+        final String srcImage = articleModel.getGroup().getGroupProfile().getPicture();
         final String name = articleModel.getName();
         final String description = articleModel.getDescription();
         final String address = articleModel.getAddress();
@@ -85,7 +85,7 @@ public class NearestProviderSearchAdapter extends RecyclerView.Adapter<NearestPr
         nearestViewHolder.nearestRange.setText(distance);
         // loading ImageNews using Glide library
         Glide.with(mContext)
-                .load(articleModel.getSrcImage())
+                .load(srcImage)
                 .apply(RequestOptions.circleCropTransform())
                 .into(nearestViewHolder.imgNearest);
         //click
@@ -104,7 +104,7 @@ public class NearestProviderSearchAdapter extends RecyclerView.Adapter<NearestPr
                 TextView tvcity = dialog.findViewById(R.id.nearest_city);
                 TextView tvphone = dialog.findViewById(R.id.nearest_phone);
                 TextView tvRange = dialog.findViewById(R.id.nearest_range);
-//            Glide.with(context).load(articleModel.getSrcImage()).apply(RequestOptions.circleCropTransform()).into(imgProfile);
+                 Glide.with(mContext).load(srcImage).apply(RequestOptions.circleCropTransform()).into(imgProfile);
                 tvname.setText(name);
                 tvaddress.setText(address);
 //            tvcity.setText(city);

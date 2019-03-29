@@ -16,12 +16,12 @@ public class EventHelper {
     public static  String TRAINING_CATEGORY_ID="2750251b-eb91-5e02-a055-52e57983f49e";
     public static void getEvent(RestCallback<ApiResponse<List<Event>>> callback){
         Reztrofit<ApiInterface> service = Reztrofit.getInstance();
-        service.getEndpoint().getEvent().enqueue(callback);
+        service.getEndpoint().getEvent(1).enqueue(callback);
     }
 
     public static void getEventWithCategory(String newsCategoryId,RestCallback<ApiResponse<List<Event>>> callback){
         Reztrofit<ApiInterface> service = Reztrofit.getInstance();
-        service.getEndpoint().getEventWithCategory(newsCategoryId).enqueue(callback);
+        service.getEndpoint().getEventWithCategory(newsCategoryId, 1).enqueue(callback);
     }
     public static void getEventCampaign(String id, RestCallback<ApiResponse<List<Event>>> callback){
         getEventWithCategory(id,callback);

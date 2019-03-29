@@ -123,12 +123,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Don't have an account?" />
+            android:text="Belum punya akun?" />
         <TextView
             android:id="@+id/sign_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign Up"
+            android:text="Daftar"
             android:textColor="@color/FocusColorText"/>
     </LinearLayout>
 </LinearLayout>

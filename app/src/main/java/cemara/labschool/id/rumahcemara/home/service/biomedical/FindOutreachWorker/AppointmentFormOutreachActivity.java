@@ -123,7 +123,7 @@ public class AppointmentFormOutreachActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.icon_back);
-        toolbarTitle.setText("Biomedical Appointment");
+        toolbarTitle.setText("Biomedical");
         toolbarImg.setImageResource(R.drawable.icon_biomedical_white);
         toolbar.setNavigationOnClickListener(v -> {
             //What to do on back clicked

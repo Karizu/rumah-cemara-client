@@ -1,13 +1,20 @@
 package cemara.labschool.id.rumahcemara.home.service.behavioral.FindServiceProvider;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,6 +30,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.angads25.toggle.LabeledSwitch;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.rezkyatinnov.kyandroid.localdata.LocalData;
 import com.rezkyatinnov.kyandroid.reztrofit.ErrorResponse;
 import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
@@ -51,7 +60,7 @@ import okhttp3.Headers;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
-public class AppointmentFormActivity extends AppCompatActivity {
+public class AppointmentFormActivity extends AppCompatActivity implements LocationListener {
 
 
     @BindView(R.id.thistoolbar)
@@ -75,8 +84,12 @@ public class AppointmentFormActivity extends AppCompatActivity {
     String serviceTypeId = "17c00365-4987-5f1e-925b-2119fbe5ff8a";
     String startDate;
     String endDate;
+    private LocationManager locationManager;
     double latitude, longitude;
     boolean validate = false;
+    int flag = 0;
+    private int TAG_CODE_PERMISSION_LOCATION;
+    private FusedLocationProviderClient fusedLocationClient;
 
     final Calendar myCalendar = Calendar.getInstance();
     DatePickerDialog.OnDateSetListener date = (datePicker, year, month, day) -> {
@@ -104,8 +117,31 @@ public class AppointmentFormActivity extends AppCompatActivity {
         User user = realm.where(User.class).findFirst();
         user_id = user.getId();
 
-        latitude = -6.893870;
-        longitude = 107.631200;
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            Log.i("fuck", "need permissions....");
+            ActivityCompat.requestPermissions(this, new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,},
+                    TAG_CODE_PERMISSION_LOCATION);
+        }
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, location -> {
+                    // Got last known location. In some rare situations this can be null.
+                    if (location != null) {
+                        // Logic to handle location object
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
+
+                        initSpinnerDosen(latitude, longitude);
+                    }
+                });
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
         appContext = this;
 
@@ -116,12 +152,12 @@ public class AppointmentFormActivity extends AppCompatActivity {
         apponintmentSwitch.setOnToggledListener((labeledSwitch, isOn) -> {
             if(isOn){
                 appointmentWorkerName.setEnabled(true);
+                flag = 1;
             }else {
                 appointmentWorkerName.setEnabled(false);
+                flag = 0;
             }
         });
-
-        initSpinnerDosen();
 
         appointmentWorkerName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -151,7 +187,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
         });
     }
 
-    private void initSpinnerDosen() {
+    private void initSpinnerDosen(Double latitude, Double longitude) {
         Loading.show(this);
         AppointmentHelper.getListOutreach(latitude, longitude, new RestCallback<ApiResponse<List<OutreachNearMeResponse>>>() {
             @Override
@@ -240,8 +276,12 @@ public class AppointmentFormActivity extends AppCompatActivity {
 
         if (descriptionMaterial.getText().toString().length() != 0 && startDate.length() != 0 && endDate.length() != 0) {
             Loading.show(this);
-            valueName = listValue.get(appointmentWorkerName.getSelectedItemPosition());
-            System.out.println("valueList: "+valueName);
+            if (flag == 1){
+                valueName = listValue.get(appointmentWorkerName.getSelectedItemPosition());
+            } else {
+                valueName = "";
+            }
+            Log.d("WorkerID", valueName);
             RequestBody requestBody;
             requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
@@ -334,7 +374,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.icon_back);
-        toolbarTitle.setText("Appointment Form");
+        toolbarTitle.setText("Formulir");
         toolbarImg.setImageResource(R.drawable.icon_behavioral_white);
         toolbar.setNavigationOnClickListener(v -> {
             //What to do on back clicked
@@ -342,4 +382,24 @@ public class AppointmentFormActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
 }

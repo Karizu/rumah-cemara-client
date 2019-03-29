@@ -3,6 +3,7 @@
     android:layout_marginTop="@dimen/margin_padding_size_small"
     android:layout_marginLeft="@dimen/margin_padding_size_small"
     android:layout_marginRight="@dimen/margin_padding_size_small"
+    android:layout_marginBottom="8dp"
     android:id="@+id/row_appointment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

@@ -1,17 +1,23 @@
 package cemara.labschool.id.rumahcemara.options.fragment;
 
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -21,19 +27,19 @@ import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
 import com.rezkyatinnov.kyandroid.session.Session;
 
 import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cemara.labschool.id.rumahcemara.BuildConfig;
 import cemara.labschool.id.rumahcemara.R;
 import cemara.labschool.id.rumahcemara.api.AuthHelper;
 import cemara.labschool.id.rumahcemara.auth.activity.LoginActivity;
-import cemara.labschool.id.rumahcemara.home.service.biomedical.FindServiceProvider.FindServiceProviderActivity;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
-import cemara.labschool.id.rumahcemara.model.Profile;
 import cemara.labschool.id.rumahcemara.model.User;
 import cemara.labschool.id.rumahcemara.options.fragment.activity.EditAccountActivity;
 import cemara.labschool.id.rumahcemara.options.fragment.activity.WebActivity;
-import io.realm.Realm;
+import cemara.labschool.id.rumahcemara.util.firebase.SessionManagement;
 import okhttp3.Headers;
 
 public class OptionsFragment extends Fragment {
@@ -57,17 +63,38 @@ public class OptionsFragment extends Fragment {
 
     Dialog dialog;
 
+    Switch switchNotif;
+
     public OptionsFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.options_fragment, container, false);
         ButterKnife.bind(this, view);
         title.setText(getString(R.string.title_options));
+        switchNotif = view.findViewById(R.id.switchNotif);
+        SessionManagement session = new SessionManagement(Objects.requireNonNull(getActivity()));
+        Log.d("OptionsFragment", "Status notifikasi " + session.getNotification());
+
+        if (session.getNotification() == 0) {
+            switchNotif.setChecked(false);
+        } else if (session.getNotification() == 1) {
+            switchNotif.setChecked(true);
+        } else {
+            switchNotif.setChecked(true);
+        }
+
+        switchNotif.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b) {
+                session.setNotification(1);
+            } else {
+                session.setNotification(0);
+            }
+        });
 
         init();
 
@@ -79,7 +106,7 @@ public class OptionsFragment extends Fragment {
             @Override
             public void onSuccess(Headers headers, ApiResponse<User> body) {
                 if (body.isStatus() && body.getData() != null) {
-                    Glide.with(getActivity())
+                    Glide.with(Objects.requireNonNull(getActivity()))
                             .load(body.getData().getProfile().getPicture())
                             .apply(RequestOptions.circleCropTransform())
                             .into(imgProfile);
@@ -109,7 +136,6 @@ public class OptionsFragment extends Fragment {
 
     @OnClick(R.id.logout)
     public void dialogLogout() {
-        /**VERSI 1**/
         /*new AlertDialog.Builder(getActivity())
                 .setTitle("Konfirmasi Keluar")
                 .setMessage("Apakah anda yakin ingin keluar?")
@@ -126,63 +152,60 @@ public class OptionsFragment extends Fragment {
                         dialog.cancel();
                     }
                 }).show();*/
-        /**VERSI 1**/
         showDialog(R.layout.dialog_logout);
         Button btn_ya = dialog.findViewById(R.id.yes_logout);
         Button btn_no = dialog.findViewById(R.id.no_logout);
-        btn_ya.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                Session.clear();
-                LocalData.clear();
+        btn_ya.setOnClickListener(v -> {
+            dialog.dismiss();
+            Session.clear();
+            LocalData.clear();
 
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
-                getActivity().finish();
-            }
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+            Objects.requireNonNull(getActivity()).finish();
         });
-        btn_no.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        btn_no.setOnClickListener(v -> dialog.dismiss());
     }
 
-    @OnClick({R.id.privacy, R.id.notification, R.id.faq, R.id.term, R.id.rateapp, R.id.shareapp})
+    @OnClick({R.id.privacy, R.id.notification, R.id.term, R.id.rateapp, R.id.shareapp})
     public void onViewClicked(View view) {
         Intent i = new Intent(getContext(), WebActivity.class);
         switch (view.getId()) {
             case R.id.privacy:
-                i.putExtra("link", "https://rumahcemara.or.id/tentang-kami/");
-                i.putExtra("title", "Privacy Policy");
-                startActivity(i);
+//                i.putExtra("link", "https://rumahcemara.or.id/tentang-kami/");
+//                i.putExtra("title", "Privacy Policy");
+//                startActivity(i);
                 break;
             case R.id.notification:
-                i.putExtra("link", "https://rumahcemara.or.id/term-and-condition/");
-                i.putExtra("title", "Notification");
-                startActivity(i);
-                break;
-            case R.id.faq:
-                i.putExtra("link", "https://rumahcemara.or.id/tentang-kami/");
-                i.putExtra("title", "FAQ");
-                startActivity(i);
+//                i.putExtra("link", "https://rumahcemara.or.id/term-and-condition/");
+//                i.putExtra("title", "Notification");
+//                startActivity(i);
                 break;
             case R.id.term:
-                i.putExtra("link", "https://rumahcemara.or.id/term-and-condition/");
-                i.putExtra("title", "Term & Condition");
-                startActivity(i);
+//                i.putExtra("link", "https://rumahcemara.or.id/term-and-condition/");
+//                i.putExtra("title", "Term & Condition");
+//                startActivity(i);
                 break;
             case R.id.rateapp:
-                i.putExtra("link", "https://rumahcemara.or.id/term-and-condition/");
-                i.putExtra("title", "Rate App");
-                startActivity(i);
+                Uri uri = Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID);
+                Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                try {
+                    startActivity(myAppLinkToMarket);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(getContext(), " unable to find app", Toast.LENGTH_LONG).show();
+                }
                 break;
             case R.id.shareapp:
-                i.putExtra("link", "https://rumahcemara.or.id/term-and-condition/");
-                i.putExtra("title", "Share App");
-                startActivity(i);
+                try {
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/html");
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Klik App");
+                    String shareMessage = "Check out the App at: https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                    startActivity(Intent.createChooser(shareIntent, "Choose One"));
+                } catch(Exception e) {
+                    //e.toString();
+                }
                 break;
         }
     }

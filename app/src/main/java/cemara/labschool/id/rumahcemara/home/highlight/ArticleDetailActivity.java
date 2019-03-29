@@ -40,7 +40,7 @@ public class ArticleDetailActivity extends AppCompatActivity {
     List<Article> articleList = new ArrayList<>();
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    String articleId=null;
+    String articleId, flag;
     @BindView(R.id.tvTitle)
     TextView tvTitle;
     @BindView(R.id.tvAuthor)
@@ -57,6 +57,7 @@ public class ArticleDetailActivity extends AppCompatActivity {
     Activity context;
 
     cemara.labschool.id.rumahcemara.model.Article articleDetail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +65,7 @@ public class ArticleDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Intent intent=getIntent();
         articleId=intent.getStringExtra("id");
+        flag=intent.getStringExtra("flag");
         getListArticle();
         setToolbar();
         context = this;
@@ -106,7 +108,13 @@ public class ArticleDetailActivity extends AppCompatActivity {
                     articleDetailContent.setBackgroundColor(Color.TRANSPARENT);
                     articleDetailContent.loadDataWithBaseURL("", content, "text/html", "UTF-8", "");
 
-                    markNewsTop.setOnClickListener(new MarkArticleClickListener(articleDetail));
+                    if (flag!=null){
+                        markNewsTop.setEnabled(false);
+                        markNewsTop.setImageDrawable(getResources().getDrawable(R.drawable.ic_bookmark_black_24dp));
+                    } else {
+                        markNewsTop.setOnClickListener(new MarkArticleClickListener(context, articleDetail));
+                    }
+
 
                 } else {
 //                        loadingDialog.dismiss();

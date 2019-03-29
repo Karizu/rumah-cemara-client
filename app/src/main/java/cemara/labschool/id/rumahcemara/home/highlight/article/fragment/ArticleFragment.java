@@ -1,6 +1,7 @@
 package cemara.labschool.id.rumahcemara.home.highlight.article.fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -47,6 +48,7 @@ public class ArticleFragment extends Fragment {
     cemara.labschool.id.rumahcemara.util.article.model.adapter.ArticleAdapter articleAdapter;
     List<Article> articleList = new ArrayList<>();
     String id;
+    private Context context;
     //carousel
     @BindView(R.id.carousel)
     CarouselView customCarouselView;
@@ -70,6 +72,7 @@ public class ArticleFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.article_campaign_fragment, container, false);
         ButterKnife.bind(this, rootView);
+        context = getActivity();
         try {
             assert getArguments() != null;
             id = getArguments().getString("id", "");
@@ -163,7 +166,7 @@ public class ArticleFragment extends Fragment {
                     .into(ivCarousel);
             tvLabelCarousel.setText(articlePager.get(position).getTitle());
             ivShare.setOnClickListener(shareOnClickListener);
-            ivMark.setOnClickListener(new MarkArticleClickListener(articlePager.get(position)));
+            ivMark.setOnClickListener(new MarkArticleClickListener(context, articlePager.get(position)));
 
             ivCarousel.setOnClickListener(new ArticleClickListener(articlePager.get(position)));
             return customView;

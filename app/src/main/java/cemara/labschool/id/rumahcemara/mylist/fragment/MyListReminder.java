@@ -67,11 +67,11 @@ public class MyListReminder extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.d("Reminder","Starting");
+        Log.d("Reminder", "Starting");
         View rootView = inflater.inflate(R.layout.my_list_reminder_fragment, container, false);
-        ButterKnife.bind(this,rootView);
+        ButterKnife.bind(this, rootView);
 
-        activity=getActivity();
+        activity = getActivity();
         layoutManager = new LinearLayoutManager(activity,
                 LinearLayout.VERTICAL,
                 false);
@@ -81,8 +81,9 @@ public class MyListReminder extends Fragment {
         getReminderList();
         return rootView;
     }
+
     private void getReminderList() {
-        Log.d("Reminder","start");
+        Log.d("Reminder", "start");
 
         Loading.show(getContext());
         ListHelper.getListReminder(new RestCallback<ApiResponse<List<cemara.labschool.id.rumahcemara.model.ListReminder>>>() {
@@ -91,13 +92,14 @@ public class MyListReminder extends Fragment {
                 Loading.hide(getContext());
                 if (body != null && body.isStatus()) {
                     List<cemara.labschool.id.rumahcemara.model.ListReminder> res = body.getData();
-                    Log.d("Reminder Size",String.valueOf(res.size()));
+                    Log.d("Reminder Size", String.valueOf(res.size()));
                     reminderList = new ArrayList<>();
-
                     for (int i = 0; i < res.size(); i++) {
                         //reminderList.add(new cemara.labschool.id.rumahcemara.util.event.model.Event());
-                        reminderList.add(new ListReminder(res.get(i).getEvent().getId(),res.get(i).getEvent().getTitle(),res.get(i).getEvent().getPlace(),res.get(i).getEvent().getIsBanner(),res.get(i).getEvent().getBanner()));
+                        if (res.get(i).getEvent() != null) {
+                            reminderList.add(new ListReminder(res.get(i).getEvent().getId(),res.get(i).getId(), res.get(i).getEvent().getTitle(), res.get(i).getEvent().getPlace(), res.get(i).getEvent().getIsBanner(), res.get(i).getEvent().getBanner()));
 
+                        }
                     }
                     eventAdapter = new ListReminderAdapter(getContext(), reminderList);
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -115,7 +117,7 @@ public class MyListReminder extends Fragment {
             @Override
             public void onFailed(ErrorResponse error) {
                 Loading.hide(getContext());
-                Toast.makeText(getContext(),"Gagal Ambil Data", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Gagal Ambil Data", Toast.LENGTH_SHORT).show();
             }
 
             @Override

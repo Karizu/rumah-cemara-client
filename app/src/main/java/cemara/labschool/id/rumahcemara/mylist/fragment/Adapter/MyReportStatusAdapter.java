@@ -103,12 +103,7 @@ public class MyReportStatusAdapter extends RecyclerView.Adapter<MyReportStatusAd
                 .load(myAppointmentSelected.getUser().getProfile().getPicture())
                 .into(holder.profilePicture);
 
-        holder.reportContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDialog(R.layout.structural_legal_aid_activity, myAppointmentSelected);
-            }
-        });
+        holder.reportContainer.setOnClickListener(view -> showDialog(R.layout.structural_legal_aid_activity, myAppointmentSelected));
     }
 
     @Override

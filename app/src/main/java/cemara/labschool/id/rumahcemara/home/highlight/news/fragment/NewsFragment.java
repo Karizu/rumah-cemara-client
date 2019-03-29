@@ -49,6 +49,7 @@ public class NewsFragment extends Fragment {
     NewsAdapter newsAdapter;
     List<News> newsList = new ArrayList<>();
     String id;
+    private Context context;
     //carousel
     @BindView(R.id.carousel)
     CarouselView customCarouselView;
@@ -73,17 +74,18 @@ public class NewsFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.news_campaign_fragment, container, false);
         ButterKnife.bind(this, rootView);
+        context = getActivity();
         try {
             assert getArguments() != null;
             id = getArguments().getString("id", "");
         }catch (Exception ignored){}
-        getListNews();
+        getListNews(id);
         return rootView;
     }
 
-    private void getListNews() {
+    private void getListNews(String id) {
 //        Loading.show(getContext());
-        NewsHelper.getNewsCampaign(new RestCallback<ApiResponse<List<cemara.labschool.id.rumahcemara.model.News>>>() {
+        NewsHelper.getNewsCampaign(id, new RestCallback<ApiResponse<List<cemara.labschool.id.rumahcemara.model.News>>>() {
             @Override
             public void onSuccess(Headers headers, ApiResponse<List<cemara.labschool.id.rumahcemara.model.News>> body) {
                 Loading.hide(getContext());
@@ -141,14 +143,9 @@ public class NewsFragment extends Fragment {
 
 
     // To set images
-    ImageListener imageListener = new ImageListener() {
-        @Override
-        public void setImageForPosition(int position, ImageView imageView) {
-            Glide.with(getContext())
-                    .load(sampleNetworkImageURLs[position])
-                    .into(imageView);
-        }
-    };
+    ImageListener imageListener = (position, imageView) -> Glide.with(getContext())
+            .load(sampleNetworkImageURLs[position])
+            .into(imageView);
 
     // To set custom views
     ViewListener viewListener = new ViewListener() {
@@ -166,7 +163,7 @@ public class NewsFragment extends Fragment {
             tvLabelCarousel.setText(newsPager.get(position).getTitle());
             ivShare.setOnClickListener(shareOnClickListener);
            // ivMark.setOnClickListener(markOnClickListener);
-            ivMark.setOnClickListener(new MarkNewsClickListener(newsPager.get(position)));
+            ivMark.setOnClickListener(new MarkNewsClickListener(context, newsPager.get(position)));
 
             ivCarousel.setOnClickListener(new NewsClickListener(newsPager.get(position)));
             return customView;
@@ -174,12 +171,7 @@ public class NewsFragment extends Fragment {
     };
 
     //To share
-    View.OnClickListener shareOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(getContext(), "Shared", Toast.LENGTH_SHORT).show();
-        }
-    };
+    View.OnClickListener shareOnClickListener = v -> Toast.makeText(getContext(), "Shared", Toast.LENGTH_SHORT).show();
 
 
 }

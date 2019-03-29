@@ -27,12 +27,12 @@
                 android:textStyle="bold"
                 android:textColor="@color/Black"
                 android:textSize="@dimen/text_size_medium"
-                android:text="Your Appointment has been sent"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/NormalGreyText"
-                android:text="Check Your Appointment List"/>
+                android:text="Formulir Anda Sudah Dikirim"/>
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="@color/NormalGreyText"-->
+                <!--android:text="Check Your Appointment List"/>-->
 
         </LinearLayout>
         <View

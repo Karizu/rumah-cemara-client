@@ -41,7 +41,7 @@ public class EventDetailActivity extends AppCompatActivity {
     List<cemara.labschool.id.rumahcemara.util.event.model.Event> articleList = new ArrayList<>();
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    String articleId=null;
+    String articleId, flag;
     @BindView(R.id.tvTitle)
     TextView tvTitle;
     @BindView(R.id.tvAuthor)
@@ -67,21 +67,13 @@ public class EventDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Intent intent=getIntent();
         articleId=intent.getStringExtra("id");
+        flag=intent.getStringExtra("flag");
         getListEvent();
         setToolbar();
         context = this;
     }
 
     private void getListEvent() {
-/*        articleList.clear();
-        articleList.add(new Event("1", "testing", "test", "June 20 2019", R.drawable.img_article));
-        articleList.add(new Event("1", "testing", "test", "June 20 2019", R.drawable.img_article));
-        articleAdapter = new EventAdapter(getApplicationContext(), articleList, "highlight_detail");
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(articleAdapter);
-        articleAdapter.notifyDataSetChanged();*/
         Loading.show(EventDetailActivity.this);
         EventHelper.getEventDetail(articleId,new RestCallback<ApiResponse<cemara.labschool.id.rumahcemara.model.Event>>() {
             @Override
@@ -109,7 +101,13 @@ public class EventDetailActivity extends AppCompatActivity {
                     articleDetailContent.setBackgroundColor(Color.TRANSPARENT);
                     articleDetailContent.loadDataWithBaseURL("", content, "text/html", "UTF-8", "");
 
-                    markNewsTop.setOnClickListener(new MarkEventClickListener(articleDetail));
+                    if (flag!=null){
+                        markNewsTop.setEnabled(false);
+                        markNewsTop.setImageDrawable(getResources().getDrawable(R.drawable.ic_bookmark_black_24dp));
+                    } else {
+                        markNewsTop.setOnClickListener(new MarkEventClickListener(context, articleDetail));
+                    }
+
 
                 } else {
 //                        loadingDialog.dismiss();

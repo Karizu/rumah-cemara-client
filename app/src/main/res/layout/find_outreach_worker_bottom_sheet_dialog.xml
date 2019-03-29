@@ -78,7 +78,7 @@
             android:drawableStart="@drawable/icon_purpose_white"
             android:background="@drawable/btn_rounded_blackyellow"
             style="@style/button"
-            android:text="Purpose Appointment"/>
+            android:text="Buat Janji"/>
 
     </LinearLayout>
 

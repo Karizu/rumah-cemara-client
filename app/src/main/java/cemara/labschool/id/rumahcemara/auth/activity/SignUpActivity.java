@@ -5,11 +5,16 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -17,12 +22,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -37,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,6 +73,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     private ArrayList<String> dataTreatment;
     private File profileImage;
     private Calendar calendar;
+    private Dialog dialog;
 
 
     @BindView(R.id.profilePictureImageView)
@@ -109,6 +118,16 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         ButterKnife.bind(this);
         mContext = this;
 
+        ConnectivityManager conMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if ( conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED
+                || conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+
+        } else {
+            showDialogAlert(R.layout.dialog_bad_connection);
+            TextView ok = dialog.findViewById(R.id.appointment_ok);
+            ok.setOnClickListener(view -> onBackPressed());
+        }
+
         genderSpinner.setOnItemSelectedListener(this);
         typeTreatmentSpinner.setOnItemSelectedListener(this);
 
@@ -116,6 +135,24 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         settingTypeTreatmentSpinner();
 
         calendar = Calendar.getInstance();
+    }
+
+    private void showDialogAlert(int layout) {
+        dialog = new Dialog(this);
+        //SET TITLE
+        dialog.setTitle("");
+
+        //set content
+        dialog.setContentView(layout);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(Objects.requireNonNull(dialog.getWindow()).getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
     @Override
@@ -167,6 +204,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                     for (int i = 0; i < data.size(); i++){
                         dataTreatment.add(data.get(i).getName());
                         treatmentId.add(data.get(i).getId());
+                        Log.d("Treatment"+" "+i, data.get(i).getName());
                     }
 
                     // Creating adapter for spinner
@@ -212,7 +250,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         if (email.getText().toString().equals("")
                 || birthDate.getText().toString().equals("")
                 || name.getText().toString().equals("")
-                || password.getText().toString().equals("")) {
+                || password.getText().toString().equals("")
+                || dataTreatment.size() == 0) {
             Toast.makeText(mContext, "Please fill all data", Toast.LENGTH_LONG).show();
         } else {
             Loading.show(SignUpActivity.this);

@@ -9,6 +9,8 @@ import com.rezkyatinnov.kyandroid.reztrofit.Reztrofit;
 import java.util.List;
 
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.model.ChatHistory;
+import cemara.labschool.id.rumahcemara.model.Datum;
 import cemara.labschool.id.rumahcemara.model.Event;
 import cemara.labschool.id.rumahcemara.model.HistoryList;
 import cemara.labschool.id.rumahcemara.model.ListReminder;
@@ -46,6 +48,14 @@ public class ListHelper {
         service.getEndpoint().postCreateUserList(userId,type,typeId,datetime).enqueue(callback);
 
     }
+
+    public static void removeBookmark(String id, RestCallback<ApiResponse> callback)
+    {
+        Reztrofit<ApiInterface> service = Reztrofit.getInstance();
+        service.getEndpoint().removeBookmark(id).enqueue(callback);
+
+    }
+
     public static void getListAppointmentHistory(RestCallback<ApiResponse<List<HistoryListResponse>>> callback)
     {
         Realm realm = LocalData.getRealm();
@@ -54,5 +64,10 @@ public class ListHelper {
         Reztrofit<ApiInterface> service = Reztrofit.getInstance();
         service.getEndpoint().getHistoryAppointment(user.getId()).enqueue(callback);
 
+    }
+
+    public static void getChatHistory(String serviceId, RestCallback<ApiResponse<List<Datum>>> callback){
+        Reztrofit<ApiInterface> service = Reztrofit.getInstance();
+        service.getEndpoint().chatHistory(serviceId).enqueue(callback);
     }
 }

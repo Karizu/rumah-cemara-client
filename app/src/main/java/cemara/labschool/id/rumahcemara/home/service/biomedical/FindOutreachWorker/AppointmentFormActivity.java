@@ -94,7 +94,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
 
         Realm realm = LocalData.getRealm();
         User user = realm.where(User.class).findFirst();
-        user_id = user.getId();
+        user_id = Objects.requireNonNull(user).getId();
 
         populateData();
 
@@ -219,7 +219,7 @@ public class AppointmentFormActivity extends AppCompatActivity {
                     showDialogAlert(R.layout.dialog_appointment_failed);
                     TextView retry = dialog.findViewById(R.id.appointment_retry);
                     TextView ok = dialog.findViewById(R.id.appointment_ok);
-                    retry.setOnClickListener(view -> dialog.findViewById(R.id.btn_send_appointment).callOnClick());
+                    retry.setOnClickListener(view -> createAppointment());
                     ok.setOnClickListener(view -> dialog.dismiss());
                 }
 
@@ -270,11 +270,12 @@ public class AppointmentFormActivity extends AppCompatActivity {
 //        startActivityForResult(intent,1);
 //    }
 
+    @SuppressLint("SetTextI18n")
     public void setToolbar() {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.icon_back);
-        toolbarTitle.setText("Appointment Form");
+        toolbarTitle.setText("Formulir");
         toolbarImg.setImageResource(R.drawable.icon_biomedical_white);
         toolbar.setNavigationOnClickListener(v -> {
             //What to do on back clicked

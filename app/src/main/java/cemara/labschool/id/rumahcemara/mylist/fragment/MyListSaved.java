@@ -96,6 +96,7 @@ public class MyListSaved extends Fragment {
                             savedList.add(
                                     new ListSaved(
                                             res.get(i).getArticle().getId()
+                                            ,res.get(i).getId()
                                             ,res.get(i).getArticle().getTitle()
                                             ,res.get(i).getArticle().getCreator()
                                             ,res.get(i).getArticle().getCreatedAt()
@@ -109,6 +110,7 @@ public class MyListSaved extends Fragment {
                                 savedList.add(
                                         new ListSaved(
                                                 res.get(i).getNews().getId()
+                                                ,res.get(i).getId()
                                                 ,res.get(i).getNews().getTitle()
                                                 ,res.get(i).getNews().getCreator()
                                                 ,res.get(i).getNews().getCreatedAt()

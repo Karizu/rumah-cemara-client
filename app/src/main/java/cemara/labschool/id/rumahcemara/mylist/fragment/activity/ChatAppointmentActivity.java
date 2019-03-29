@@ -1,6 +1,8 @@
 package cemara.labschool.id.rumahcemara.mylist.fragment.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -32,11 +35,13 @@ import com.rezkyatinnov.kyandroid.reztrofit.ErrorResponse;
 import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -47,12 +52,21 @@ import butterknife.OnClick;
 import cemara.labschool.id.rumahcemara.R;
 import cemara.labschool.id.rumahcemara.api.AppointmentHelper;
 import cemara.labschool.id.rumahcemara.api.AuthHelper;
+import cemara.labschool.id.rumahcemara.api.ListHelper;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.Chat;
+import cemara.labschool.id.rumahcemara.model.ChatCons;
+import cemara.labschool.id.rumahcemara.model.ChatHistory;
+import cemara.labschool.id.rumahcemara.model.Datum;
 import cemara.labschool.id.rumahcemara.model.Profile;
 import cemara.labschool.id.rumahcemara.mylist.fragment.Adapter.ChatAppointmentAdapter;
+import cemara.labschool.id.rumahcemara.mylist.fragment.activity.adapter.AdapterChat;
+import cemara.labschool.id.rumahcemara.util.dialog.Loading;
 import io.realm.Realm;
 import okhttp3.Headers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChatAppointmentActivity extends AppCompatActivity {
 
@@ -75,6 +89,7 @@ public class ChatAppointmentActivity extends AppCompatActivity {
     private LinearLayoutManager layoutManager;
     private ChatAppointmentAdapter mAdapter;
     private List<Chat> mChats;
+    private List<Datum> mChat;
     private Profile profile;
     private String appointmentId;
     private String workerId;
@@ -82,6 +97,9 @@ public class ChatAppointmentActivity extends AppCompatActivity {
     private String workerPicture;
     private Realm realm;
     private Centrifugo centrifugo;
+    private ArrayList<ChatCons> chats;
+    private AdapterChat adapterChat;
+    private LinearLayoutManager linearLayoutManager;
     private cemara.labschool.id.rumahcemara.model.Token tokenChat;
 
     @Override
@@ -90,6 +108,7 @@ public class ChatAppointmentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat_appointment);
         ButterKnife.bind(this);
 
+        chats = new ArrayList<>();
         appointmentId = getIntent().getStringExtra("appointment_id");
         workerId = getIntent().getStringExtra("worker_id");
         workerName = getIntent().getStringExtra("worker_name");
@@ -97,18 +116,23 @@ public class ChatAppointmentActivity extends AppCompatActivity {
         realm = LocalData.getRealm();
         profile = realm.where(Profile.class).findFirst();
         tokenChat = realm.where(cemara.labschool.id.rumahcemara.model.Token.class).findFirst();
+        recyclerView = findViewById(R.id.chat_list);
 
         activity = this;
-        layoutManager = new LinearLayoutManager(activity,
-                LinearLayout.VERTICAL,
-                false);
+//        layoutManager = new LinearLayoutManager(activity,
+//                LinearLayout.VERTICAL,
+//                false);
 
-        recyclerView = findViewById(R.id.chat_list);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setNestedScrollingEnabled(false);
+        linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+//
+//        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setNestedScrollingEnabled(false);
 
         setToolbar();
-        populateChatHistory(appointmentId);
+        getChatHistory();
+//        populateChatHistory(appointmentId);
     }
 
     @Override
@@ -153,34 +177,53 @@ public class ChatAppointmentActivity extends AppCompatActivity {
                 });
 
                 centrifugo.setDataMessageListener(message -> {
-                    showMessage(message, userId);
+                    showMessage(message);
                 });
             }
         }.start();
     }
 
-    private void showMessage(final DataMessage message, final String userId) {
+    private void showMessage(final DataMessage message) {
+        Log.d("ChatActivity", message.getData());
         runOnUiThread(() -> {
-            Gson gson = new Gson();
-            Chat newChat = null;
+            JSONObject jsonObject;
             try {
-                newChat = gson.fromJson(message.getBody().getJSONObject("data").toString(), Chat.class);
-                newChat.setId(UUID.randomUUID().toString());
-                newChat.setChannel(message.getBody().getString("channel"));
+                jsonObject = new JSONObject(message.getData());
+                ChatCons chat = new ChatCons(jsonObject.get("message").toString(), jsonObject.get("from_id").toString(),
+                        jsonObject.get("created_at").toString());
+                chats.add(chat);
+                adapterChat = new AdapterChat(this, chats);
+                recyclerView.setAdapter(adapterChat);
+                linearLayoutManager.scrollToPosition(chats.size()-1);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            if (!newChat.getFrom_id().equals(userId)) {
-                mChats.add(newChat);
-                mAdapter.notifyDataSetChanged();
-            }
-
-            LocalData.saveOrUpdate(newChat);
-            Log.e("centrifugo", message.getBody().toString());
-
         });
     }
+
+//    private void showMessage(final DataMessage message, final String userId) {
+//        runOnUiThread(() -> {
+//            Gson gson = new Gson();
+//            Chat newChat = null;
+//            try {
+//                newChat = gson.fromJson(message.getBody().getJSONObject("data").toString(), Chat.class);
+//                newChat.setId(UUID.randomUUID().toString());
+//                newChat.setChannel(message.getBody().getString("channel"));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//
+//            if (!newChat.getFrom_id().equals(userId)) {
+//                mChats.add(newChat);
+//                mAdapter.notifyDataSetChanged();
+//            }
+//
+//            LocalData.saveOrUpdate(newChat);
+//            Log.e("centrifugo", message.getBody().toString());
+//
+//        });
+//    }
 
     public void setToolbar() {
         setSupportActionBar(toolbar);
@@ -209,23 +252,62 @@ public class ChatAppointmentActivity extends AppCompatActivity {
         mAdapter.notifyDataSetChanged(); // or notifyItemRangeRemoved
     }
 
+    private void getChatHistory() {
+        Loading.show(ChatAppointmentActivity.this);
+        ListHelper.getChatHistory(appointmentId, new RestCallback<ApiResponse<List<Datum>>>() {
+            @Override
+            public void onSuccess(Headers headers, ApiResponse<List<Datum>> body) {
+                Loading.hide(ChatAppointmentActivity.this);
+                if (body != null && body.isStatus()){
+                    List<Datum> res = body.getData();
+                    for (int i = 0; i < res.size(); i++) {
+                        chats.add(
+                                new ChatCons(
+                                        res.get(i).getMessage(),
+                                        res.get(i).getFromId(),
+                                        res.get(i).getCreatedAt()
+                                )
+                        );
+                        linearLayoutManager.scrollToPosition(chats.size()-1);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailed(ErrorResponse error) {
+                Loading.hide(ChatAppointmentActivity.this);
+            }
+
+            @Override
+            public void onCanceled() {
+
+            }
+        });
+
+        adapterChat = new AdapterChat(this, chats);
+        recyclerView.setAdapter(adapterChat);
+        linearLayoutManager.scrollToPosition(chats.size()-1);
+    }
+
     @OnClick(R.id.btn_send)
     public void sendChat() {
         String commentText = messageText.getText().toString();
         if (!commentText.trim().equals("")){
             btnSendChat.setEnabled(false);
 
-            Chat newChat = new Chat();
+            mChat = new ArrayList<>();
+
+            Datum newChat = new Datum();
             newChat.setChannel(appointmentId);
-            newChat.setFrom_id(profile.getUserId());
-            newChat.setFrom_name(profile.getFullname());
-            newChat.setTo_id(workerId);
-            newChat.setMessage_type("text");
+            newChat.setFromId(profile.getUserId());
+            newChat.setFromName(profile.getFullname());
+            newChat.setToId(workerId);
+            newChat.setMessageType("text");
             newChat.setMessage(commentText);
 
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date();
-            newChat.setCreated_at(dateFormat.format(date));
+            newChat.setCreatedAt(dateFormat.format(date));
 
             try {
                 AppointmentHelper.sendMessage(newChat, new RestCallback<ApiResponse>() {
@@ -233,7 +315,8 @@ public class ChatAppointmentActivity extends AppCompatActivity {
                     public void onSuccess(Headers headers, ApiResponse body) {
                         try {
                             if (body != null && body.isStatus()) {
-
+                                btnSendChat.setEnabled(true);
+                                messageText.setText("");
                             }
                         } catch (Exception e) {
 
@@ -252,11 +335,9 @@ public class ChatAppointmentActivity extends AppCompatActivity {
                     }
                 });
 
-                mChats.add(newChat);
+                mChat.add(newChat);
                 mAdapter.notifyDataSetChanged();
 
-                btnSendChat.setEnabled(true);
-                messageText.setText("");
 
                 try {
                     InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);

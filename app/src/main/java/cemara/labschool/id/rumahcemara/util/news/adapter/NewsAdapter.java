@@ -3,6 +3,7 @@ package cemara.labschool.id.rumahcemara.util.news.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -26,13 +27,19 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cemara.labschool.id.rumahcemara.api.ListHelper;
 import cemara.labschool.id.rumahcemara.home.highlight.ArticleDetailActivity;
+import cemara.labschool.id.rumahcemara.home.highlight.DetailHighlightActivity;
 import cemara.labschool.id.rumahcemara.home.highlight.EventDetailActivity;
 import cemara.labschool.id.rumahcemara.home.highlight.NewsDetailActivity;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.model.ListReminder;
 import cemara.labschool.id.rumahcemara.model.User;
 import cemara.labschool.id.rumahcemara.util.MarkArticleClickListener;
+import cemara.labschool.id.rumahcemara.util.MarkHighlightClickListener;
 import cemara.labschool.id.rumahcemara.util.MarkNewsClickListener;
+import cemara.labschool.id.rumahcemara.util.article.model.Article;
 import cemara.labschool.id.rumahcemara.util.dialog.Loading;
+import cemara.labschool.id.rumahcemara.util.event.model.Event;
+import cemara.labschool.id.rumahcemara.util.events.model.Events;
 import cemara.labschool.id.rumahcemara.util.news.model.News;
 import cemara.labschool.id.rumahcemara.R;
 import io.realm.Realm;
@@ -40,10 +47,13 @@ import okhttp3.Headers;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
     private List<News> newsList;
+    private List<Events> eventList;
+    private List<Article> articleList;
     private Context mContext;
     private Unbinder unbinder;
     private String rowType;
-
+    private String type;
+    private String art;
 
     public class NewsViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.img_news)
@@ -68,15 +78,32 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     }
 
     //news adapter for home
-    public  NewsAdapter(Context mContext, List<News> newsList){
+    public NewsAdapter(Context mContext, List<News> newsList) {
         this.mContext = mContext;
         this.newsList = newsList;
         this.unbinder = unbinder;
         this.rowType = "home_news";
     }
 
+    public NewsAdapter(Context mContext, List<Events> eventList, String rowType, String type) {
+        this.mContext = mContext;
+        this.eventList = eventList;
+        this.unbinder = unbinder;
+        this.rowType = "home_news";
+        this.type = "event";
+    }
+
+    public NewsAdapter(Context mContext, List<Article> articleList, String rowType, String type, String art) {
+        this.mContext = mContext;
+        this.articleList = articleList;
+        this.unbinder = unbinder;
+        this.rowType = "home_news";
+        this.type = "article";
+        this.art = art;
+    }
+
     //news adapter for highlight and detail
-    public  NewsAdapter(Context mContext, List<News> newsList, String rowType){
+    public NewsAdapter(Context mContext, List<News> newsList, String rowType) {
         this.mContext = mContext;
         this.newsList = newsList;
         this.unbinder = unbinder;
@@ -87,19 +114,19 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     @Override
     public NewsViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View itemView = null;
-        if (rowType.equals("home_news")){
+        if (rowType.equals("home_news")) {
             itemView = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.row_news, viewGroup, false);
         }
-        if (rowType.equals("highlight_news") || rowType.equals("highlight_article")){
-             itemView = LayoutInflater.from(viewGroup.getContext())
+        if (rowType.equals("highlight_news") || rowType.equals("highlight_article")) {
+            itemView = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.row_highlight_news, viewGroup, false);
         }
-        if (rowType.equals("highlight_event")){
+        if (rowType.equals("highlight_event")) {
             itemView = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.row_highlight_event, viewGroup, false);
         }
-        if (rowType.equals("highlight_detail")){
+        if (rowType.equals("highlight_detail")) {
             itemView = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.row_highlight_detail, viewGroup, false);
         }
@@ -118,42 +145,31 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         //Glide.with(mContext).load(news.getNewsImage()).into(newsViewHolder.imgNews);
         Glide.with(mContext).load(news.getBanner()).into(newsViewHolder.imgNews);
         //click
-        CategoryId = news.getNewsCategoryId();
-        Log.d("Category Id", CategoryId);
-        newsViewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (CategoryId.equals("993df927-7e72-555f-9abb-74d695ac172f")){
-                    Intent intent = new Intent(mContext, NewsDetailActivity.class);
-                    intent.putExtra("id",news.getNewsId());
-                    mContext.startActivity(intent);
-                }
-                if (CategoryId.equals("2784d424-99a3-4078-b32f-a0f63b984c86") ||
-                        CategoryId.equals("3a11c4b3-cb8a-4dc8-970f-33f5b6132844") ||
-                        CategoryId.equals("2750251b-eb91-5e02-a055-52e57983f49e")){
-                    Intent intent = new Intent(mContext, ArticleDetailActivity.class);
-                    intent.putExtra("id",news.getNewsId());
-                    mContext.startActivity(intent);
-                }
-                if (CategoryId.equals("2750251b-eb91-5e02-a055-52e57983f49e") ||
-                        CategoryId.equals("e79c0889-a2aa-5327-868d-e6d91c85ecf4") ||
-                        CategoryId.equals("026334b8-47cf-5274-a523-82c9b69cf93e")){
-                    Intent intent = new Intent(mContext, EventDetailActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    intent.putExtra("id",news.getNewsId());
-                    mContext.startActivity(intent);
-                }
+//        CategoryId = news.getNewsCategoryId();
+//        Log.d("Category Id", CategoryId);
+        newsViewHolder.parentLayout.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("id", news.getNewsId());
+            bundle.putString("categoryId", news.getNewsCategoryId());
+            bundle.putString("title", news.getTitle());
+            bundle.putString("author", news.getAuthor());
+            bundle.putString("banner", news.getBanner());
+            bundle.putString("date", news.getDateCreated());
+            bundle.putString("content", news.getContent());
+            Intent intent = new Intent(mContext, DetailHighlightActivity.class);
+            intent.putExtra("myData", bundle);
+            mContext.startActivity(intent);
 
-            }
         });
-        newsViewHolder.markNews.setOnClickListener(new MarkNewsClickListener(news));
+
+        newsViewHolder.markNews.setOnClickListener(new MarkHighlightClickListener(mContext, news.getNewsId()));
 
         newsViewHolder.shareNews.setOnClickListener(view -> {
 
             Intent sharingIntent = new Intent(Intent.ACTION_SEND);
             sharingIntent.setType("text/plain");
-            sharingIntent.putExtra(Intent.EXTRA_TEXT, news.getTitle()+
-                    "\n"+ news.getBanner());
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, news.getTitle() +
+                    "\n" + news.getBanner());
             mContext.startActivity(Intent.createChooser(sharingIntent, "Share using:"));
         });
     }

@@ -1,7 +1,9 @@
 package cemara.labschool.id.rumahcemara.home.service.biomedical.FindServiceProvider;
 
-import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -12,19 +14,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
-import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -43,23 +40,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cemara.labschool.id.rumahcemara.R;
 import cemara.labschool.id.rumahcemara.api.AppointmentHelper;
-import cemara.labschool.id.rumahcemara.home.service.biomedical.FindOutreachWorker.adapter.AdapterListOutreachNearMe;
 import cemara.labschool.id.rumahcemara.home.service.biomedical.FindServiceProvider.adapter.AdapterListProviderNearMe;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
-import cemara.labschool.id.rumahcemara.model.NearestOutreachModel;
 import cemara.labschool.id.rumahcemara.model.NearestProviderModel;
-import cemara.labschool.id.rumahcemara.model.response.OutreachNearMeResponse;
 import cemara.labschool.id.rumahcemara.model.response.ProviderNearMeResponse;
 import cemara.labschool.id.rumahcemara.util.dialog.Loading;
-import cemara.labschool.id.rumahcemara.util.nearest.adapter.NearestAdapter;
-import cemara.labschool.id.rumahcemara.util.nearest.adapter.NearestSearchResultAdapter;
 import cemara.labschool.id.rumahcemara.util.nearest.adapter.adapter.nearest.search.biomedical.NearestProviderSearchAdapter;
-import cemara.labschool.id.rumahcemara.util.nearest.modal.Nearest;
 import okhttp3.Headers;
 
 public class FindServiceProviderActivity extends AppCompatActivity implements OnMapReadyCallback, SearchView.OnQueryTextListener {
-    private GoogleMap mMap, mOutreach;
-    private static final String TAG = "FindServiceProviderActivity";
+    private GoogleMap mOutreach;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.toolbar_title)
@@ -79,14 +69,11 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
 
     BottomSheetBehavior sheetBehavior;
     private Context activity;
-    private LinearLayoutManager layoutManager;
     double longitude, latitude;
     private AdapterListProviderNearMe adapter;
     private List<NearestProviderModel> articleModels;
+    private Dialog dialog;
 
-    List<Nearest> nearestList = new ArrayList<>();
-    List<Nearest> nearestSearchList = new ArrayList<>();
-    NearestAdapter nearestAdapter;
     NearestProviderSearchAdapter nearestSearchAdapter;
 
     @Override
@@ -97,7 +84,7 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
         setToolbar();
 
         activity = getApplicationContext();
-        layoutManager = new LinearLayoutManager(activity,
+        LinearLayoutManager layoutManager = new LinearLayoutManager(activity,
                 LinearLayout.HORIZONTAL,
                 false);
 
@@ -112,8 +99,8 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
         SearchView searchView = findViewById(R.id.search_view);
         searchView.setQueryHint("Seacrh Outreach Worker Name or Location");
 
-        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-        EditText searchEditText = (EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+//        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        EditText searchEditText = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         searchEditText.setTextColor(getResources().getColor(R.color.place_autocomplete_search_hint));
         searchEditText.setHintTextColor(getResources().getColor(R.color.place_autocomplete_search_hint));
 
@@ -136,9 +123,9 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
 //        getListNearest();
 
         Bundle bundle = getIntent().getBundleExtra("myData");   //<< get Bundle from Intent
+        latitude = Double.parseDouble(Objects.requireNonNull(bundle.getString("latitude")));
+        longitude = Double.parseDouble(Objects.requireNonNull(bundle.getString("longitude")));
 
-        latitude = Double.parseDouble(bundle.getString("latitude"));
-        longitude = Double.parseDouble(bundle.getString("longitude"));
 //        latitude = -6.893870;
 //        longitude = 107.631200;
 
@@ -153,32 +140,48 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
                 Loading.hide(getApplicationContext());
                 if (body != null && body.isStatus()) {
                     List<ProviderNearMeResponse> res = body.getData();
-                    System.out.println("Response: " + body.getData());
-                    articleModels = new ArrayList<>();
-                    for (int i = 0; i < res.size(); i++) {
-                        ProviderNearMeResponse article = res.get(i);
-                        articleModels.add(new NearestProviderModel(article.getId(),
-                                article.getGroup().getId(),
-                                article.getGroup().getGroupProfile().getGroup_id(),
-                                article.getGroup().getName(),
-                                article.getDescription(),
-                                article.getGroup().getGroupProfile().getAddress(),
-                                article.getGroup().getGroupProfile().getAddress(),
-                                article.getGroup().getGroupProfile().getPhone_number(),
-                                article.getDistance(),
-                                article.getUser(),
-                                article.getGroup()));
-                    }
+                    if (res.size() != 0){
+                        System.out.println("Response Bio: " + body.getData());
+                        articleModels = new ArrayList<>();
+                        for (int i = 0; i < res.size(); i++) {
+                            ProviderNearMeResponse article = res.get(i);
+                            if (article.getGroup()!=null){
+                                articleModels.add(new NearestProviderModel(article.getId(),
+                                        article.getGroup().getId(),
+                                        article.getGroup().getGroupProfile().getGroup_id(),
+                                        article.getGroup().getName(),
+                                        article.getDescription(),
+                                        article.getGroup().getGroupProfile().getAddress(),
+                                        article.getGroup().getGroupProfile().getAddress(),
+                                        article.getGroup().getGroupProfile().getPhone_number(),
+                                        article.getDistance(),
+                                        article.getUser(),
+                                        article.getGroup()));
+                            }
+                        }
 
-                    adapter = new AdapterListProviderNearMe(articleModels, activity);
-                    recyclerView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
+                        adapter = new AdapterListProviderNearMe(articleModels, activity);
+                        recyclerView.setAdapter(adapter);
+                    } else {
+                        Log.d("Provider", "Masuk Else");
+                        showDialogAlert(R.layout.dialog_appointment_out_of_range_provider);
+                        TextView ok = dialog.findViewById(R.id.appointment_ok);
+                        ok.setOnClickListener(view -> onBackPressed());
+                    }
+                } else {
+                    showDialogAlert(R.layout.dialog_appointment_out_of_range_provider);
+                    TextView ok = dialog.findViewById(R.id.appointment_ok);
+                    ok.setOnClickListener(view -> onBackPressed());
                 }
             }
 
             @Override
             public void onFailed(ErrorResponse error) {
                 Loading.hide(getApplicationContext());
+                showDialogAlert(R.layout.dialog_bad_connection);
+                TextView ok = dialog.findViewById(R.id.appointment_ok);
+                ok.setOnClickListener(view -> onBackPressed());
+
             }
 
             @Override
@@ -189,47 +192,22 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
 
     }
 
-    private void setupAutocomplete() {
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
-                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-        autocompleteFragment.setHint("Search Outreach Worker Name or Location");
-        EditText editTextAutocomplete = ((EditText) Objects.requireNonNull(autocompleteFragment.getView()).findViewById(R.id.place_autocomplete_search_input));
-        editTextAutocomplete.setTextSize(14.0f);
-        editTextAutocomplete.setPadding(0, 1, 1, 1);
-        editTextAutocomplete.setTextColor(getResources().getColor(R.color.White));
-        editTextAutocomplete.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
+    private void showDialogAlert(int layout) {
+        dialog = new Dialog(this);
+        //SET TITLE
+        dialog.setTitle("");
 
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @SuppressLint("LongLogTag")
-            @Override
-            public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
-                Log.i(TAG, "Place: " + place.getName());
-                Toast toast = Toast.makeText(getApplicationContext(), String.valueOf(place.getAddress()), Toast.LENGTH_SHORT);
-                toast.show();
-
-                getListNearestSearch();
-            }
-
-            @SuppressLint("LongLogTag")
-            @Override
-            public void onError(Status status) {
-                // TODO: Handle the error.
-                Toast toast = Toast.makeText(getApplicationContext(), String.valueOf(status), Toast.LENGTH_SHORT);
-                toast.show();
-                Log.i(TAG, "An error occurred: " + status);
-            }
-        });
-
-        autocompleteFragment.getView().findViewById(R.id.place_autocomplete_clear_button)
-                .setOnClickListener(view -> {
-                    // example : way to access view from PlaceAutoCompleteFragment
-                    // ((EditText) autocompleteFragment.getView()
-                    // .findViewById(R.id.place_autocomplete_search_input)).setText("");
-                    editTextAutocomplete.setText("");
-                    sheetBehavior.setHideable(true);//Important to add
-                    sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-                });
+        //set content
+        dialog.setContentView(layout);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(Objects.requireNonNull(dialog.getWindow()).getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
     private void bottomSheetExpand() {
@@ -263,19 +241,6 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
         });
     }
 
-    private void getListNearest() {
-        nearestList.add(new Nearest(R.drawable.select_dp, "Test1", "2 km", "1"));
-        nearestList.add(new Nearest(R.drawable.select_dp, "test2", "4 km", "2"));
-        nearestList.add(new Nearest(R.drawable.select_dp, "teST3", "1 km", "3"));
-        nearestAdapter = new NearestAdapter(getApplicationContext(), nearestList, "findserviceprovider");
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(nearestAdapter);
-        nearestAdapter.notifyDataSetChanged();
-    }
-
     private void getListNearestSearch() {
         if (sheetBehavior.getState() != BottomSheetBehavior.STATE_HALF_EXPANDED) {
             sheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
@@ -296,7 +261,7 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
                         ProviderNearMeResponse article = res.get(i);
                         articleModels.add(new NearestProviderModel(article.getId(),
                                 article.getGroup().getId(),
-                                article.getGroup().getGroupProfile().getGroup_id(),
+                                article.getGroup().getGroupProfile().getPicture(),
                                 article.getGroup().getName(),
                                 article.getDescription(),
                                 article.getGroup().getGroupProfile().getAddress(),
@@ -331,11 +296,10 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
         mOutreach = googleMap;
         LatLng indo = new LatLng(latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(indo).title("Lokasi Anda").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_map)));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15.0f));
+        googleMap.addMarker(new MarkerOptions().position(indo).title("Lokasi Anda").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_map)));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15.0f));
 
         AppointmentHelper.getListProviderBiomedical(latitude, longitude, new RestCallback<ApiResponse<List<ProviderNearMeResponse>>>() {
             @Override
@@ -352,7 +316,9 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
                         longi = Double.valueOf(article.getLongitude());
                         Log.d("lat, longi", lat + " " + longi);
                         LatLng outreach = new LatLng(lat, longi);
-                        mOutreach.addMarker(new MarkerOptions().position(outreach).title(article.getGroup().getName()).icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_rs)));
+                        if (article.getGroup()!=null){
+                            mOutreach.addMarker(new MarkerOptions().position(outreach).title(article.getGroup().getName()).icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_rs)));
+                        }
                     }
                 }
             }
@@ -375,12 +341,9 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
         toolbar.setNavigationIcon(R.drawable.icon_back);
         toolbarTitle.setText(R.string.find_service_provider);
         toolbarImg.setImageResource(R.drawable.icon_biomedical_white);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //What to do on back clicked
-                onBackPressed();
-            }
+        toolbar.setNavigationOnClickListener(v -> {
+            //What to do on back clicked
+            onBackPressed();
         });
     }
 
@@ -407,12 +370,13 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
     public boolean onQueryTextChange(String newText) {
         List<NearestProviderModel> newWorker = new ArrayList<>();
         String newTextLowerCase = newText.toLowerCase();
-        for (NearestProviderModel user : articleModels) {
-            if (user.getName().toLowerCase().contains(newTextLowerCase)) {
-                newWorker.add(user);
+        if (articleModels.size() > 0) {
+            for (NearestProviderModel user : articleModels) {
+                if (user.getName().toLowerCase().contains(newTextLowerCase)) {
+                    newWorker.add(user);
+                }
             }
         }
-
 //        adapter.updateData(newWorker);
         nearestSearchAdapter.updateData(newWorker);
         return true;

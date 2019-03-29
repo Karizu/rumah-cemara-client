@@ -139,9 +139,9 @@ public class AskTheExpertActivity extends AppCompatActivity {
     }
 
     private void showDialo(int layout) {
-        dialog = new Dialog(Objects.requireNonNull(AskTheExpertActivity.this));
+        dialog = new Dialog(AskTheExpertActivity.this);
         //SET TITLE
-        dialog.setTitle("Biomedical");
+        dialog.setTitle("");
 
         //set content
         dialog.setContentView(layout);

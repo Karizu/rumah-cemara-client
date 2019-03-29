@@ -156,7 +156,7 @@ public class NewsCapacityFragment extends Fragment {
                     .into(ivCarousel);
             tvLabelCarousel.setText(newsPager.get(position).getTitle());
             ivShare.setOnClickListener(shareOnClickListener);
-            ivMark.setOnClickListener(new MarkNewsClickListener(newsPager.get(position)));
+//            ivMark.setOnClickListener(new MarkNewsClickListener(newsPager.get(position)));
 
             ivCarousel.setOnClickListener(new NewsClickListener(newsPager.get(position)));
 

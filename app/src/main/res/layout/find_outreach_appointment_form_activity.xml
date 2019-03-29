@@ -109,7 +109,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Date Range"
+                    android:text="Tanggal"
                     android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold" />
 
@@ -164,7 +164,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_padding_size_micro"
-                    android:text="Brief Description of Material"
+                    android:text="Deskripsi"
                     android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold" />
 
@@ -238,7 +238,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/margin_padding_size_medium"
                 android:layout_marginBottom="8dp"
-                android:text="Send Purpose" />
+                android:text="Kirim" />
         </RelativeLayout>
 
     </ScrollView>

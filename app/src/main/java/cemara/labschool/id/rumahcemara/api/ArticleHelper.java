@@ -18,12 +18,12 @@ public class ArticleHelper {
     public static  String TRAINING_CATEGORY_ID="2750251b-eb91-5e02-a055-52e57983f49e";
     public static void getArticle(RestCallback<ApiResponse<List<Article>>> callback){
         Reztrofit<ApiInterface> service = Reztrofit.getInstance();
-        service.getEndpoint().getArticle().enqueue(callback);
+        service.getEndpoint().getArticle(1).enqueue(callback);
     }
 
     public static void getArticleWithCategory(String newsCategoryId,RestCallback<ApiResponse<List<Article>>> callback){
         Reztrofit<ApiInterface> service = Reztrofit.getInstance();
-        service.getEndpoint().getArticleWithCategory(newsCategoryId).enqueue(callback);
+        service.getEndpoint().getArticleWithCategory(newsCategoryId, 1).enqueue(callback);
     }
     public static void getArticleCampaign(String id, RestCallback<ApiResponse<List<Article>>> callback){
         getArticleWithCategory(id,callback);

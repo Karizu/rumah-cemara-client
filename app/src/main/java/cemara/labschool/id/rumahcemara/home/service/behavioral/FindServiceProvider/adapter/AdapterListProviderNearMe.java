@@ -1,8 +1,10 @@
 package cemara.labschool.id.rumahcemara.home.service.behavioral.FindServiceProvider.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -32,8 +34,9 @@ public class AdapterListProviderNearMe extends RecyclerView.Adapter<AdapterListP
         this.context = context;
     }
 
+    @NonNull
     @Override
-    public AdapterListProviderNearMe.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public AdapterListProviderNearMe.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row_nearest_service, parent, false);
 
@@ -41,19 +44,17 @@ public class AdapterListProviderNearMe extends RecyclerView.Adapter<AdapterListP
     }
 
     @Override
-    public void onBindViewHolder(AdapterListProviderNearMe.ViewHolder holder, int position){
+    public void onBindViewHolder(@NonNull AdapterListProviderNearMe.ViewHolder holder, int position){
         final NearestProviderModel articleModel = articleModels.get(position);
         final String id = articleModel.getId();
-        final String srcImage = articleModel.getSrcImage();
+        final String srcImage = articleModel.getGroup().getGroupProfile().getPicture();
         final String name = articleModel.getName();
-        final String description = articleModel.getDescription();
         final String address = articleModel.getAddress();
-        final String city = articleModel.getCity();
         final String phoneNumber = articleModel.getPhoneNumber();
         final String group_id = articleModel.getGroup_id();
         final String worker_id = articleModel.getGroup().getId();
         final String mDistance = articleModel.getDistance();
-        String distance = null;
+        String distance;
         if (mDistance.length()>1){
             distance = mDistance.substring(0,4) + " km";
         } else {
@@ -62,11 +63,11 @@ public class AdapterListProviderNearMe extends RecyclerView.Adapter<AdapterListP
 
         holder.textViewName.setText(name);
         holder.textViewRange.setText(distance);
-        Glide.with(context).load(articleModel.getSrcImage()).apply(RequestOptions.circleCropTransform()).into(holder.imageViewNearest);
+        Glide.with(context).load(srcImage).apply(RequestOptions.circleCropTransform()).into(holder.imageViewNearest);
 
         String finalDistance = distance;
         holder.linearLayout.setOnClickListener(view -> {
-            View viewSheet = LayoutInflater.from(view.getContext()).inflate(R.layout.find_service_provider_bottom_sheet_dialog, null);
+            @SuppressLint("InflateParams") View viewSheet = LayoutInflater.from(view.getContext()).inflate(R.layout.find_service_provider_bottom_sheet_dialog, null);
             Log.d( "onClick: ",String.valueOf(viewSheet));
             final BottomSheetDialog dialog = new BottomSheetDialog(view.getContext());
             dialog.setContentView(viewSheet);
@@ -75,42 +76,34 @@ public class AdapterListProviderNearMe extends RecyclerView.Adapter<AdapterListP
             ImageView imgProfile = dialog.findViewById(R.id.nearest_img);
             TextView tvname = dialog.findViewById(R.id.nearest_name);
             TextView tvaddress = dialog.findViewById(R.id.nearest_address);
-            TextView tvcity = dialog.findViewById(R.id.nearest_city);
-            TextView tvphone = dialog.findViewById(R.id.nearest_phone);
             TextView tvRange = dialog.findViewById(R.id.nearest_range);
-//            Glide.with(context).load(articleModel.getSrcImage()).apply(RequestOptions.circleCropTransform()).into(imgProfile);
+            assert tvname != null;
             tvname.setText(name);
+            assert tvaddress != null;
             tvaddress.setText(address);
-//            tvcity.setText(city);
-//            tvphone.setText(phoneNumber);
+            assert imgProfile != null;
+            Glide.with(context).load(srcImage).apply(RequestOptions.circleCropTransform()).into(imgProfile);
+            assert tvRange != null;
             tvRange.setText(finalDistance);
 
             if (close != null) {
-                close.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
+                close.setOnClickListener(view12 -> dialog.dismiss());
             }
             Button btnAppointment = dialog.findViewById(R.id.btn_appointment);
             if (btnAppointment != null) {
-                btnAppointment.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", id);
-                        bundle.putString("imgUrl", srcImage);
-                        bundle.putString("fullname", name);
-                        bundle.putString("address", address);
-                        bundle.putString("phone", phoneNumber);
-                        bundle.putString("group_id", group_id);
-                        bundle.putString("worker_id", worker_id);
-                        bundle.putString("distance", finalDistance);
-                        Intent intent = new Intent(view.getContext(), AppointmentFormActivity.class);
-                        intent.putExtra("myData", bundle);
-                        view.getContext().startActivity(intent);
-                    }
+                btnAppointment.setOnClickListener(view1 -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id", id);
+                    bundle.putString("imgUrl", srcImage);
+                    bundle.putString("fullname", name);
+                    bundle.putString("address", address);
+                    bundle.putString("phone", phoneNumber);
+                    bundle.putString("group_id", group_id);
+                    bundle.putString("worker_id", worker_id);
+                    bundle.putString("distance", finalDistance);
+                    Intent intent = new Intent(view1.getContext(), AppointmentFormActivity.class);
+                    intent.putExtra("myData", bundle);
+                    view1.getContext().startActivity(intent);
                 });
             }
         });
@@ -120,10 +113,10 @@ public class AdapterListProviderNearMe extends RecyclerView.Adapter<AdapterListP
     public int getItemCount(){ return articleModels.size();}
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView textViewName;
-        public ImageView imageViewNearest;
-        public TextView textViewRange;
-        public FrameLayout linearLayout;
+        TextView textViewName;
+        ImageView imageViewNearest;
+        TextView textViewRange;
+        FrameLayout linearLayout;
 
         public ViewHolder(View v){
             super(v);

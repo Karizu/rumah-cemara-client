@@ -1,17 +1,22 @@
 package cemara.labschool.id.rumahcemara.home.service.structural;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -57,6 +62,7 @@ public class StructuralLegalAidActivity extends AppCompatActivity {
 
     @BindView(R.id.fileName)
     TextView fileName;
+    Dialog dialog;
 
     private File attachment;
     private Context mContext;
@@ -79,7 +85,7 @@ public class StructuralLegalAidActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.icon_back);
-        toolbarTitle.setText("Structural-Legal Aid");
+        toolbarTitle.setText("Structural – Bantuan Hukum");
         toolbarImg.setImageResource(R.drawable.icon_structural_white);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,49 +143,51 @@ public class StructuralLegalAidActivity extends AppCompatActivity {
         Loading.show(mContext);
         RequestBody requestBody;
 
-        if (description.getText().toString().equals("")){
+        if (description.getText().toString().equals("") || attachment == null){
             Loading.hide(getApplicationContext());
-            description.setError("This field is required");
+            Toast.makeText(mContext, "Silahkan lengkapi formulir", Toast.LENGTH_SHORT).show();
         } else {
-            if (attachment != null) {
-                Bitmap bitmap = BitmapFactory.decodeFile(attachment.getAbsolutePath());
+            Bitmap bitmap = BitmapFactory.decodeFile(attachment.getAbsolutePath());
 
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 10, byteArrayOutputStream);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, byteArrayOutputStream);
 
-                requestBody = new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("group_id", "5431993f-239b-5349-b275-f587a9f7fdfc")
-                        .addFormDataPart("user_id", userId)
-                        .addFormDataPart("provider_id", "5431993f-239b-5349-b275-f587a9f7fdfc")
-                        .addFormDataPart("service_type_id", "b0a7739e-49b2-59d2-a822-2ba758dea4cb")
-                        .addFormDataPart("description", description.getText().toString())
-                        .addFormDataPart("type_provider", "provider")
-                        .addFormDataPart("attachment", "photo.jpeg", RequestBody.create(MediaType.parse("image/jpeg"), byteArrayOutputStream.toByteArray()))
-                        .build();
-            } else {
-                requestBody = new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("group_id", "5431993f-239b-5349-b275-f587a9f7fdfc")
-                        .addFormDataPart("user_id", userId)
-                        .addFormDataPart("provider_id", "5431993f-239b-5349-b275-f587a9f7fdfc")
-                        .addFormDataPart("service_type_id", "b0a7739e-49b2-59d2-a822-2ba758dea4cb")
-                        .addFormDataPart("description", description.getText().toString())
-                        .addFormDataPart("type_provider", "provider")
-                        .build();
-            }
+            requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("group_id", "752637ba-6ec2-5092-b796-c971a1c45d53")
+                    .addFormDataPart("user_id", userId)
+                    .addFormDataPart("provider_id", "752637ba-6ec2-5092-b796-c971a1c45d53")
+                    .addFormDataPart("service_type_id", "b0a7739e-49b2-59d2-a822-2ba758dea4cb")
+                    .addFormDataPart("description", description.getText().toString())
+                    .addFormDataPart("type_provider", "provider")
+                    .addFormDataPart("attachment", "photo.jpeg", RequestBody.create(MediaType.parse("image/jpeg"), byteArrayOutputStream.toByteArray()))
+                    .build();
 
             AppointmentHelper.createBiomedicalAppointmentOutreach(requestBody, new RestCallback<ApiResponse>() {
                 @Override
                 public void onSuccess(Headers headers, ApiResponse body) {
-                    Intent intent = new Intent(mContext, MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+                    Loading.hide(mContext);
+                    showDialogAlert(R.layout.dialog_appointment_success);
+                    TextView gomylist = dialog.findViewById(R.id.appointment_gotomylist);
+                    TextView ok = dialog.findViewById(R.id.appointment_ok);
+                    gomylist.setVisibility(View.GONE);
+                    ok.setOnClickListener(view -> {
+                        Intent intent = new Intent(StructuralLegalAidActivity.this, MainActivity.class);
+                        intent.putExtra("frag", "homeFragment");
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    });
                 }
 
                 @Override
                 public void onFailed(ErrorResponse error) {
                     Loading.hide(mContext);
+                    showDialogAlert(R.layout.dialog_appointment_failed);
+                    TextView retry = dialog.findViewById(R.id.appointment_retry);
+                    TextView ok = dialog.findViewById(R.id.appointment_ok);
+                    retry.setOnClickListener(view -> send());
+                    ok.setOnClickListener(view -> dialog.dismiss());
                 }
 
                 @Override
@@ -188,5 +196,22 @@ public class StructuralLegalAidActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void showDialogAlert(int layout) {
+        dialog = new Dialog(this);
+        //SET TITLE
+        dialog.setTitle("");
+
+        //set content
+        dialog.setContentView(layout);
+        dialog.setCanceledOnTouchOutside(false);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(Objects.requireNonNull(dialog.getWindow()).getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 }

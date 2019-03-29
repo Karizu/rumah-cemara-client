@@ -43,7 +43,7 @@ public class NewsDetailActivity extends AppCompatActivity {
     List<News> newsList = new ArrayList<>();
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    String articleId=null;
+    String articleId, flag;
     @BindView(R.id.tvTitle)
     TextView tvTitle;
     @BindView(R.id.tvAuthor)
@@ -68,21 +68,13 @@ public class NewsDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Intent intent=getIntent();
         articleId=intent.getStringExtra("id");
+        flag=intent.getStringExtra("flag");
         getListNews();
         setToolbar();
         context = this;
     }
 
     private void getListNews() {
-/*        newsList.clear();
-        newsList.add(new News("1", "testing", "test", "June 20 2019", R.drawable.img_news));
-        newsList.add(new News("1", "testing", "test", "June 20 2019", R.drawable.img_news));
-        newsAdapter = new NewsAdapter(getApplicationContext(), newsList, "highlight_detail");
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(newsAdapter);
-        newsAdapter.notifyDataSetChanged();*/
         Loading.show(NewsDetailActivity.this);
         NewsHelper.getNewsDetail(articleId,new RestCallback<ApiResponse<cemara.labschool.id.rumahcemara.model.News>>() {
             @Override
@@ -110,7 +102,12 @@ public class NewsDetailActivity extends AppCompatActivity {
                     articleDetailContent.setBackgroundColor(Color.TRANSPARENT);
                     articleDetailContent.loadDataWithBaseURL("", content, "text/html", "UTF-8", "");
 
-                    markNewsTop.setOnClickListener(new MarkNewsClickListener(newsDetail));
+                    if (flag!=null){
+                        markNewsTop.setEnabled(false);
+                        markNewsTop.setImageDrawable(getResources().getDrawable(R.drawable.ic_bookmark_black_24dp));
+                    } else {
+                        markNewsTop.setOnClickListener(new MarkNewsClickListener(context, newsDetail));
+                    }
 
                 } else {
 //                        loadingDialog.dismiss();

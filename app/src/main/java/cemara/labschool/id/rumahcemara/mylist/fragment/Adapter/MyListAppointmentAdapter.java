@@ -56,11 +56,15 @@ public class MyListAppointmentAdapter extends RecyclerView.Adapter<MyListAppoint
 
         switch (myAppointmentSelected.getType_provider()){
             case "worker":
-                holder.workerName.setText(myAppointmentSelected.getProvider_worker().getProfile().getFullname());
+                if (myAppointmentSelected.getProvider_worker() != null){
+                    holder.workerName.setText(myAppointmentSelected.getProvider_worker().getProfile().getFullname());
+                }
                 break;
 
             case "provider":
-                holder.workerName.setText(myAppointmentSelected.getGroup().getName());
+                if (myAppointmentSelected.getGroup() != null){
+                    holder.workerName.setText(myAppointmentSelected.getGroup().getName());
+                }
                 break;
         }
 
@@ -72,6 +76,9 @@ public class MyListAppointmentAdapter extends RecyclerView.Adapter<MyListAppoint
                 break;
 
             case 1:
+                if (myAppointmentSelected.getWorker_id() == null){
+                    holder.chatContainer.setVisibility(View.INVISIBLE);
+                }
                 holder.statusAppointment.setText("Accepted");
                 break;
         }
@@ -91,24 +98,23 @@ public class MyListAppointmentAdapter extends RecyclerView.Adapter<MyListAppoint
         }
 
         holder.serviceName.setText(myAppointmentSelected.getService_type().getName());
-        holder.appointmentContainer.setOnClickListener(new View.OnClickListener(){
+        holder.appointmentContainer.setOnClickListener(view -> showDialog(R.layout.dialog_appointment_detail, myAppointmentSelected, myAppointmentSelected.getType_provider()));
 
-            @Override
-            public void onClick(View view) {
-                showDialog(R.layout.dialog_appointment_detail, myAppointmentSelected, myAppointmentSelected.getType_provider());
-            }
-        });
-
-        holder.chatContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, ChatAppointmentActivity.class);
-                intent.putExtra("appointment_id", myAppointmentSelected.getId());
-                intent.putExtra("worker_id", myAppointmentSelected.getWorker_id());
+        holder.chatContainer.setOnClickListener(view -> {
+            Intent intent = new Intent(context, ChatAppointmentActivity.class);
+            intent.putExtra("appointment_id", myAppointmentSelected.getId());
+            if (myAppointmentSelected.getProvider_worker() != null){
                 intent.putExtra("worker_name", myAppointmentSelected.getProvider_worker().getProfile().getFullname());
-                intent.putExtra("worker_image", myAppointmentSelected.getProvider_worker().getProfile().getPicture());
-                context.startActivity(intent);
+            } else {
+                intent.putExtra("worker_name", myAppointmentSelected.getGroup().getName());
             }
+            intent.putExtra("worker_id", myAppointmentSelected.getWorker_id());
+            if (myAppointmentSelected.getProvider_worker() != null){
+                intent.putExtra("worker_image", myAppointmentSelected.getProvider_worker().getProfile().getPicture());
+            } else {
+                intent.putExtra("worker_image", myAppointmentSelected.getGroup().getId());
+            }
+            context.startActivity(intent);
         });
     }
 

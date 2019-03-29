@@ -115,26 +115,20 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         //Glide.with(mContext).load(news.getNewsImage()).into(articleViewHolder.imgNews);
         Glide.with(mContext).load(article.getBanner()).into(articleViewHolder.imgNews);
         //click
-        articleViewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, ArticleDetailActivity.class);
-                intent.putExtra("id",article.getArticleId());
-                mContext.startActivity(intent);
-            }
+        articleViewHolder.parentLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, ArticleDetailActivity.class);
+            intent.putExtra("id",article.getArticleId());
+            mContext.startActivity(intent);
         });
 
-        articleViewHolder.markNews.setOnClickListener(new MarkArticleClickListener(article));
-        articleViewHolder.share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        articleViewHolder.markNews.setOnClickListener(new MarkArticleClickListener(mContext, article));
+        articleViewHolder.share.setOnClickListener(view -> {
 
-                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                sharingIntent.setType("text/plain");
-                sharingIntent.putExtra(Intent.EXTRA_TEXT, article.getTitle()+
-                        "\n"+ article.getBanner());
-                mContext.startActivity(Intent.createChooser(sharingIntent, "Share using:"));
-            }
+            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+            sharingIntent.setType("text/plain");
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, article.getTitle()+
+                    "\n"+ article.getBanner());
+            mContext.startActivity(Intent.createChooser(sharingIntent, "Share using:"));
         });
     }
 

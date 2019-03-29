@@ -1,5 +1,7 @@
 package cemara.labschool.id.rumahcemara.util.article.model;
 
+import cemara.labschool.id.rumahcemara.model.UserCreator;
+
 public class Article {
     private String articleId;
     private String title;
@@ -7,13 +9,15 @@ public class Article {
     private String dateCreated;
     private int newsImage;
     private String banner;
+    private UserCreator userCreator;
 
-    public Article(String articleId, String title, String author, String dateCreated, int newsImage){
+    public Article(String articleId, String title, String author, String dateCreated, int newsImage, UserCreator userCreator){
         this.articleId = articleId;
         this.title = title;
         this.author = author;
         this.dateCreated = dateCreated;
         this.newsImage = newsImage;
+        this.userCreator = userCreator;
     }
     public Article(String articleId, String title, String author, String dateCreated, String banner){
         this.articleId = articleId;
@@ -73,5 +77,13 @@ public class Article {
 
     public void setBanner(String banner) {
         this.banner = banner;
+    }
+
+    public UserCreator getUserCreator() {
+        return userCreator;
+    }
+
+    public void setUserCreator(UserCreator userCreator) {
+        this.userCreator = userCreator;
     }
 }

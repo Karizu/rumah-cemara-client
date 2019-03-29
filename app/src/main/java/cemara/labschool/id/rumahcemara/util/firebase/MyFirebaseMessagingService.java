@@ -19,6 +19,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -41,8 +42,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String title = data.get("title");
         String body = data.get("body");
 
-        if(!title.equals("") && !body.equals("")){
-            sendMyNotification(title, body, data); //send notification to user
+        SessionManagement sessionManagement = new SessionManagement(this);
+        Log.d("Status Notifikasi", String.valueOf(sessionManagement.getNotification()));
+        if (sessionManagement.getNotification() == 1) {
+            if(!Objects.equals(title, "") && !Objects.equals(body, "")){
+                Log.d("Masuk Notif", String.valueOf(sessionManagement.getNotification()));
+                sendMyNotification(title, body, data); //send notification to user
+            }
         }
     }
 
@@ -60,7 +66,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String eventId = data.get("id");
         String type = data.get("type");
 
-        switch (type){
+        switch (Objects.requireNonNull(type)){
 
 //            case "event":
 //                //On click of notification it redirect to this Activity

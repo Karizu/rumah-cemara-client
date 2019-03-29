@@ -95,15 +95,12 @@ public class MyListAppointment extends Fragment {
                         List<GeneralDataResponse> res = body.getData();
                         appointmentList = new ArrayList<>();
 
-                        for (int i = 0; i < res.size(); i++) {
-                            GeneralDataResponse data = res.get(i);
-                            appointmentList.add(data);
-                        }
+                        appointmentList.addAll(res);
 
                         adapter = new MyListAppointmentAdapter(appointmentList, activity);
                         recyclerView.setAdapter(adapter);
                     }
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
             }

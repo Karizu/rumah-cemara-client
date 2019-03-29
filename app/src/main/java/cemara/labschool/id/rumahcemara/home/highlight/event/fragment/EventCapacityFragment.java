@@ -152,7 +152,7 @@ public class EventCapacityFragment extends Fragment {
                     .load(eventPager.get(position).getBanner())
                     .into(ivCarousel);
             tvLabelCarousel.setText(eventPager.get(position).getTitle());
-            ivReminder.setOnClickListener(new MarkEventClickListener(eventPager.get(position)));
+//            ivReminder.setOnClickListener(new MarkEventClickListener(eventPager.get(position)));
             ivShare.setOnClickListener(v -> Toast.makeText(getContext(), "Share click", Toast.LENGTH_SHORT).show());
             ivCarousel.setOnClickListener(new EventClickListener(eventPager.get(position)));
             return customView;

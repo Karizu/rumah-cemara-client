@@ -44,7 +44,7 @@ public class AdapterListProviderNearMe extends RecyclerView.Adapter<AdapterListP
     public void onBindViewHolder(AdapterListProviderNearMe.ViewHolder holder, int position){
         final NearestProviderModel articleModel = articleModels.get(position);
         final String id = articleModel.getId();
-        final String srcImage = articleModel.getSrcImage();
+        final String srcImage = articleModel.getGroup().getGroupProfile().getPicture();
         final String name = articleModel.getName();
         final String description = articleModel.getDescription();
         final String address = articleModel.getAddress();
@@ -62,7 +62,7 @@ public class AdapterListProviderNearMe extends RecyclerView.Adapter<AdapterListP
 
         holder.textViewName.setText(name);
         holder.textViewRange.setText(distance);
-        Glide.with(context).load(articleModel.getSrcImage()).apply(RequestOptions.circleCropTransform()).into(holder.imageViewNearest);
+        Glide.with(context).load(srcImage).apply(RequestOptions.circleCropTransform()).into(holder.imageViewNearest);
 
         String finalDistance = distance;
         holder.linearLayout.setOnClickListener(view -> {
@@ -83,6 +83,7 @@ public class AdapterListProviderNearMe extends RecyclerView.Adapter<AdapterListP
             tvaddress.setText(address);
 //            tvcity.setText(city);
 //            tvphone.setText(phoneNumber);
+            Glide.with(context).load(srcImage).apply(RequestOptions.circleCropTransform()).into(imgProfile);
             tvRange.setText(finalDistance);
 
             if (close != null) {

@@ -34,7 +34,7 @@
                 android:paddingTop="@dimen/margin_padding_size_micro"
                 android:paddingLeft="@dimen/margin_padding_size_small"
                 android:paddingRight="@dimen/margin_padding_size_small"
-                android:text="@string/nearest_service_provider" />
+                android:text="@string/nearest_outreach_worker" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"

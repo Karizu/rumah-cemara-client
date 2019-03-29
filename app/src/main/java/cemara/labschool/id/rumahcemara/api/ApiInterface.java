@@ -7,6 +7,8 @@ import cemara.labschool.id.rumahcemara.model.Article;
 import cemara.labschool.id.rumahcemara.model.Category;
 import cemara.labschool.id.rumahcemara.model.CategoryModel;
 import cemara.labschool.id.rumahcemara.model.Chat;
+import cemara.labschool.id.rumahcemara.model.ChatHistory;
+import cemara.labschool.id.rumahcemara.model.Datum;
 import cemara.labschool.id.rumahcemara.model.Event;
 import cemara.labschool.id.rumahcemara.model.GenerateToken;
 import cemara.labschool.id.rumahcemara.model.HistoryList;
@@ -29,6 +31,7 @@ import cemara.labschool.id.rumahcemara.model.User;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -83,7 +86,7 @@ public interface ApiInterface {
     Call<ApiResponse<List<GeneralDataResponse>>> getMyAppointmentList (@Query("user_id") String userId);
 
     @POST("message")
-    Call<ApiResponse> sendMessage(@Body Chat chat);
+    Call<ApiResponse> sendMessage(@Body Datum chat);
 
     @GET("generateToken")
     Call<ApiResponse<Token>> generateToken(@Query("user_id") String userId);
@@ -101,10 +104,10 @@ public interface ApiInterface {
 
     /***************** News API *********************/
     @GET("news")
-    Call<ApiResponse<List<News>>> getNews();
+    Call<ApiResponse<List<News>>> getNews(@Query("status") int status);
 
     @GET("news")
-    Call<ApiResponse<List<News>>> getNewsWithCategory(@Query("news_category_id") String newsCategoryId);
+    Call<ApiResponse<List<News>>> getNewsWithCategory(@Query("news_category_id") String newsCategoryId, @Query("status") int status);
     @GET("newsCategories")
     Call<ApiResponse<List<CategoryModel>>> getNewsCategories();
 
@@ -113,10 +116,10 @@ public interface ApiInterface {
 
     /***************** Article API *********************/
     @GET("article")
-    Call<ApiResponse<List<Article>>> getArticle();
+    Call<ApiResponse<List<Article>>> getArticle(@Query("status") int status);
 
     @GET("article")
-    Call<ApiResponse<List<Article>>> getArticleWithCategory(@Query("article_category_id") String articleCategoryId);
+    Call<ApiResponse<List<Article>>> getArticleWithCategory(@Query("article_category_id") String articleCategoryId, @Query("status") int status);
 
     @GET("article/{article_id}")
     Call<ApiResponse<Article>> getArticleDetail(@Path("article_id") String id);
@@ -126,10 +129,10 @@ public interface ApiInterface {
 
     /***************** Event API *********************/
     @GET("event")
-    Call<ApiResponse<List<Event>>> getEvent();
+    Call<ApiResponse<List<Event>>> getEvent(@Query("status") int status);
 
     @GET("event")
-    Call<ApiResponse<List<Event>>> getEventWithCategory(@Query("event_category_id") String eventCategoryId);
+    Call<ApiResponse<List<Event>>> getEventWithCategory(@Query("event_category_id") String eventCategoryId, @Query("status") int status);
 
     @GET("event/{event_id}")
     Call<ApiResponse<Event>> getEventDetail(@Path("event_id") String id);
@@ -149,8 +152,14 @@ public interface ApiInterface {
 
     @POST("rating")
     Call<ApiResponse> createRating(@Body RequestBody rating);
+
     @FormUrlEncoded
     @POST("userList")
     Call<ApiResponse> postCreateUserList(@Field("user_id") String userId, @Field("type") String type,@Field("type_id") String typeId,@Field("datetime") String datetime);
 
+    @DELETE("userList/{id}")
+    Call<ApiResponse> removeBookmark(@Path("id") String id);
+
+    @GET("messageHistory")
+    Call<ApiResponse<List<Datum>>> chatHistory(@Query("channel") String channel);
 }

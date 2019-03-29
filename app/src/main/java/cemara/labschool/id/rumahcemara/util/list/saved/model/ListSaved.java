@@ -2,6 +2,7 @@ package cemara.labschool.id.rumahcemara.util.list.saved.model;
 
 public class ListSaved {
     private String id;
+    private String idd;
     private String title;
     private String author;
     private String dateCreated;
@@ -11,6 +12,17 @@ public class ListSaved {
 
     public ListSaved(String id, String title, String author, String dateCreated, int newsImage, String banner,boolean isArticle) {
         this.id = id;
+        this.title = title;
+        this.author = author;
+        this.dateCreated = dateCreated;
+        this.newsImage = newsImage;
+        this.banner = banner;
+        this.isArticle=isArticle;
+    }
+
+    public ListSaved(String id, String idd, String title, String author, String dateCreated, int newsImage, String banner,boolean isArticle) {
+        this.id = id;
+        this.idd = idd;
         this.title = title;
         this.author = author;
         this.dateCreated = dateCreated;
@@ -73,5 +85,13 @@ public class ListSaved {
 
     public void setArticle(boolean article) {
         isArticle = article;
+    }
+
+    public String getIdd() {
+        return idd;
+    }
+
+    public void setIdd(String idd) {
+        this.idd = idd;
     }
 }

@@ -1,7 +1,10 @@
 package cemara.labschool.id.rumahcemara.home.service.structural.FindServiceProvider;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -14,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -87,6 +91,7 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
     double longitude, latitude;
     private AdapterListProviderNearMe adapter;
     private List<NearestProviderModel> articleModels;
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,32 +157,45 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
                 Loading.hide(getApplicationContext());
                 if (body != null && body.isStatus()) {
                     List<ProviderNearMeResponse> res = body.getData();
-                    System.out.println("Response: " + body.getData());
-                    articleModels = new ArrayList<>();
-                    for (int i = 0; i < res.size(); i++) {
-                        ProviderNearMeResponse article = res.get(i);
-                        articleModels.add(new NearestProviderModel(article.getId(),
-                                article.getGroup().getId(),
-                                article.getGroup().getGroupProfile().getGroup_id(),
-                                article.getGroup().getName(),
-                                article.getDescription(),
-                                article.getGroup().getGroupProfile().getAddress(),
-                                article.getGroup().getGroupProfile().getAddress(),
-                                article.getGroup().getGroupProfile().getPhone_number(),
-                                article.getDistance(),
-                                article.getUser(),
-                                article.getGroup()));
-                    }
+                    if (res.size() != 0){
+                        System.out.println("Response: " + body.getData());
+                        articleModels = new ArrayList<>();
+                        for (int i = 0; i < res.size(); i++) {
+                            ProviderNearMeResponse article = res.get(i);
+                            articleModels.add(new NearestProviderModel(article.getId(),
+                                    article.getGroup().getId(),
+                                    article.getGroup().getGroupProfile().getPicture(),
+                                    article.getGroup().getName(),
+                                    article.getDescription(),
+                                    article.getGroup().getGroupProfile().getAddress(),
+                                    article.getGroup().getGroupProfile().getAddress(),
+                                    article.getGroup().getGroupProfile().getPhone_number(),
+                                    article.getDistance(),
+                                    article.getUser(),
+                                    article.getGroup()));
+                        }
 
-                    adapter = new AdapterListProviderNearMe(articleModels, activity);
-                    recyclerView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
+                        adapter = new AdapterListProviderNearMe(articleModels, activity);
+                        recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        showDialogAlert(R.layout.dialog_appointment_out_of_range_provider);
+                        TextView ok = dialog.findViewById(R.id.appointment_ok);
+                        ok.setOnClickListener(view -> onBackPressed());
+                    }
+                } else {
+                    showDialogAlert(R.layout.dialog_appointment_out_of_range_provider);
+                    TextView ok = dialog.findViewById(R.id.appointment_ok);
+                    ok.setOnClickListener(view -> onBackPressed());
                 }
             }
 
             @Override
             public void onFailed(ErrorResponse error) {
                 Loading.hide(getApplicationContext());
+                showDialogAlert(R.layout.dialog_bad_connection);
+                TextView ok = dialog.findViewById(R.id.appointment_ok);
+                ok.setOnClickListener(view -> onBackPressed());
             }
 
             @Override
@@ -186,6 +204,24 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
             }
         });
 
+    }
+
+    private void showDialogAlert(int layout) {
+        dialog = new Dialog(this);
+        //SET TITLE
+        dialog.setTitle("");
+
+        //set content
+        dialog.setContentView(layout);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(Objects.requireNonNull(dialog.getWindow()).getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
     private void setupAutocomplete() {
@@ -294,7 +330,7 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
                         ProviderNearMeResponse article = res.get(i);
                         articleModels.add(new NearestProviderModel(article.getId(),
                                 article.getGroup().getId(),
-                                article.getGroup().getGroupProfile().getGroup_id(),
+                                article.getGroup().getGroupProfile().getPicture(),
                                 article.getGroup().getName(),
                                 article.getDescription(),
                                 article.getGroup().getGroupProfile().getAddress(),

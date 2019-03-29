@@ -1,7 +1,10 @@
 package cemara.labschool.id.rumahcemara.home.service.structural.FindOutreachWorker;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -14,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,7 +53,6 @@ import cemara.labschool.id.rumahcemara.model.NearestOutreachModel;
 import cemara.labschool.id.rumahcemara.model.response.OutreachNearMeResponse;
 import cemara.labschool.id.rumahcemara.util.dialog.Loading;
 import cemara.labschool.id.rumahcemara.util.nearest.adapter.NearestAdapter;
-import cemara.labschool.id.rumahcemara.util.nearest.adapter.NearestSearchResultAdapter;
 import cemara.labschool.id.rumahcemara.util.nearest.adapter.adapter.nearest.search.counseling.NearestSearchResultAdapterApi;
 import cemara.labschool.id.rumahcemara.util.nearest.modal.Nearest;
 import okhttp3.Headers;
@@ -87,6 +90,7 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
     private AdapterListOutreachNearMe adapter;
     private Context activity;
     private LinearLayoutManager layoutManager;
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,31 +155,44 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
                 Loading.hide(getApplicationContext());
                 if (body != null && body.isStatus()) {
                     List<OutreachNearMeResponse> res = body.getData();
-                    System.out.println("Response: " + body.getData());
-                    articleModels = new ArrayList<>();
-                    for (int i = 0; i < res.size(); i++) {
-                        OutreachNearMeResponse article = res.get(i);
-                        articleModels.add(new NearestOutreachModel(article.getId(),
-                                article.getUser_id(),
-                                article.getUser().getProfile().getPicture(),
-                                article.getUser().getProfile().getFullname(),
-                                article.getDescription(),
-                                article.getUser().getProfile().getAddress(),
-                                article.getUser().getProfile().getCity(),
-                                article.getUser().getProfile().getPhoneNumber(),
-                                article.getDistance(),
-                                article.getUser(),
-                                article.getGroup()));
-                    }
+                    if (res.size() != 0){
+                        System.out.println("Response: " + body.getData());
+                        articleModels = new ArrayList<>();
+                        for (int i = 0; i < res.size(); i++) {
+                            OutreachNearMeResponse article = res.get(i);
+                            articleModels.add(new NearestOutreachModel(article.getId(),
+                                    article.getUser_id(),
+                                    article.getUser().getProfile().getPicture(),
+                                    article.getUser().getProfile().getFullname(),
+                                    article.getDescription(),
+                                    article.getUser().getProfile().getAddress(),
+                                    article.getUser().getProfile().getCity(),
+                                    article.getUser().getProfile().getPhoneNumber(),
+                                    article.getDistance(),
+                                    article.getUser(),
+                                    article.getGroup()));
+                        }
 
-                    adapter = new AdapterListOutreachNearMe(articleModels, activity);
-                    recyclerView.setAdapter(adapter);
+                        adapter = new AdapterListOutreachNearMe(articleModels, activity);
+                        recyclerView.setAdapter(adapter);
+                    } else {
+                        showDialogAlert(R.layout.dialog_appointment_out_of_range_outreach);
+                        TextView ok = dialog.findViewById(R.id.appointment_ok);
+                        ok.setOnClickListener(view -> onBackPressed());
+                    }
+                } else {
+                    showDialogAlert(R.layout.dialog_appointment_out_of_range_outreach);
+                    TextView ok = dialog.findViewById(R.id.appointment_ok);
+                    ok.setOnClickListener(view -> onBackPressed());
                 }
             }
 
             @Override
             public void onFailed(ErrorResponse error) {
                 Loading.hide(getApplicationContext());
+                showDialogAlert(R.layout.dialog_bad_connection);
+                TextView ok = dialog.findViewById(R.id.appointment_ok);
+                ok.setOnClickListener(view -> onBackPressed());
             }
 
             @Override
@@ -184,6 +201,24 @@ public class FindOutreachWorkerActivity extends AppCompatActivity implements OnM
             }
         });
 
+    }
+
+    private void showDialogAlert(int layout) {
+        dialog = new Dialog(this);
+        //SET TITLE
+        dialog.setTitle("");
+
+        //set content
+        dialog.setContentView(layout);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(Objects.requireNonNull(dialog.getWindow()).getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
     private void setupAutocomplete() {

@@ -1,7 +1,10 @@
 package cemara.labschool.id.rumahcemara.home.service.behavioral.FindServiceProvider;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -14,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -90,6 +94,7 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
     double longitude, latitude;
     private AdapterListProviderNearMe adapter;
     private List<NearestProviderModel> articleModels;
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +120,7 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
         searchView.setQueryHint("Seacrh Outreach Worker Name or Location");
 
         int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-        EditText searchEditText = (EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        EditText searchEditText = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         searchEditText.setTextColor(getResources().getColor(R.color.place_autocomplete_search_hint));
         searchEditText.setHintTextColor(getResources().getColor(R.color.place_autocomplete_search_hint));
 
@@ -138,12 +143,8 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
 
         Bundle bundle = getIntent().getBundleExtra("myData");   //<< get Bundle from Intent
 
-        latitude = Double.parseDouble(bundle.getString("latitude"));
-        longitude = Double.parseDouble(bundle.getString("longitude"));
-
-//        latitude = -6.893870;
-//        longitude = 107.631200;
-
+        latitude = Double.parseDouble(Objects.requireNonNull(bundle.getString("latitude")));
+        longitude = Double.parseDouble(Objects.requireNonNull(bundle.getString("longitude")));
         populateData();
     }
 
@@ -151,7 +152,7 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
         autocompleteFragment.setHint("Search Outreach Worker Name or Location");
-        EditText editTextAutocomplete = ((EditText) Objects.requireNonNull(autocompleteFragment.getView()).findViewById(R.id.place_autocomplete_search_input));
+        EditText editTextAutocomplete = Objects.requireNonNull(autocompleteFragment.getView()).findViewById(R.id.place_autocomplete_search_input);
         editTextAutocomplete.setTextSize(14.0f);
         editTextAutocomplete.setPadding(0, 1, 1, 1);
         editTextAutocomplete.setTextColor(getResources().getColor(R.color.White));
@@ -197,32 +198,45 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
                 Loading.hide(getApplicationContext());
                 if (body != null && body.isStatus()) {
                     List<ProviderNearMeResponse> res = body.getData();
-                    System.out.println("Response: " + body.getData());
-                    articleModels = new ArrayList<>();
-                    for (int i = 0; i < res.size(); i++) {
-                        ProviderNearMeResponse article = res.get(i);
-                        articleModels.add(new NearestProviderModel(article.getId(),
-                                article.getGroup().getId(),
-                                article.getGroup().getGroupProfile().getGroup_id(),
-                                article.getGroup().getName(),
-                                article.getDescription(),
-                                article.getGroup().getGroupProfile().getAddress(),
-                                article.getGroup().getGroupProfile().getAddress(),
-                                article.getGroup().getGroupProfile().getPhone_number(),
-                                article.getDistance(),
-                                article.getUser(),
-                                article.getGroup()));
-                    }
+                    if (res.size() != 0){
+                        System.out.println("Response: " + body.getData());
+                        articleModels = new ArrayList<>();
+                        for (int i = 0; i < res.size(); i++) {
+                            ProviderNearMeResponse article = res.get(i);
+                            articleModels.add(new NearestProviderModel(article.getId(),
+                                    article.getGroup().getId(),
+                                    article.getGroup().getGroupProfile().getGroup_id(),
+                                    article.getGroup().getName(),
+                                    article.getDescription(),
+                                    article.getGroup().getGroupProfile().getAddress(),
+                                    article.getGroup().getGroupProfile().getAddress(),
+                                    article.getGroup().getGroupProfile().getPhone_number(),
+                                    article.getDistance(),
+                                    article.getUser(),
+                                    article.getGroup()));
+                        }
 
-                    adapter = new AdapterListProviderNearMe(articleModels, activity);
-                    recyclerView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
+                        adapter = new AdapterListProviderNearMe(articleModels, activity);
+                        recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        showDialogAlert(R.layout.dialog_appointment_out_of_range_provider);
+                        TextView ok = dialog.findViewById(R.id.appointment_ok);
+                        ok.setOnClickListener(view -> onBackPressed());
+                    }
+                } else {
+                    showDialogAlert(R.layout.dialog_appointment_out_of_range_provider);
+                    TextView ok = dialog.findViewById(R.id.appointment_ok);
+                    ok.setOnClickListener(view -> onBackPressed());
                 }
             }
 
             @Override
             public void onFailed(ErrorResponse error) {
                 Loading.hide(getApplicationContext());
+                showDialogAlert(R.layout.dialog_bad_connection);
+                TextView ok = dialog.findViewById(R.id.appointment_ok);
+                ok.setOnClickListener(view -> onBackPressed());
             }
 
             @Override
@@ -231,6 +245,24 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
             }
         });
 
+    }
+
+    private void showDialogAlert(int layout) {
+        dialog = new Dialog(this);
+        //SET TITLE
+        dialog.setTitle("");
+
+        //set content
+        dialog.setContentView(layout);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(Objects.requireNonNull(dialog.getWindow()).getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
     private void bottomSheetExpand() {
@@ -297,7 +329,7 @@ public class FindServiceProviderActivity extends AppCompatActivity implements On
                         ProviderNearMeResponse article = res.get(i);
                         articleModels.add(new NearestProviderModel(article.getId(),
                                 article.getGroup().getId(),
-                                article.getGroup().getGroupProfile().getGroup_id(),
+                                article.getGroup().getGroupProfile().getPicture(),
                                 article.getGroup().getName(),
                                 article.getDescription(),
                                 article.getGroup().getGroupProfile().getAddress(),

@@ -8,6 +8,7 @@ import java.util.List;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.Article;
 import cemara.labschool.id.rumahcemara.model.Chat;
+import cemara.labschool.id.rumahcemara.model.Datum;
 import cemara.labschool.id.rumahcemara.model.response.GeneralDataResponse;
 import cemara.labschool.id.rumahcemara.model.response.OutreachNearMeResponse;
 import cemara.labschool.id.rumahcemara.model.response.ProviderNearMeResponse;
@@ -45,7 +46,7 @@ public class AppointmentHelper {
         service.getEndpoint().getMyAppointmentList(userId).enqueue(callback);
     }
 
-    public static void sendMessage(Chat chat, RestCallback<ApiResponse> callback){
+    public static void sendMessage(Datum chat, RestCallback<ApiResponse> callback){
         Reztrofit<ApiInterface> service = Reztrofit.getInstance();
         service.getEndpoint().sendMessage(chat).enqueue(callback);
     }

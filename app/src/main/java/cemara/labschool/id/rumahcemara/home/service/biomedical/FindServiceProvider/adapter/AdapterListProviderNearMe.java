@@ -43,9 +43,9 @@ public class AdapterListProviderNearMe extends RecyclerView.Adapter<AdapterListP
 
     @Override
     public void onBindViewHolder(AdapterListProviderNearMe.ViewHolder holder, int position){
-        final NearestProviderModel articleModel = articleModels.get(position);
+        NearestProviderModel articleModel = articleModels.get(position);
         final String id = articleModel.getId();
-        final String srcImage = articleModel.getSrcImage();
+        final String srcImage = articleModel.getGroup().getGroupProfile().getPicture();
         final String name = articleModel.getName();
         final String description = articleModel.getDescription();
         final String address = articleModel.getAddress();
@@ -63,7 +63,7 @@ public class AdapterListProviderNearMe extends RecyclerView.Adapter<AdapterListP
 
         holder.textViewName.setText(name);
         holder.textViewRange.setText(distance);
-        Glide.with(context).load(articleModel.getSrcImage()).apply(RequestOptions.circleCropTransform()).into(holder.imageViewNearest);
+        Glide.with(context).load(srcImage).apply(RequestOptions.circleCropTransform()).into(holder.imageViewNearest);
 
         String finalDistance = distance;
         holder.linearLayout.setOnClickListener(view -> {
@@ -76,14 +76,12 @@ public class AdapterListProviderNearMe extends RecyclerView.Adapter<AdapterListP
             ImageView imgProfile = dialog.findViewById(R.id.nearest_img);
             TextView tvname = dialog.findViewById(R.id.nearest_name);
             TextView tvaddress = dialog.findViewById(R.id.nearest_address);
-            TextView tvcity = dialog.findViewById(R.id.nearest_city);
-            TextView tvphone = dialog.findViewById(R.id.nearest_phone);
             TextView tvRange = dialog.findViewById(R.id.nearest_range);
-//            Glide.with(context).load(articleModel.getSrcImage()).apply(RequestOptions.circleCropTransform()).into(imgProfile);
             tvname.setText(name);
             tvaddress.setText(address);
-//            tvcity.setText(city);
-//            tvphone.setText(phoneNumber);
+            if (imgProfile != null) {
+                Glide.with(context).load(articleModel.getGroup().getGroupProfile().getPicture()).apply(RequestOptions.circleCropTransform()).into(imgProfile);
+            }
             tvRange.setText(finalDistance);
 
             if (close != null) {

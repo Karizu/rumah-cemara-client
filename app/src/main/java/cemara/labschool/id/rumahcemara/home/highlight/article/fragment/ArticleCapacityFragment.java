@@ -160,7 +160,7 @@ public class ArticleCapacityFragment extends Fragment {
                     .into(ivCarousel);
             tvLabelCarousel.setText(articlePager.get(position).getTitle());
             ivShare.setOnClickListener(shareOnClickListener);
-            ivMark.setOnClickListener(new MarkArticleClickListener(articlePager.get(position)));
+//            ivMark.setOnClickListener(new MarkArticleClickListener(articlePager.get(position)));
 
             ivCarousel.setOnClickListener(new ArticleClickListener(articlePager.get(position)));
             return customView;

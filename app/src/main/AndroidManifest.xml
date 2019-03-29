@@ -10,12 +10,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"
+    <uses-permission
+        android:name="android.permission.ACCESS_MOCK_LOCATION"
         tools:ignore="MockLocation,ProtectedPermissions" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.BIND_DREAM_SERVICE"
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission
+        android:name="android.permission.BIND_DREAM_SERVICE"
         tools:ignore="ProtectedPermissions" />
 
     <uses-feature
@@ -36,8 +37,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".mylist.fragment.activity.DetailHistoryAppointment"
-            android:theme="@style/Base.Theme.AppCompat.Transculent"            />
+        <activity android:name=".home.highlight.DetailHighlightActivity"></activity>
+        <activity
+            android:name=".mylist.fragment.activity.DetailHistoryAppointment"
+            android:theme="@style/Base.Theme.AppCompat.Transculent" />
         <activity android:name=".home.highlight.EventDetailActivity" />
         <activity android:name=".home.highlight.NewsDetailActivity" />
         <activity android:name=".home.highlight.ArticleDetailActivity" />
@@ -78,7 +81,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service android:name=".util.firebase.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
@@ -98,9 +100,8 @@
         <activity android:name=".home.service.structural.FindServiceProvider.FindServiceProviderActivity" />
         <activity android:name=".mylist.fragment.activity.ChatAppointmentActivity" />
         <activity android:name=".options.fragment.activity.WebActivity" />
-        <activity android:name=".auth.activity.ForgotPasswordActivity"/>
-        <activity android:name=".auth.activity.RecoverPasswordActivity"/>
-
+        <activity android:name=".auth.activity.ForgotPasswordActivity" />
+        <activity android:name=".auth.activity.RecoverPasswordActivity" />
     </application>
 
 </manifest>
