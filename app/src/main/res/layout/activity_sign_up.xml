@@ -203,6 +203,38 @@
                         android:layout_marginTop="8dp" />
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="@dimen/margin_padding_size_small">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/rounded_grey_transparent" />
+
+                    <TextView
+                        android:id="@+id/label_type_institution"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_padding_size_medium"
+                        android:layout_marginRight="@dimen/margin_padding_size_small"
+                        android:background="#FAFAFA"
+                        android:paddingLeft="2dp"
+                        android:paddingRight="2dp"
+                        android:text="@string/institutionType"
+                        android:textSize="@dimen/text_size_micro" />
+
+                    <Spinner
+                        android:id="@+id/type_institution_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_padding_size_small"
+                        android:layout_marginTop="8dp" />
+                </RelativeLayout>
+
                 <Button
                     android:id="@+id/email_sign_in_button"
                     style="@style/button"

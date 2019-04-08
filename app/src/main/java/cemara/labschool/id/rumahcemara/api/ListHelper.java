@@ -7,6 +7,7 @@ import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
 import com.rezkyatinnov.kyandroid.reztrofit.Reztrofit;
 
 import java.util.List;
+import java.util.Objects;
 
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.ChatHistory;
@@ -62,7 +63,7 @@ public class ListHelper {
 
         User user = realm.where(User.class).findFirst();
         Reztrofit<ApiInterface> service = Reztrofit.getInstance();
-        service.getEndpoint().getHistoryAppointment(user.getId()).enqueue(callback);
+        service.getEndpoint().getHistoryAppointment(Objects.requireNonNull(user).getId()).enqueue(callback);
 
     }
 

@@ -71,6 +71,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     private Context mContext;
     private List<String> treatmentId;
     private ArrayList<String> dataTreatment;
+    private List<String> institutionId;
+    private ArrayList<String> dataInstitution;
     private File profileImage;
     private Calendar calendar;
     private Dialog dialog;
@@ -84,6 +86,9 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
     @BindView(R.id.type_treatment_spinner)
     Spinner typeTreatmentSpinner;
+
+    @BindView(R.id.type_institution_spinner)
+    Spinner typeInstitutionSpinner;
 
     @BindView(R.id.nameTextInputEditText)
     TextInputEditText name;
@@ -130,9 +135,11 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
         genderSpinner.setOnItemSelectedListener(this);
         typeTreatmentSpinner.setOnItemSelectedListener(this);
+        typeInstitutionSpinner.setOnItemSelectedListener(this);
 
         settingGenderSpinner();
         settingTypeTreatmentSpinner();
+        settingTypeInstitutionSpinner();
 
         calendar = Calendar.getInstance();
     }
@@ -230,6 +237,45 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         });
     }
 
+    private void settingTypeInstitutionSpinner() {
+        // Spinner Drop down elements
+
+        TreatmentHelper.getAllInstitution(new RestCallback<ApiResponse<List<Treatment>>>() {
+            @Override
+            public void onSuccess(Headers headers, ApiResponse<List<Treatment>> body) {
+                if (body != null && body.isStatus()){
+                    dataInstitution = new ArrayList();
+                    institutionId = new ArrayList();
+                    List<Treatment> data = body.getData();
+                    for (int i = 0; i < data.size(); i++){
+                        dataInstitution.add(data.get(i).getName());
+                        institutionId.add(data.get(i).getId());
+                        Log.d("Treatment"+" "+i, data.get(i).getName());
+                    }
+
+                    // Creating adapter for spinner
+                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(mContext, R.layout.support_simple_spinner_dropdown_item, dataInstitution);
+
+                    // Drop down layout style - list view with radio button
+                    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                    // attaching data adapter to spinner
+                    typeInstitutionSpinner.setAdapter(dataAdapter);
+                }
+            }
+
+            @Override
+            public void onFailed(ErrorResponse error) {
+
+            }
+
+            @Override
+            public void onCanceled() {
+
+            }
+        });
+    }
+
     private void validationData(){
         if (email.getText().toString().equals("")){
             email.setError("Email is required");
@@ -272,6 +318,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                         .addFormDataPart("password", password.getText().toString())
                         .addFormDataPart("gender", genderSpinner.getSelectedItem().toString())
                         .addFormDataPart("treatment_id", treatmentId.get(typeTreatmentSpinner.getSelectedItemPosition()))
+                        .addFormDataPart("group_id", institutionId.get(typeInstitutionSpinner.getSelectedItemPosition()))
                         .addFormDataPart("type", "client")
                         .addFormDataPart("picture", "photo.jpeg", RequestBody.create(MediaType.parse("image/jpeg"), byteArrayOutputStream.toByteArray()))
                         .build();
@@ -285,6 +332,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                         .addFormDataPart("password", password.getText().toString())
                         .addFormDataPart("gender", genderSpinner.getSelectedItem().toString())
                         .addFormDataPart("treatment_id", treatmentId.get(typeTreatmentSpinner.getSelectedItemPosition()))
+                        .addFormDataPart("group_id", institutionId.get(typeInstitutionSpinner.getSelectedItemPosition()))
                         .addFormDataPart("type", "client")
                         .build();
             }
@@ -293,7 +341,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                 @Override
                 public void onSuccess(Headers headers, ApiResponse body) {
                     Loading.hide(getApplicationContext());
-                    Toast.makeText(mContext, "Thanks for signing up! Please wait for verification by administrator", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Thanks for signing up! Please login first", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(mContext, LoginActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);

@@ -109,6 +109,7 @@
     <string name="articles">Artikel</string>
     <string name="reminder_description">reminder event description</string>
     <string name="event_title">Seminar Pencegahan Aids</string>
+    <string name="institutionType">Institusi</string>
 
 
 </resources>

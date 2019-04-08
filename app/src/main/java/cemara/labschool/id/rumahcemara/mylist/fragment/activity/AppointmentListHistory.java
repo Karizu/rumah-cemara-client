@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -93,29 +94,30 @@ public class AppointmentListHistory extends AppCompatActivity {
                     historyList = new ArrayList<>();
                     for (int i = 0; i < res.size(); i++) {
                         HistoryListResponse article = res.get(i);
-                        historyList.add(new HistoryListModel(article.getId(),
-                                article.getGroup_id(),
-                                article.getUser_id(),
-                                article.getProvider_id(),
-                                article.getService_type_id(),
-                                article.getWorker_id(),
-                                article.getStart_date(),
-                                article.getEnd_date(),
-                                article.getDescription(),
-                                article.getAttachment(),
-                                article.getType_provider(),
-                                article.getStatus(),
-                                article.getStatus_report(),
-                                article.getCreated_at(),
-                                article.getUpdated_at(),
-                                article.getDeleted_at(),
-                                article.getLocation(),
-                                article.getGroup(),
-                                article.getUser(),
-                                article.getService_type(),
-                                article.getRating(),
-                                article.getProvider_worker()
-                                ));
+                            historyList.add(new HistoryListModel(article.getId(),
+                                    article.getGroup_id(),
+                                    article.getUser_id(),
+                                    article.getProvider_id(),
+                                    article.getService_type_id(),
+                                    article.getWorker_id(),
+                                    article.getStart_date(),
+                                    article.getEnd_date(),
+                                    article.getDescription(),
+                                    article.getAttachment(),
+                                    article.getType_provider(),
+                                    article.getStatus(),
+                                    article.getStatus_report(),
+                                    article.getCreated_at(),
+                                    article.getUpdated_at(),
+                                    article.getDeleted_at(),
+                                    article.getLocation(),
+                                    article.getGroup(),
+                                    article.getUser(),
+                                    article.getService_type(),
+                                    article.getRating(),
+                                    article.getProvider_worker(),
+                                    article.getProvider_group()
+                            ));
                     }
 
                     historyAdapter = new ListHistoryAdapter(historyList, activity);
@@ -125,7 +127,8 @@ public class AppointmentListHistory extends AppCompatActivity {
 
             @Override
             public void onFailed(ErrorResponse error) {
-                Log.d("onFailed", error.getMessage());
+                Loading.hide(getApplicationContext());
+                Log.d("onFailed", error.getHttpStatus().toString());
             }
 
             @Override

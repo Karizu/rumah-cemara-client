@@ -1,6 +1,7 @@
 package cemara.labschool.id.rumahcemara.model.response;
 
 import cemara.labschool.id.rumahcemara.model.Group;
+import cemara.labschool.id.rumahcemara.model.ProviderGroup;
 import cemara.labschool.id.rumahcemara.model.ProviderWorker;
 import cemara.labschool.id.rumahcemara.model.Rating;
 import cemara.labschool.id.rumahcemara.model.ServiceType;
@@ -51,6 +52,8 @@ public class HistoryListResponse {
     private Rating rating;
 
     private ProviderWorker provider_worker;
+
+    private ProviderGroup provider_group;
 
     public String getId() {
         return id;
@@ -226,5 +229,13 @@ public class HistoryListResponse {
 
     public void setProvider_worker(ProviderWorker provider_worker) {
         this.provider_worker = provider_worker;
+    }
+
+    public ProviderGroup getProvider_group() {
+        return provider_group;
+    }
+
+    public void setProvider_group(ProviderGroup provider_group) {
+        this.provider_group = provider_group;
     }
 }

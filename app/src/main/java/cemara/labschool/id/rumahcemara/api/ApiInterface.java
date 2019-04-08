@@ -35,6 +35,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -60,6 +61,9 @@ public interface ApiInterface {
 
     @GET("treatment")
     Call<ApiResponse<List<Treatment>>> getAllTreatment();
+
+    @GET("group")
+    Call<ApiResponse<List<Treatment>>> getAllInstitution(@Query("type") String type);
 
     @POST("userDevice")
     Call<ApiResponse> postUserDevice(@Body RequestBody userDeviceRequest);
@@ -147,6 +151,8 @@ public interface ApiInterface {
     Call<ApiResponse<List<ListSaved>>> getListSaved(@Query("user_id") String userId, @Query("type") String type);
 
     /***************** List Appointment History API *********************/
+
+    @Headers("Content-Type:application/x-www-form-urlencoded; charset=UTF-8")
     @GET("serviceTransaction/myHistory")
     Call<ApiResponse<List<HistoryListResponse>>> getHistoryAppointment(@Query("user_id") String userId);
 

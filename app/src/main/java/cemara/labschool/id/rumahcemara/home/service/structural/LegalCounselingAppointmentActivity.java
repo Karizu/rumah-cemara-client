@@ -13,15 +13,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.Objects;
 
@@ -45,11 +42,7 @@ public class LegalCounselingAppointmentActivity extends AppCompatActivity implem
     TextView setLongitude;
 
     Double latitude, longitude;
-    String lati, longi;
-    private LocationManager locationManager;
-    private LocationRequest mLocationRequest;
     int TAG_CODE_PERMISSION_LOCATION;
-    private FusedLocationProviderClient fusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +60,7 @@ public class LegalCounselingAppointmentActivity extends AppCompatActivity implem
                     TAG_CODE_PERMISSION_LOCATION);
         }
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, location -> {
                     // Got last known location. In some rare situations this can be null.
@@ -79,7 +72,7 @@ public class LegalCounselingAppointmentActivity extends AppCompatActivity implem
                 });
 
 
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
     }
 
@@ -115,12 +108,9 @@ public class LegalCounselingAppointmentActivity extends AppCompatActivity implem
         toolbar.setNavigationIcon(R.drawable.icon_back);
         toolbarTitle.setText(R.string.legal_counseling_appointment);
         toolbarImg.setImageResource(R.drawable.icon_structural_white);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //What to do on back clicked
-                onBackPressed();
-            }
+        toolbar.setNavigationOnClickListener(v -> {
+            //What to do on back clicked
+            onBackPressed();
         });
     }
 

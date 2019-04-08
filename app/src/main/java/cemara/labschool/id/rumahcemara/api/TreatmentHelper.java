@@ -14,4 +14,9 @@ public class TreatmentHelper {
         Reztrofit<ApiInterface> service = Reztrofit.getInstance();
         service.getEndpoint().getAllTreatment().enqueue(callback);
     }
+
+    public static void getAllInstitution(RestCallback<ApiResponse<List<Treatment>>> callback){
+        Reztrofit<ApiInterface> service = Reztrofit.getInstance();
+        service.getEndpoint().getAllInstitution("Institution").enqueue(callback);
+    }
 }

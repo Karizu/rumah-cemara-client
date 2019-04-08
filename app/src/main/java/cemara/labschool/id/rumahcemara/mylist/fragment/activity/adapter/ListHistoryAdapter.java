@@ -71,9 +71,16 @@ public class ListHistoryAdapter extends RecyclerView.Adapter<ListHistoryAdapter.
     public void onBindViewHolder(ListHistoryAdapter.ViewHolder holder, int position) {
         final HistoryListModel articleModel = articleModels.get(position);
         final String id = articleModel.getId();
-        final String name = articleModel.getProvider_worker().getProfile().getFullname();
-        final String srcImg = articleModel.getProvider_worker().getProfile().getPicture();
-        final String phone = articleModel.getProvider_worker().getProfile().getPhoneNumber();
+        final String name, srcImg, phone;
+        if (articleModel.getWorker_id() == null){
+            name = articleModel.getProvider_group().getName();
+            srcImg = articleModel.getProvider_group().getGroup_profile().getPicture();
+            phone = articleModel.getProvider_group().getGroup_profile().getPhone_number();
+        } else {
+            name = articleModel.getProvider_worker().getProfile().getFullname();
+            srcImg = articleModel.getProvider_worker().getProfile().getPicture();
+            phone = articleModel.getProvider_worker().getProfile().getPhoneNumber();
+        }
         final String serviceName = articleModel.getService_type().getName();
         final String date = articleModel.getUpdated_at();
         final String providerId = articleModel.getProvider_id();
@@ -272,7 +279,7 @@ public class ListHistoryAdapter extends RecyclerView.Adapter<ListHistoryAdapter.
     private void showRatingDialog(int layout) {
         dialog = new Dialog(Objects.requireNonNull(context));
         //SET TITLE
-        dialog.setTitle("Detail Biological Appointment");
+        dialog.setTitle(" ");
 
         //set content
         dialog.setContentView(layout);
@@ -284,7 +291,5 @@ public class ListHistoryAdapter extends RecyclerView.Adapter<ListHistoryAdapter.
         dialog.show();
         dialog.getWindow().setAttributes(lp);
     }
-
-
 
 }
