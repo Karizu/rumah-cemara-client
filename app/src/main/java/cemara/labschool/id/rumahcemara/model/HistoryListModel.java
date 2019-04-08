@@ -51,7 +51,7 @@ public class HistoryListModel {
 
     private ProviderGroup provider_group;
 
-    public HistoryListModel(String id, String group_id, String user_id, String provider_id, String service_type_id, String worker_id, String start_date, String end_date, String description, String attachment, String type_provider, String status, String status_report, String created_at, String updated_at, String deleted_at, String location, Group group, User user, ServiceType service_type, Rating rating, ProviderWorker provider_worker, ProviderGroup provider_group) {
+    public HistoryListModel(String id, String group_id, String user_id, String provider_id, String service_type_id, String worker_id, String start_date, String end_date, String description, String attachment, String type_provider, String status, String status_report, String created_at, String updated_at, String deleted_at, String location, Group group, User user, ServiceType service_type, Rating rating, ProviderWorker provider_worker) {
         this.id = id;
         this.group_id = group_id;
         this.user_id = user_id;
@@ -74,16 +74,16 @@ public class HistoryListModel {
         this.service_type = service_type;
         this.rating = rating;
         this.provider_worker = provider_worker;
-        this.provider_group = provider_group;
 
     }
 
-    public HistoryListModel(String id, String group_id, String user_id, String provider_id, String service_type_id, String start_date, String end_date, String description, String attachment, String type_provider, String status, String status_report, String created_at, String updated_at, String deleted_at, String location, Group group, User user, ServiceType service_type, Rating rating, ProviderGroup provider_group) {
+    public HistoryListModel(String id, String group_id, String user_id, String provider_id, String service_type_id, String worker_id, String start_date, String end_date, String description, String attachment, String type_provider, String status, String status_report, String created_at, String updated_at, String deleted_at, String location, Group group, User user, ServiceType service_type, Rating rating, ProviderGroup provider_group) {
         this.id = id;
         this.group_id = group_id;
         this.user_id = user_id;
         this.provider_id = provider_id;
         this.service_type_id = service_type_id;
+        this.worker_id = worker_id;
         this.start_date = start_date;
         this.end_date = end_date;
         this.description = description;

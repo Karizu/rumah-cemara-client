@@ -67,6 +67,16 @@ public class ListHelper {
 
     }
 
+    public static void getListAppointmentHistoryProvider(RestCallback<ApiResponse<List<HistoryList>>> callback)
+    {
+        Realm realm = LocalData.getRealm();
+
+        User user = realm.where(User.class).findFirst();
+        Reztrofit<ApiInterface> service = Reztrofit.getInstance();
+        service.getEndpoint().getHistoryAppointmentProvider(Objects.requireNonNull(user).getId()).enqueue(callback);
+
+    }
+
     public static void getChatHistory(String serviceId, RestCallback<ApiResponse<List<Datum>>> callback){
         Reztrofit<ApiInterface> service = Reztrofit.getInstance();
         service.getEndpoint().chatHistory(serviceId).enqueue(callback);

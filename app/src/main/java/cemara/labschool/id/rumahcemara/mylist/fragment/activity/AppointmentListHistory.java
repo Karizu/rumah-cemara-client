@@ -35,7 +35,6 @@ import cemara.labschool.id.rumahcemara.api.ListHelper;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.HistoryList;
 import cemara.labschool.id.rumahcemara.model.HistoryListModel;
-import cemara.labschool.id.rumahcemara.model.ListSaved;
 import cemara.labschool.id.rumahcemara.model.response.HistoryListResponse;
 import cemara.labschool.id.rumahcemara.mylist.fragment.activity.adapter.ListHistoryAdapter;
 import cemara.labschool.id.rumahcemara.util.dialog.Loading;
@@ -94,6 +93,54 @@ public class AppointmentListHistory extends AppCompatActivity {
                     historyList = new ArrayList<>();
                     for (int i = 0; i < res.size(); i++) {
                         HistoryListResponse article = res.get(i);
+                        if (article.getType_provider().equals("provider")) {
+                            int finalI = i;
+                            ListHelper.getListAppointmentHistoryProvider(new RestCallback<ApiResponse<List<HistoryList>>>() {
+                                @Override
+                                public void onSuccess(Headers headers, ApiResponse<List<HistoryList>> body) {
+                                    if (body != null && body.isStatus()) {
+                                        List<HistoryList> res = body.getData();
+                                        HistoryList article = res.get(finalI);
+                                            Log.d("Masuk Service 2", article.getType_provider());
+                                            historyList.add(new HistoryListModel(article.getId(),
+                                                    article.getGroup_id(),
+                                                    article.getUser_id(),
+                                                    article.getProvider_id(),
+                                                    article.getService_type_id(),
+                                                    article.getWorker_id(),
+                                                    article.getStart_date(),
+                                                    article.getEnd_date(),
+                                                    article.getDescription(),
+                                                    article.getAttachment(),
+                                                    article.getType_provider(),
+                                                    article.getStatus(),
+                                                    article.getStatus_report(),
+                                                    article.getCreated_at(),
+                                                    article.getUpdated_at(),
+                                                    article.getDeleted_at(),
+                                                    article.getLocation(),
+                                                    article.getGroup(),
+                                                    article.getUser(),
+                                                    article.getService_type(),
+                                                    article.getRating(),
+                                                    article.getProvider_group()
+                                            ));
+                                    }
+
+                                    historyAdapter = new ListHistoryAdapter(historyList, activity);
+                                }
+
+                                @Override
+                                public void onFailed(ErrorResponse error) {
+                                    Log.d("onFailed", error.getMessage());
+                                }
+
+                                @Override
+                                public void onCanceled() {
+
+                                }
+                            });
+                        } else {
                             historyList.add(new HistoryListModel(article.getId(),
                                     article.getGroup_id(),
                                     article.getUser_id(),
@@ -115,9 +162,9 @@ public class AppointmentListHistory extends AppCompatActivity {
                                     article.getUser(),
                                     article.getService_type(),
                                     article.getRating(),
-                                    article.getProvider_worker(),
-                                    article.getProvider_group()
+                                    article.getProvider_worker()
                             ));
+                        }
                     }
 
                     historyAdapter = new ListHistoryAdapter(historyList, activity);

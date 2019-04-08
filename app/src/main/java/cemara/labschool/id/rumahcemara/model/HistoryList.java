@@ -73,6 +73,26 @@ public class HistoryList {
     @Expose
     private String location;
 
+    @SerializedName("group")
+    @Expose
+    private Group group;
+
+    @SerializedName("user")
+    @Expose
+    private User user;
+
+    @SerializedName("service_type")
+    @Expose
+    private ServiceType service_type;
+
+    @SerializedName("rating")
+    @Expose
+    private Rating rating;
+
+    @SerializedName("provider_group")
+    @Expose
+    private ProviderGroup provider_group;
+
     public String getId() {
         return id;
     }
@@ -207,5 +227,45 @@ public class HistoryList {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public ServiceType getService_type() {
+        return service_type;
+    }
+
+    public void setService_type(ServiceType service_type) {
+        this.service_type = service_type;
+    }
+
+    public Rating getRating() {
+        return rating;
+    }
+
+    public void setRating(Rating rating) {
+        this.rating = rating;
+    }
+
+    public ProviderGroup getProvider_group() {
+        return provider_group;
+    }
+
+    public void setProvider_group(ProviderGroup provider_group) {
+        this.provider_group = provider_group;
     }
 }

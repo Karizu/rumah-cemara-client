@@ -53,8 +53,6 @@ public class HistoryListResponse {
 
     private ProviderWorker provider_worker;
 
-    private ProviderGroup provider_group;
-
     public String getId() {
         return id;
     }
@@ -231,11 +229,4 @@ public class HistoryListResponse {
         this.provider_worker = provider_worker;
     }
 
-    public ProviderGroup getProvider_group() {
-        return provider_group;
-    }
-
-    public void setProvider_group(ProviderGroup provider_group) {
-        this.provider_group = provider_group;
-    }
 }

@@ -72,7 +72,7 @@ public class ListHistoryAdapter extends RecyclerView.Adapter<ListHistoryAdapter.
         final HistoryListModel articleModel = articleModels.get(position);
         final String id = articleModel.getId();
         final String name, srcImg, phone;
-        if (articleModel.getWorker_id() == null){
+        if (articleModel.getType_provider().equals("provider")){
             name = articleModel.getProvider_group().getName();
             srcImg = articleModel.getProvider_group().getGroup_profile().getPicture();
             phone = articleModel.getProvider_group().getGroup_profile().getPhone_number();

@@ -10,7 +10,6 @@ public class ProviderGroup extends RealmObject {
 
     @SerializedName("id")
     @Expose
-    @PrimaryKey
     private String id;
 
     @SerializedName("parent_id")

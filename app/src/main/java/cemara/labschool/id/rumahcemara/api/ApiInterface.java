@@ -152,9 +152,11 @@ public interface ApiInterface {
 
     /***************** List Appointment History API *********************/
 
-    @Headers("Content-Type:application/x-www-form-urlencoded; charset=UTF-8")
     @GET("serviceTransaction/myHistory")
     Call<ApiResponse<List<HistoryListResponse>>> getHistoryAppointment(@Query("user_id") String userId);
+
+    @GET("serviceTransaction/myHistory")
+    Call<ApiResponse<List<HistoryList>>> getHistoryAppointmentProvider(@Query("user_id") String userId);
 
     @POST("rating")
     Call<ApiResponse> createRating(@Body RequestBody rating);
