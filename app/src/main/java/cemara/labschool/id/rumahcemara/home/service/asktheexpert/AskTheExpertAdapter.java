@@ -1,8 +1,10 @@
 package cemara.labschool.id.rumahcemara.home.service.asktheexpert;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -34,8 +36,9 @@ public class AskTheExpertAdapter extends RecyclerView.Adapter<AskTheExpertAdapte
         this.context = context;
     }
 
+    @NonNull
     @Override
-    public AskTheExpertAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public AskTheExpertAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row_asktheexpert_topic, parent, false);
 
@@ -43,7 +46,7 @@ public class AskTheExpertAdapter extends RecyclerView.Adapter<AskTheExpertAdapte
     }
 
     @Override
-    public void onBindViewHolder(AskTheExpertAdapter.ViewHolder holder, int position){
+    public void onBindViewHolder(@NonNull AskTheExpertAdapter.ViewHolder holder, int position){
         final Topic topic = topicModels.get(position);
         final String topicId = topic.getId();
         final String question = topic.getQuestion();
@@ -52,14 +55,10 @@ public class AskTheExpertAdapter extends RecyclerView.Adapter<AskTheExpertAdapte
 
         holder.topicView.setText(question);
         holder.dateTopicView.setText(createAt);
-        holder.topicList.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, ChatExpertActivity.class);
-                intent.putExtra("topic_id", topicId);
-                context.startActivity(intent);
-            }
+        holder.topicList.setOnClickListener(view -> {
+            Intent intent = new Intent(context, ChatExpertActivity.class);
+            intent.putExtra("topic_id", topicId);
+            context.startActivity(intent);
         });
 
         if (status == 0) {
@@ -68,12 +67,12 @@ public class AskTheExpertAdapter extends RecyclerView.Adapter<AskTheExpertAdapte
     }
 
     public static String dateFormater(String dateFromJSON, String expectedFormat, String oldFormat) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(oldFormat);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat(oldFormat);
         Date date = null;
         String convertedDate = null;
         try {
             date = dateFormat.parse(dateFromJSON);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(expectedFormat);
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat(expectedFormat);
             convertedDate = simpleDateFormat.format(date);
         } catch (Exception e) {
             e.printStackTrace();
@@ -94,10 +93,10 @@ public class AskTheExpertAdapter extends RecyclerView.Adapter<AskTheExpertAdapte
         public ViewHolder(View v){
             super(v);
 
-            topicView = (TextView) v.findViewById(R.id.topic);
-            dateTopicView = (TextView) v.findViewById(R.id.date_topic);
-            topicList = (LinearLayout) v.findViewById(R.id.topicList);
-            notifContainer = (LinearLayout) v.findViewById(R.id.notif_container);
+            topicView = v.findViewById(R.id.topic);
+            dateTopicView = v.findViewById(R.id.date_topic);
+            topicList = v.findViewById(R.id.topicList);
+            notifContainer = v.findViewById(R.id.notif_container);
         }
     }
 }

@@ -73,9 +73,9 @@ public class ListHistoryAdapter extends RecyclerView.Adapter<ListHistoryAdapter.
         final String id = articleModel.getId();
         final String name, srcImg, phone;
         if (articleModel.getType_provider().equals("provider")){
-            name = articleModel.getProvider_group().getName();
-            srcImg = articleModel.getProvider_group().getGroup_profile().getPicture();
-            phone = articleModel.getProvider_group().getGroup_profile().getPhone_number();
+            name = articleModel.getGroup().getName();
+            srcImg = articleModel.getGroup().getGroupProfile().getPicture();
+            phone = articleModel.getGroup().getGroupProfile().getPhone_number();
         } else {
             name = articleModel.getProvider_worker().getProfile().getFullname();
             srcImg = articleModel.getProvider_worker().getProfile().getPicture();
@@ -189,7 +189,7 @@ public class ListHistoryAdapter extends RecyclerView.Adapter<ListHistoryAdapter.
                 btnRate.setText("Completed");
                 ratingBar.setEnabled(false);
                 komentar.setEnabled(false);
-                btnRate.setEnabled(false);
+                btnRate.setVisibility(View.GONE);
             }
 
             btnRate.setOnClickListener(v -> {
@@ -283,7 +283,7 @@ public class ListHistoryAdapter extends RecyclerView.Adapter<ListHistoryAdapter.
 
         //set content
         dialog.setContentView(layout);
-        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCanceledOnTouchOutside(true);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(Objects.requireNonNull(dialog.getWindow()).getAttributes());
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;

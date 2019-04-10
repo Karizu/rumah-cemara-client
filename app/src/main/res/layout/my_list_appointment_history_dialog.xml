@@ -17,6 +17,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingBottom="8dp"
             android:orientation="vertical">
 
             <ImageView
@@ -137,6 +138,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:layout_margin="10dp"
+                android:layout_marginBottom="8dp"
                 android:background="@drawable/rounded_grey_transparent"
                 android:hint="Harus lebih baik lagi"
                 android:gravity="start"
