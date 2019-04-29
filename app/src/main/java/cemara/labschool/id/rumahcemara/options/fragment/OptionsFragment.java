@@ -25,6 +25,7 @@ import com.rezkyatinnov.kyandroid.localdata.LocalData;
 import com.rezkyatinnov.kyandroid.reztrofit.ErrorResponse;
 import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
 import com.rezkyatinnov.kyandroid.session.Session;
+import com.rezkyatinnov.kyandroid.session.SessionNotFoundException;
 
 import java.util.Objects;
 
@@ -65,6 +66,8 @@ public class OptionsFragment extends Fragment {
 
     Switch switchNotif;
 
+    String deviceId;
+
     public OptionsFragment() {
         // Required empty public constructor
     }
@@ -79,6 +82,14 @@ public class OptionsFragment extends Fragment {
         switchNotif = view.findViewById(R.id.switchNotif);
         SessionManagement session = new SessionManagement(Objects.requireNonNull(getActivity()));
         Log.d("OptionsFragment", "Status notifikasi " + session.getNotification());
+
+        try {
+            Log.d("deviceId", Session.get("device_id").getValue());
+            deviceId = Session.get("device_id").getValue();
+        } catch (SessionNotFoundException e) {
+            e.printStackTrace();
+            Log.d("onCatch", e.getMessage());
+        }
 
         if (session.getNotification() == 0) {
             switchNotif.setChecked(false);
@@ -157,6 +168,9 @@ public class OptionsFragment extends Fragment {
         Button btn_no = dialog.findViewById(R.id.no_logout);
         btn_ya.setOnClickListener(v -> {
             dialog.dismiss();
+
+            removeUserDevice();
+
             Session.clear();
             LocalData.clear();
 
@@ -165,6 +179,27 @@ public class OptionsFragment extends Fragment {
             Objects.requireNonNull(getActivity()).finish();
         });
         btn_no.setOnClickListener(v -> dialog.dismiss());
+    }
+
+    private void removeUserDevice() {
+
+        AuthHelper.removeUserDevice(deviceId, new RestCallback<ApiResponse>() {
+            @Override
+            public void onSuccess(Headers headers, ApiResponse body) {
+                Log.d("onSuccess", "removeUserDevice");
+            }
+
+            @Override
+            public void onFailed(ErrorResponse error) {
+                Log.d("onFailed", error.getMessage());
+            }
+
+            @Override
+            public void onCanceled() {
+
+            }
+        });
+
     }
 
     @OnClick({R.id.privacy, R.id.notification, R.id.term, R.id.rateapp, R.id.shareapp})

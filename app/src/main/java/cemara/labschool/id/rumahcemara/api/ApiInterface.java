@@ -68,6 +68,9 @@ public interface ApiInterface {
     @POST("userDevice")
     Call<ApiResponse> postUserDevice(@Body RequestBody userDeviceRequest);
 
+    @DELETE("userDevice/{device_id}")
+    Call<ApiResponse> removeUserDevice(@Path("device_id") String device_id);
+
     @POST("profile")
     Call<ApiResponse> updateProfile(@Body RequestBody profile);
 

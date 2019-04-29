@@ -35,6 +35,10 @@ import com.rezkyatinnov.kyandroid.session.Session;
 import com.rezkyatinnov.kyandroid.session.SessionNotFoundException;
 import com.rezkyatinnov.kyandroid.session.SessionObject;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Map;
 import java.util.Objects;
 
 import butterknife.ButterKnife;
@@ -232,7 +236,13 @@ public class LoginActivity extends AppCompatActivity {
                         AuthHelper.registerUserDevice(requestBody, new RestCallback<ApiResponse>() {
                             @Override
                             public void onSuccess(Headers headers, ApiResponse body) {
-
+                                try {
+                                    JSONObject userDev = new JSONObject((Map) body.getData());
+                                    Log.d("onJson", userDev.getString("id"));
+                                    Session.save(new SessionObject("device_id", userDev.getString("id")));
+                                } catch (JSONException e) {
+                                    Log.d("onException", e.getMessage());
+                                }
                             }
 
                             @Override

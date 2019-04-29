@@ -28,6 +28,11 @@ public class AuthHelper {
         service.getEndpoint().postUserDevice(userDeviceRequest).enqueue(callback);
     }
 
+    public static void removeUserDevice(String deviceId, RestCallback<ApiResponse> callback){
+        Reztrofit<ApiInterface> service = Reztrofit.getInstance();
+        service.getEndpoint().removeUserDevice(deviceId).enqueue(callback);
+    }
+
     public static void updateProfile(RequestBody profile, RestCallback<ApiResponse> callback){
         Reztrofit<ApiInterface> service = Reztrofit.getInstance();
         service.getEndpoint().updateProfile(profile).enqueue(callback);
