@@ -2,6 +2,7 @@ package cemara.labschool.id.rumahcemara.home.highlight.news.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -161,7 +162,13 @@ public class NewsFragment extends Fragment {
                     .load(newsPager.get(position).getBanner())
                     .into(ivCarousel);
             tvLabelCarousel.setText(newsPager.get(position).getTitle());
-            ivShare.setOnClickListener(shareOnClickListener);
+            ivShare.setOnClickListener(v -> {
+                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(Intent.EXTRA_TEXT, newsPager.get(position).getTitle()+
+                        "\n"+ newsPager.get(position).getBanner());
+                startActivity(Intent.createChooser(sharingIntent, "Share using:"));
+            });
            // ivMark.setOnClickListener(markOnClickListener);
             ivMark.setOnClickListener(new MarkNewsClickListener(context, newsPager.get(position)));
 
@@ -169,9 +176,4 @@ public class NewsFragment extends Fragment {
             return customView;
         }
     };
-
-    //To share
-    View.OnClickListener shareOnClickListener = v -> Toast.makeText(getContext(), "Shared", Toast.LENGTH_SHORT).show();
-
-
 }

@@ -108,30 +108,34 @@ public class ChatAppointmentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat_appointment);
         ButterKnife.bind(this);
 
-        chats = new ArrayList<>();
-        appointmentId = getIntent().getStringExtra("appointment_id");
-        workerId = getIntent().getStringExtra("worker_id");
-        workerName = getIntent().getStringExtra("worker_name");
-        workerPicture = getIntent().getStringExtra("worker_picture");
-        realm = LocalData.getRealm();
-        profile = realm.where(Profile.class).findFirst();
-        tokenChat = realm.where(cemara.labschool.id.rumahcemara.model.Token.class).findFirst();
-        recyclerView = findViewById(R.id.chat_list);
+        try {
+            chats = new ArrayList<>();
+            appointmentId = getIntent().getStringExtra("appointment_id");
+            workerId = getIntent().getStringExtra("worker_id");
+            workerName = getIntent().getStringExtra("worker_name");
+            workerPicture = getIntent().getStringExtra("worker_picture");
+            realm = LocalData.getRealm();
+            profile = realm.where(Profile.class).findFirst();
+            tokenChat = realm.where(cemara.labschool.id.rumahcemara.model.Token.class).findFirst();
+            recyclerView = findViewById(R.id.chat_list);
 
-        activity = this;
+            activity = this;
 //        layoutManager = new LinearLayoutManager(activity,
 //                LinearLayout.VERTICAL,
 //                false);
 
-        linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
+            linearLayoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(linearLayoutManager);
 
 //
 //        recyclerView.setLayoutManager(layoutManager);
 //        recyclerView.setNestedScrollingEnabled(false);
 
-        setToolbar();
-        getChatHistory();
+            setToolbar();
+            getChatHistory();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 //        populateChatHistory(appointmentId);
     }
 
@@ -184,7 +188,12 @@ public class ChatAppointmentActivity extends AppCompatActivity {
     }
 
     private void showMessage(final DataMessage message) {
-        Log.d("ChatActivity", message.getData());
+        try {
+            Log.d("ChatActivity", message.getData());
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
         runOnUiThread(() -> {
             JSONObject jsonObject;
             try {
@@ -194,7 +203,7 @@ public class ChatAppointmentActivity extends AppCompatActivity {
                 chats.add(chat);
                 adapterChat = new AdapterChat(this, chats);
                 recyclerView.setAdapter(adapterChat);
-                linearLayoutManager.scrollToPosition(chats.size()-1);
+                linearLayoutManager.scrollToPosition(chats.size() - 1);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -243,11 +252,11 @@ public class ChatAppointmentActivity extends AppCompatActivity {
         });
     }
 
-    private void populateChatHistory(String channelId){
+    private void populateChatHistory(String channelId) {
 
         mChats = new ArrayList<>();
         mChats.addAll(realm.where(Chat.class).equalTo("channel", channelId).findAll());
-        mAdapter = new ChatAppointmentAdapter(mChats, profile , activity);
+        mAdapter = new ChatAppointmentAdapter(mChats, profile, activity);
         recyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged(); // or notifyItemRangeRemoved
     }
@@ -258,18 +267,22 @@ public class ChatAppointmentActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Headers headers, ApiResponse<List<Datum>> body) {
                 Loading.hide(ChatAppointmentActivity.this);
-                if (body != null && body.isStatus()){
-                    List<Datum> res = body.getData();
-                    for (int i = 0; i < res.size(); i++) {
-                        chats.add(
-                                new ChatCons(
-                                        res.get(i).getMessage(),
-                                        res.get(i).getFromId(),
-                                        res.get(i).getCreatedAt()
-                                )
-                        );
-                        linearLayoutManager.scrollToPosition(chats.size()-1);
+                try {
+                    if (body != null && body.isStatus()) {
+                        List<Datum> res = body.getData();
+                        for (int i = 0; i < res.size(); i++) {
+                            chats.add(
+                                    new ChatCons(
+                                            res.get(i).getMessage(),
+                                            res.get(i).getFromId(),
+                                            res.get(i).getCreatedAt()
+                                    )
+                            );
+                            linearLayoutManager.scrollToPosition(chats.size() - 1);
+                        }
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -286,13 +299,13 @@ public class ChatAppointmentActivity extends AppCompatActivity {
 
         adapterChat = new AdapterChat(this, chats);
         recyclerView.setAdapter(adapterChat);
-        linearLayoutManager.scrollToPosition(chats.size()-1);
+        linearLayoutManager.scrollToPosition(chats.size() - 1);
     }
 
     @OnClick(R.id.btn_send)
     public void sendChat() {
         String commentText = messageText.getText().toString();
-        if (!commentText.trim().equals("")){
+        if (!commentText.trim().equals("")) {
             btnSendChat.setEnabled(false);
 
             mChat = new ArrayList<>();
@@ -319,7 +332,7 @@ public class ChatAppointmentActivity extends AppCompatActivity {
                                 messageText.setText("");
                             }
                         } catch (Exception e) {
-
+                            e.printStackTrace();
                         }
                     }
 
@@ -340,7 +353,7 @@ public class ChatAppointmentActivity extends AppCompatActivity {
 
 
                 try {
-                    InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                 } catch (Exception e) {
                     // TODO: handle exception

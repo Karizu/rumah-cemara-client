@@ -7,9 +7,14 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.Spanned;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +62,8 @@ public class DetailHighlightActivity extends AppCompatActivity {
     TextView tvAuthor;
     @BindView(R.id.tvDate)
     TextView tvDate;
+    @BindView(R.id.tvContent)
+    TextView tvContent;
     @BindView(R.id.article_detail_text)
     WebView articleDetailContent;
     @BindView(R.id.banner_news)
@@ -89,6 +96,7 @@ public class DetailHighlightActivity extends AppCompatActivity {
         categoryId = bundle.getString("categoryId");
         title = bundle.getString("title");
         sBanner = bundle.getString("banner");
+        Log.d("categoryID", categoryId);
     }
 
     private void getCategoryEvent() {
@@ -101,10 +109,9 @@ public class DetailHighlightActivity extends AppCompatActivity {
                 if (body.isStatus()) {
                     if (body.getData() != null && body.getData().size() > 0) {
                         List<CategoryModel> categoryModelList = body.getData();
-
                         for (int i = 0; i < categoryModelList.size(); i++) {
+                            Log.d("categoryEVENT "+i, categoryModelList.get(i).getId());
                             if (categoryModelList.get(i).getId().equals(categoryId)){
-
                                 EventHelper.getEventDetail(articleId,new RestCallback<ApiResponse<cemara.labschool.id.rumahcemara.model.Event>>() {
                                     @SuppressLint("SetJavaScriptEnabled")
                                     @Override
@@ -118,7 +125,7 @@ public class DetailHighlightActivity extends AppCompatActivity {
                                             tvTitle.setText(eventDetail.getTitle());
                                             tvDate.setText(DateHelper.dateFormat(DateHelper.stringToDate(eventDetail.getCreatedAt())));
                                             String content = "<html><head>"
-                                                    + "<style type=\"text/css\">body{color: #8f8f8f} p{font-size: 13px}"
+                                                    + "<style type=\"text/css\">body{color: #8f8f8f} p{color: black; font-size: 13px;}"
                                                     + "</style></head>"
                                                     + "<body>"
                                                     + eventDetail.getContent()
@@ -128,9 +135,16 @@ public class DetailHighlightActivity extends AppCompatActivity {
                                                     .load(eventDetail.getBanner())
                                                     .into(banner);
 
-                                            articleDetailContent.getSettings().setJavaScriptEnabled(true);
-                                            articleDetailContent.setBackgroundColor(Color.TRANSPARENT);
-                                            articleDetailContent.loadDataWithBaseURL("", content, "text/html", "UTF-8", "");
+                                            Spanned htmlAsSpanned = Html.fromHtml(eventDetail.getContent());
+                                            tvContent.setText(htmlAsSpanned);
+
+//                                            String encodedHtml = Base64.encodeToString(content.getBytes(), Base64.NO_PADDING);
+//
+//                                            articleDetailContent.getSettings().setJavaScriptEnabled(true);
+//                                            articleDetailContent.setWebChromeClient(new WebChromeClient() {
+//                                            });
+//                                            articleDetailContent.setBackgroundColor(Color.TRANSPARENT);
+//                                            articleDetailContent.loadData(encodedHtml, "text/html", "base64");
 
                                             markNewsTop.setOnClickListener(new MarkEventClickListener(context, eventDetail));
 
@@ -141,7 +155,7 @@ public class DetailHighlightActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onFailed(ErrorResponse error) {
-                                        Toast.makeText(DetailHighlightActivity.this,"Gagal Ambil Data", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(DetailHighlightActivity.this,"Gagal Ambil Data", Toast.LENGTH_SHORT).show();
                                         Loading.hide(DetailHighlightActivity.this);
                                     }
 
@@ -188,9 +202,11 @@ public class DetailHighlightActivity extends AppCompatActivity {
                         List<CategoryModel> categoryModelList = body.getData();
 
                         for (int i = 0; i < categoryModelList.size(); i++) {
+                            Log.d("categoryARTICLE "+i, categoryModelList.get(i).getId());
                             if (categoryModelList.get(i).getId().equals(categoryId)){
 
                                 ArticleHelper.getArticleDetail(articleId,new RestCallback<ApiResponse<cemara.labschool.id.rumahcemara.model.Article>>() {
+                                    @SuppressLint("SetJavaScriptEnabled")
                                     @Override
                                     public void onSuccess(Headers headers, ApiResponse<cemara.labschool.id.rumahcemara.model.Article> body) {
                                         Loading.hide(DetailHighlightActivity.this);
@@ -202,19 +218,26 @@ public class DetailHighlightActivity extends AppCompatActivity {
                                             tvTitle.setText(articleDetail.getTitle());
                                             tvDate.setText(DateHelper.dateFormat(DateHelper.stringToDate(articleDetail.getCreatedAt())));
                                             String content = "<html><head>"
-                                                    + "<style type=\"text/css\">body{color: #8f8f8f} p{font-size: 13px}"
+                                                    + "<style type=\"text/css\">body{color: #8f8f8f} p{color: black; font-size: 13px;}"
                                                     + "</style></head>"
                                                     + "<body>"
                                                     + articleDetail.getContent()
                                                     + "</body></html>";
 
+                                            Spanned htmlAsSpanned = Html.fromHtml(articleDetail.getContent());
+                                            tvContent.setText(htmlAsSpanned);
+
                                             Glide.with(context)
                                                     .load(articleDetail.getBanner())
                                                     .into(banner);
 
-                                            articleDetailContent.getSettings().setJavaScriptEnabled(true);
-                                            articleDetailContent.setBackgroundColor(Color.TRANSPARENT);
-                                            articleDetailContent.loadDataWithBaseURL("", content, "text/html", "UTF-8", "");
+//                                            String encodedHtml = Base64.encodeToString(content.getBytes(), Base64.NO_PADDING);
+//
+//                                            articleDetailContent.getSettings().setJavaScriptEnabled(true);
+//                                            articleDetailContent.setWebChromeClient(new WebChromeClient() {
+//                                            });
+//                                            articleDetailContent.setBackgroundColor(Color.TRANSPARENT);
+//                                            articleDetailContent.loadData(encodedHtml, "text/html", "base64");
 
                                             markNewsTop.setOnClickListener(new MarkArticleClickListener(context, articleDetail));
 
@@ -226,7 +249,7 @@ public class DetailHighlightActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onFailed(ErrorResponse error) {
-                                        Toast.makeText(DetailHighlightActivity.this,"Gagal Ambil Data", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(DetailHighlightActivity.this,"Gagal Ambil Data", Toast.LENGTH_SHORT).show();
                                         Loading.hide(DetailHighlightActivity.this);
                                     }
 
@@ -272,9 +295,11 @@ public class DetailHighlightActivity extends AppCompatActivity {
                         List<CategoryModel> categoryModelList = body.getData();
 
                         for (int i = 0; i < categoryModelList.size(); i++) {
+                            Log.d("categoryNEWS "+i, categoryModelList.get(i).getId());
                             if (categoryModelList.get(i).getId().equals(categoryId)){
 
                                 NewsHelper.getNewsDetail(articleId,new RestCallback<ApiResponse<cemara.labschool.id.rumahcemara.model.News>>() {
+                                    @SuppressLint("SetJavaScriptEnabled")
                                     @Override
                                     public void onSuccess(Headers headers, ApiResponse<cemara.labschool.id.rumahcemara.model.News> body) {
                                         Loading.hide(DetailHighlightActivity.this);
@@ -286,7 +311,7 @@ public class DetailHighlightActivity extends AppCompatActivity {
                                             tvTitle.setText(newsDetail.getTitle());
                                             tvDate.setText(DateHelper.dateFormat(DateHelper.stringToDate(newsDetail.getCreatedAt())));
                                             String content = "<html><head>"
-                                                    + "<style type=\"text/css\">body{color: #8f8f8f} p{font-size: 13px}"
+                                                    + "<style type=\"text/css\">body{color: #8f8f8f} p{color: black; font-size: 13px;}"
                                                     + "</style></head>"
                                                     + "<body>"
                                                     + newsDetail.getContent()
@@ -296,9 +321,16 @@ public class DetailHighlightActivity extends AppCompatActivity {
                                                     .load(newsDetail.getBanner())
                                                     .into(banner);
 
-                                            articleDetailContent.getSettings().setJavaScriptEnabled(true);
-                                            articleDetailContent.setBackgroundColor(Color.TRANSPARENT);
-                                            articleDetailContent.loadDataWithBaseURL("", content, "text/html", "UTF-8", "");
+                                            Spanned htmlAsSpanned = Html.fromHtml(newsDetail.getContent());
+                                            tvContent.setText(htmlAsSpanned);
+
+//                                            String encodedHtml = Base64.encodeToString(content.getBytes(), Base64.NO_PADDING);
+//
+//                                            articleDetailContent.getSettings().setJavaScriptEnabled(true);
+//                                            articleDetailContent.setWebChromeClient(new WebChromeClient() {
+//                                            });
+//                                            articleDetailContent.setBackgroundColor(Color.TRANSPARENT);
+//                                            articleDetailContent.loadData(encodedHtml, "text/html", "base64");
 
                                             markNewsTop.setOnClickListener(new MarkNewsClickListener(context, newsDetail));
 
@@ -310,7 +342,7 @@ public class DetailHighlightActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onFailed(ErrorResponse error) {
-                                        Toast.makeText(DetailHighlightActivity.this,"Gagal Ambil Data", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(DetailHighlightActivity.this,"Gagal Ambil Data", Toast.LENGTH_SHORT).show();
                                         Loading.hide(DetailHighlightActivity.this);
                                     }
 

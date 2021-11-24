@@ -2,6 +2,7 @@ package cemara.labschool.id.rumahcemara.home.highlight.event.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -161,7 +162,13 @@ public class EventFragment extends Fragment {
                     .into(ivCarousel);
             tvLabelCarousel.setText(eventPager.get(position).getTitle());
             ivReminder.setOnClickListener(new MarkEventClickListener(context, eventPager.get(position)));
-            ivShare.setOnClickListener(v -> Toast.makeText(getContext(), "Share click", Toast.LENGTH_SHORT).show());
+            ivShare.setOnClickListener(v -> {
+                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(Intent.EXTRA_TEXT, eventPager.get(position).getTitle()+
+                        "\n"+ eventPager.get(position).getBanner());
+                startActivity(Intent.createChooser(sharingIntent, "Share using:"));
+            });
             ivCarousel.setOnClickListener(new EventClickListener(eventPager.get(position)));
 
             return customView;

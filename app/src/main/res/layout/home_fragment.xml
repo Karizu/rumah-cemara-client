@@ -213,22 +213,45 @@
                     android:background="@color/border_color" />
 
                     <LinearLayout
-                        android:id="@+id/layout_news"
-                        style="@style/buttonSmallPadding"
+                android:id="@+id/layout_news"
+                style="@style/buttonSmallPadding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/item_highlight_menu_color">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/margin_padding_size_small"
+                    android:drawableStart="@drawable/icon_highnews"
+                    android:gravity="center_vertical"
+                    android:text="Berita"
+                    android:textSize="@dimen/text_size_small" />
+
+            </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/border_color" />
+
+                <LinearLayout
+                    android:id="@+id/layout_broadcast"
+                    style="@style/buttonSmallPadding"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/item_highlight_menu_color">
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/item_highlight_menu_color">
+                        android:drawablePadding="@dimen/margin_padding_size_small"
+                        android:drawableStart="@drawable/broadcast"
+                        android:gravity="center_vertical"
+                        android:text="Sayembara"
+                        android:textSize="@dimen/text_size_small" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawablePadding="@dimen/margin_padding_size_small"
-                            android:drawableStart="@drawable/icon_highnews"
-                            android:gravity="center_vertical"
-                            android:text="Berita"
-                            android:textSize="@dimen/text_size_small" />
-
-                    </LinearLayout>
+                </LinearLayout>
 
                 <View
                     android:layout_width="fill_parent"

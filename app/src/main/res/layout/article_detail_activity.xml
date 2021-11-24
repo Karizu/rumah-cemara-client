@@ -122,12 +122,23 @@
                 android:layout_marginTop="@dimen/margin_padding_size_medium"
                 android:src="@drawable/img_news" />
 
+            <TextView
+                android:id="@+id/tvContent"
+                style="@style/sfDisplayFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/title_detail"
+                android:textSize="13sp"
+                android:visibility="gone"/>
+
             <WebView
                 android:id="@+id/article_detail_text"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/margin_padding_size_medium"
-                android:layout_weight="1"/>
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_padding_size_medium"/>
 
             <!--<LinearLayout-->
                 <!--android:layout_width="match_parent"-->

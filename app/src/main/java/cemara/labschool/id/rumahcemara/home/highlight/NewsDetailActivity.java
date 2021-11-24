@@ -1,5 +1,6 @@
 package cemara.labschool.id.rumahcemara.home.highlight;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,6 +10,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
@@ -50,6 +53,8 @@ public class NewsDetailActivity extends AppCompatActivity {
     TextView tvAuthor;
     @BindView(R.id.tvDate)
     TextView tvDate;
+    @BindView(R.id.tvContent)
+    TextView tvContent;
     @BindView(R.id.article_detail_text)
     WebView articleDetailContent;
     @BindView(R.id.banner_news)
@@ -77,6 +82,7 @@ public class NewsDetailActivity extends AppCompatActivity {
     private void getListNews() {
         Loading.show(NewsDetailActivity.this);
         NewsHelper.getNewsDetail(articleId,new RestCallback<ApiResponse<cemara.labschool.id.rumahcemara.model.News>>() {
+            @SuppressLint("SetJavaScriptEnabled")
             @Override
             public void onSuccess(Headers headers, ApiResponse<cemara.labschool.id.rumahcemara.model.News> body) {
                 Loading.hide(NewsDetailActivity.this);
@@ -98,9 +104,12 @@ public class NewsDetailActivity extends AppCompatActivity {
                             .load(newsDetail.getBanner())
                             .into(banner);
 
+//                    Spanned htmlAsSpanned = Html.fromHtml(newsDetail.getContent());
+//                    tvContent.setText(htmlAsSpanned);
+
                     articleDetailContent.getSettings().setJavaScriptEnabled(true);
                     articleDetailContent.setBackgroundColor(Color.TRANSPARENT);
-                    articleDetailContent.loadDataWithBaseURL("", content, "text/html", "UTF-8", "");
+                    articleDetailContent.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null);
 
                     if (flag!=null){
                         markNewsTop.setEnabled(false);

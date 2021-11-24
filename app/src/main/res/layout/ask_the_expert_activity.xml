@@ -9,14 +9,11 @@
     <include
         layout="@layout/row_toolbar_image" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
-
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_above="@id/create_topic"
+            android:layout_below="@+id/toolbar">
 
             <View
                 android:layout_width="match_parent"
@@ -109,8 +106,6 @@
 
             </LinearLayout>
         </RelativeLayout>
-
-    </ScrollView>
 
     <Button
         android:id="@+id/create_topic"

@@ -43,6 +43,7 @@ import cemara.labschool.id.rumahcemara.api.ArticleHelper;
 import cemara.labschool.id.rumahcemara.api.EventHelper;
 import cemara.labschool.id.rumahcemara.api.NewsHelper;
 import cemara.labschool.id.rumahcemara.home.highlight.article.ArticleActivity;
+import cemara.labschool.id.rumahcemara.home.highlight.broadcast.BroadcastActivity;
 import cemara.labschool.id.rumahcemara.home.highlight.event.EventActivity;
 import cemara.labschool.id.rumahcemara.home.highlight.news.NewsActivity;
 import cemara.labschool.id.rumahcemara.home.service.asktheexpert.AskTheExpertActivity;
@@ -177,6 +178,12 @@ public class HomeFragment extends Fragment implements LocationListener {
     @OnClick(R.id.layout_news)
     public void toNews() {
         Intent intent = new Intent(getContext(), NewsActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.layout_broadcast)
+    public void toBroadcast() {
+        Intent intent = new Intent(getContext(), BroadcastActivity.class);
         startActivity(intent);
     }
 

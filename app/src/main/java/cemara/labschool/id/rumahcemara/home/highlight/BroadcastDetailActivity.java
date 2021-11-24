@@ -2,11 +2,11 @@ package cemara.labschool.id.rumahcemara.home.highlight;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
@@ -30,17 +30,22 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cemara.labschool.id.rumahcemara.R;
 import cemara.labschool.id.rumahcemara.api.ArticleHelper;
+import cemara.labschool.id.rumahcemara.api.BroadcastHelper;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.model.Article;
 import cemara.labschool.id.rumahcemara.util.MarkArticleClickListener;
+import cemara.labschool.id.rumahcemara.util.MarkBroadcastClickListener;
 import cemara.labschool.id.rumahcemara.util.article.model.adapter.ArticleAdapter;
+import cemara.labschool.id.rumahcemara.util.broadcast.adapter.BroadcastAdapter;
+import cemara.labschool.id.rumahcemara.util.broadcast.model.Broadcast;
 import cemara.labschool.id.rumahcemara.util.dialog.Loading;
 import cemara.labschool.id.rumahcemara.util.helper.DateHelper;
-import cemara.labschool.id.rumahcemara.util.article.model.Article;
 import okhttp3.Headers;
 
-public class ArticleDetailActivity extends AppCompatActivity {
-    ArticleAdapter articleAdapter;
-    List<Article> articleList = new ArrayList<>();
+public class BroadcastDetailActivity extends AppCompatActivity {
+
+    BroadcastAdapter articleAdapter;
+    List<Broadcast> articleList = new ArrayList<>();
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     String articleId, flag;
@@ -59,21 +64,23 @@ public class ArticleDetailActivity extends AppCompatActivity {
     @BindView(R.id.mark_news_top)
     ImageView markNewsTop;
 
-    Activity context;
+    Context context;
 
-    cemara.labschool.id.rumahcemara.model.Article articleDetail;
+    cemara.labschool.id.rumahcemara.model.Broadcast articleDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.article_detail_activity);
+        setContentView(R.layout.activity_broadcast_detail);
+
         ButterKnife.bind(this);
+        context = this;
         Intent intent=getIntent();
         articleId=intent.getStringExtra("id");
         flag=intent.getStringExtra("flag");
         getListArticle();
         setToolbar();
-        context = this;
+
     }
 
     private void getListArticle() {
@@ -86,60 +93,64 @@ public class ArticleDetailActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(articleAdapter);
         articleAdapter.notifyDataSetChanged();*/
-        Loading.show(ArticleDetailActivity.this);
-        ArticleHelper.getArticleDetail(articleId,new RestCallback<ApiResponse<cemara.labschool.id.rumahcemara.model.Article>>() {
+        Loading.show(context);
+        BroadcastHelper.getBroadcastDetail(articleId,new RestCallback<ApiResponse<cemara.labschool.id.rumahcemara.model.Broadcast>>() {
             @SuppressLint("SetJavaScriptEnabled")
             @Override
-            public void onSuccess(Headers headers, ApiResponse<cemara.labschool.id.rumahcemara.model.Article> body) {
-                Loading.hide(ArticleDetailActivity.this);
-                if (body != null && body.isStatus()) {
-                    articleDetail=body.getData();
-                    Log.d("aa","sss");
+            public void onSuccess(Headers headers, ApiResponse<cemara.labschool.id.rumahcemara.model.Broadcast> body) {
+                Loading.hide(context);
+                try {
+                    if (body != null && body.isStatus()) {
+                        articleDetail=body.getData();
+                        Log.d("aa","sss");
 
-                    tvAuthor.setText(articleDetail.getUserCreator().getProfile().getFullname());
-                    tvTitle.setText(articleDetail.getTitle());
-                    tvDate.setText(DateHelper.dateFormat(DateHelper.stringToDate(articleDetail.getCreatedAt())));
-                    String content = "<html><head>"
-                            + "<style type=\"text/css\">body{color: #8f8f8f} p{font-size: 13px}"
-                            + "</style></head>"
-                            + "<body>"
-                            + articleDetail.getContent()
-                            + "</body></html>";
+                        tvAuthor.setText(articleDetail.getUserCreator().getProfile().getFullname());
+                        tvTitle.setText(articleDetail.getTitle());
+                        tvDate.setText(DateHelper.dateFormat(DateHelper.stringToDate(articleDetail.getCreatedAt())));
+                        String content = "<html><head>"
+                                + "<style type=\"text/css\">body{color: #8f8f8f} p{font-size: 13px}"
+                                + "</style></head>"
+                                + "<body>"
+                                + articleDetail.getContent()
+                                + "</body></html>";
 
-                    Glide.with(context)
-                            .load(articleDetail.getBanner())
-                            .into(banner);
+                        Glide.with(context)
+                                .load(articleDetail.getBanner())
+                                .into(banner);
 
-//                    Spanned htmlAsSpanned = Html.fromHtml(articleDetail.getContent());
-//                    tvContent.setText(htmlAsSpanned);
+                        Spanned htmlAsSpanned = Html.fromHtml(articleDetail.getContent());
+//                        tvContent.setText(htmlAsSpanned);
 
                     articleDetailContent.getSettings().setJavaScriptEnabled(true);
                     articleDetailContent.setBackgroundColor(Color.TRANSPARENT);
-                    articleDetailContent.loadDataWithBaseURL("", content, "text/html", "UTF-8", "");
+                    articleDetailContent.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null);
 
-                    if (flag!=null){
-                        markNewsTop.setEnabled(false);
-                        markNewsTop.setImageDrawable(getResources().getDrawable(R.drawable.ic_bookmark_black_24dp));
+                        if (flag!=null){
+                            markNewsTop.setEnabled(false);
+                            markNewsTop.setImageDrawable(getResources().getDrawable(R.drawable.ic_bookmark_black_24dp));
+                        } else {
+                            markNewsTop.setOnClickListener(new MarkBroadcastClickListener(context, articleDetail));
+                        }
+
+
                     } else {
-                        markNewsTop.setOnClickListener(new MarkArticleClickListener(context, articleDetail));
-                    }
-
-
-                } else {
 //                        loadingDialog.dismiss();
-                    Toast.makeText(ArticleDetailActivity.this, body.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, body.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
                 }
             }
 
             @Override
             public void onFailed(ErrorResponse error) {
-                Toast.makeText(ArticleDetailActivity.this,"Gagal Ambil Data", Toast.LENGTH_SHORT).show();
-                Loading.hide(ArticleDetailActivity.this);
+                Loading.hide(context);
+                Toast.makeText(context,"Gagal Ambil Data", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCanceled() {
-                Loading.hide(ArticleDetailActivity.this);
+                Loading.hide(context);
             }
         });
 
@@ -149,12 +160,7 @@ public class ArticleDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.icon_back);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
 
     @OnClick(R.id.mark_share)
@@ -165,5 +171,4 @@ public class ArticleDetailActivity extends AppCompatActivity {
                 "\n"+ articleDetail.getBanner());
         startActivity(Intent.createChooser(sharingIntent, "Share using:"));
     }
-
 }

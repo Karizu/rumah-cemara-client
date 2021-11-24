@@ -85,7 +85,7 @@
     <string name="tidak">Tidak</string>
     <string name="ask_the_expert">Ask The Expert</string>
     <string name="desk_ask_the_expert">Kirim pertanyaan seputar kesehatan yang akan dijawab oleh ahlinya</string>
-    <string name="create_on">Create on</string>
+    <string name="create_on">Created on</string>
     <string name="create_new_topic">Buat Pertanyaan Baru</string>
     <string name="create_topic">Kirim Pertanyaan</string>
     <string name="example_address">Jl. Matrapersada No. 16, Kel. Pasirkaliki, Kec. Cimahi Utara Cimahi, West Java, 40514, ID</string>
@@ -96,6 +96,7 @@
     <string name="city">Kota</string>
     <string name="events">Kegiatan</string>
     <string name="title_detail">Title Detail</string>
+
     <string name="by">by</string>
     <string name="on">on</string>
     <string name="see_more">See More</string>
@@ -107,6 +108,7 @@
     <string name="capacity_building">Capacity Building</string>
     <string name="news">News</string>
     <string name="articles">Artikel</string>
+    <string name="broadcast">Sayembara</string>
     <string name="reminder_description">reminder event description</string>
     <string name="event_title">Seminar Pencegahan Aids</string>
     <string name="institutionType">Institusi</string>

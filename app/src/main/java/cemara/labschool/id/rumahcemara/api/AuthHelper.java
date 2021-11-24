@@ -10,10 +10,11 @@ import cemara.labschool.id.rumahcemara.model.Profile;
 import cemara.labschool.id.rumahcemara.model.Token;
 import cemara.labschool.id.rumahcemara.model.User;
 import okhttp3.RequestBody;
+import retrofit2.Callback;
 
 public class AuthHelper {
 
-    public static void register(RequestBody registerRequest, RestCallback<ApiResponse> callback){
+    public static void register(RequestBody registerRequest, Callback<ApiResponse> callback){
         Reztrofit<ApiInterface> service = Reztrofit.getInstance();
         service.getEndpoint().postRegister(registerRequest).enqueue(callback);
     }

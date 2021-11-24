@@ -1,4 +1,4 @@
-package cemara.labschool.id.rumahcemara.home.highlight.article.fragment;
+package cemara.labschool.id.rumahcemara.home.highlight.broadcast.fragment;
 
 
 import android.content.Context;
@@ -31,11 +31,14 @@ import butterknife.ButterKnife;
 import cemara.labschool.id.rumahcemara.Constants;
 import cemara.labschool.id.rumahcemara.R;
 import cemara.labschool.id.rumahcemara.api.ArticleHelper;
+import cemara.labschool.id.rumahcemara.api.BroadcastHelper;
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
+import cemara.labschool.id.rumahcemara.model.Broadcast;
 import cemara.labschool.id.rumahcemara.util.ArticleClickListener;
+import cemara.labschool.id.rumahcemara.util.BroadcastClickListener;
 import cemara.labschool.id.rumahcemara.util.MarkArticleClickListener;
-import cemara.labschool.id.rumahcemara.util.article.model.Article;
-import cemara.labschool.id.rumahcemara.util.article.model.adapter.ArticleAdapter;
+import cemara.labschool.id.rumahcemara.util.MarkBroadcastClickListener;
+import cemara.labschool.id.rumahcemara.util.broadcast.adapter.BroadcastAdapter;
 import cemara.labschool.id.rumahcemara.util.dialog.Loading;
 import cemara.labschool.id.rumahcemara.util.helper.DateHelper;
 import okhttp3.Headers;
@@ -43,11 +46,11 @@ import okhttp3.Headers;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ArticleFragment extends Fragment {
+public class BroadcastFragment extends Fragment {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-    cemara.labschool.id.rumahcemara.util.article.model.adapter.ArticleAdapter articleAdapter;
-    List<Article> articleList = new ArrayList<>();
+    BroadcastAdapter broadcastAdapter;
+    List<cemara.labschool.id.rumahcemara.util.broadcast.model.Broadcast> broadcastList = new ArrayList<>();
     String id;
     private Context context;
     //carousel
@@ -59,11 +62,11 @@ public class ArticleFragment extends Fragment {
             "https://placeholdit.imgix.net/~text?txtsize=15&txt=image5&txt=350%C3%97150&w=350&h=150"
     };
     String[] sampleTitles = {"Artikel 1", "Artikel 2", "Artikel 3"};
-    List<cemara.labschool.id.rumahcemara.model.Article> articlePager=new ArrayList<>();
+    List<cemara.labschool.id.rumahcemara.model.Broadcast> articlePager=new ArrayList<>();
 
     View rootView;
 
-    public ArticleFragment() {
+    public BroadcastFragment() {
         // Required empty public constructor
     }
 
@@ -85,13 +88,13 @@ public class ArticleFragment extends Fragment {
 
     private void getListNews(String id) {
         Loading.show(getContext());
-        ArticleHelper.getArticleCampaign(id, new RestCallback<ApiResponse<List<cemara.labschool.id.rumahcemara.model.Article>>>() {
+        BroadcastHelper.getArticleCampaign(id, new RestCallback<ApiResponse<List<cemara.labschool.id.rumahcemara.model.Broadcast>>>() {
             @Override
-            public void onSuccess(Headers headers, ApiResponse<List<cemara.labschool.id.rumahcemara.model.Article>> body) {
+            public void onSuccess(Headers headers, ApiResponse<List<cemara.labschool.id.rumahcemara.model.Broadcast>> body) {
                 Loading.hide(getContext());
                 if (body != null && body.isStatus()) {
-                    articleList.clear();
-                    List<cemara.labschool.id.rumahcemara.model.Article> articleLists=body.getData();
+                    broadcastList.clear();
+                    List<Broadcast> articleLists = body.getData();
                     Log.d("Training","Lists");
 
                     // Insert Pager
@@ -101,16 +104,16 @@ public class ArticleFragment extends Fragment {
                         articleLists.remove(0);
                     }
                     for(int i=0;i<articleLists.size();i++){
-                        articleList.add(new Article(articleLists.get(i).getId(), articleLists.get(i).getTitle(), articleLists.get(i).getUserCreator().getProfile().getFullname(), DateHelper.dateFormat(DateHelper.stringToDate(articleLists.get(i).getCreatedAt())), articleLists.get(i).getBanner()));
+                        broadcastList.add(new cemara.labschool.id.rumahcemara.util.broadcast.model.Broadcast(articleLists.get(i).getId(), articleLists.get(i).getTitle(), articleLists.get(i).getUserCreator().getProfile().getFullname(), DateHelper.dateFormat(DateHelper.stringToDate(articleLists.get(i).getCreatedAt())), articleLists.get(i).getBanner()));
                     }
-                    //articleList.add(new News("1", "testing", "test", "June 20 2019", R.drawable.img_article));
+                    //broadcastList.add(new News("1", "testing", "test", "June 20 2019", R.drawable.img_article));
 
-                    articleAdapter = new ArticleAdapter(getContext(), articleList);
+                    broadcastAdapter = new BroadcastAdapter(getContext(), broadcastList);
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
-                    recyclerView.setAdapter(articleAdapter);
-                    articleAdapter.notifyDataSetChanged();
+                    recyclerView.setAdapter(broadcastAdapter);
+                    broadcastAdapter.notifyDataSetChanged();
 
                     initSlider(rootView);
 
@@ -161,6 +164,8 @@ public class ArticleFragment extends Fragment {
             ImageView ivCarousel = customView.findViewById(R.id.iv_carousel);
             ImageView ivShare = customView.findViewById(R.id.iv_carousel_share);
             ImageView ivMark = customView.findViewById(R.id.iv_carousel_mark);
+            ivMark.setVisibility(View.GONE);
+            ivShare.setVisibility(View.GONE);
 
             Glide.with(getContext())
                     .load(articlePager.get(position).getBanner())
@@ -173,9 +178,9 @@ public class ArticleFragment extends Fragment {
                         "\n"+ articlePager.get(position).getBanner());
                 startActivity(Intent.createChooser(sharingIntent, "Share using:"));
             });
-            ivMark.setOnClickListener(new MarkArticleClickListener(context, articlePager.get(position)));
+            ivMark.setOnClickListener(new MarkBroadcastClickListener(context, articlePager.get(position)));
 
-            ivCarousel.setOnClickListener(new ArticleClickListener(articlePager.get(position)));
+            ivCarousel.setOnClickListener(new BroadcastClickListener(articlePager.get(position)));
             return customView;
         }
     };

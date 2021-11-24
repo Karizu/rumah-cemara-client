@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/White"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context=".home.highlight.DetailHighlightActivity">
+    tools:context=".home.highlight.NewsDetailActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/row_toolbar_image" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,14 +23,57 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/banner_news"
+            <TextView
+                style="@style/sfDisplayFont"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_padding_size_medium"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/img_news" />
+                android:layout_margin="@dimen/margin_padding_size_medium"
+                android:text="@string/title_detail"
+                android:textSize="@dimen/margin_padding_size_medium"
+                android:id="@+id/tvTitle"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_padding_size_medium"
+                android:layout_marginRight="@dimen/margin_padding_size_medium"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/sfDisplayFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/by"
+                    android:textColor="@color/NormalColorText" />
+
+                <TextView
+                    style="@style/sfDisplayFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_padding_size_small"
+                    android:text="Media Data RC"
+                    android:id="@+id/tvAuthor"
+                    android:textColor="@color/FocusColorText" />
+
+                <TextView
+                    style="@style/sfDisplayFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_padding_size_small"
+                    android:text="@string/on"
+                    android:textColor="@color/NormalColorText" />
+
+                <TextView
+                    style="@style/sfDisplayFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_padding_size_small"
+                    android:text="June 9 2018"
+                    android:id="@+id/tvDate"
+                    android:textColor="@color/FocusColorText" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -43,16 +91,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_marginTop="@dimen/margin_padding_size_medium"
-                        android:background="@color/LightGrey"
-                        android:visibility="invisible" />
+                        android:visibility="invisible"
+                        android:background="@color/LightGrey" />
                 </FrameLayout>
 
                 <ImageView
                     android:id="@+id/mark_news_top"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_padding_size_micro"
                     android:padding="@dimen/margin_padding_size_small"
+                    android:layout_margin="@dimen/margin_padding_size_micro"
+                    android:visibility="gone"
                     android:src="@drawable/icon_mark" />
 
                 <ImageView
@@ -61,77 +110,37 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_padding_size_micro"
                     android:padding="@dimen/margin_padding_size_small"
+                    android:visibility="gone"
                     android:src="@drawable/icon_share" />
 
             </LinearLayout>
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/banner_news"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_padding_size_medium"
-                android:layout_marginRight="@dimen/margin_padding_size_medium"
-                android:orientation="horizontal">
-
-                <TextView
-                    style="@style/sfDisplayFont"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/by"
-                    android:textColor="@color/NormalColorText" />
-
-                <TextView
-                    android:id="@+id/tvAuthor"
-                    style="@style/sfDisplayFont"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_padding_size_small"
-                    android:text="Media Data RC"
-                    android:textColor="@color/FocusColorText" />
-
-                <TextView
-                    style="@style/sfDisplayFont"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_padding_size_small"
-                    android:text="@string/on"
-                    android:textColor="@color/NormalColorText" />
-
-                <TextView
-                    android:id="@+id/tvDate"
-                    style="@style/sfDisplayFont"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_padding_size_small"
-                    android:text="June 9 2018"
-                    android:textColor="@color/FocusColorText" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tvTitle"
-                style="@style/sfDisplayFont"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_padding_size_medium"
-                android:text="@string/title_detail"
-                android:textSize="@dimen/margin_padding_size_medium"
-                android:textStyle="bold" />
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:layout_marginTop="@dimen/margin_padding_size_medium"
+                android:src="@drawable/img_news" />
 
             <TextView
                 android:id="@+id/tvContent"
                 style="@style/sfDisplayFont"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="@string/title_detail"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:visibility="gone"/>
 
             <WebView
                 android:id="@+id/article_detail_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_padding_size_medium" />
+                android:layout_margin="@dimen/margin_padding_size_medium"/>
 
             <!--<LinearLayout-->
             <!--android:layout_width="match_parent"-->
@@ -190,9 +199,5 @@
         </LinearLayout>
 
     </ScrollView>
-
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/row_toolbar_image" />
 
 </RelativeLayout>

@@ -37,6 +37,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.rezkyatinnov.kyandroid.reztrofit.ErrorResponse;
 import com.rezkyatinnov.kyandroid.reztrofit.RestCallback;
 
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -63,6 +65,9 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
@@ -204,24 +209,28 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         TreatmentHelper.getAllTreatment(new RestCallback<ApiResponse<List<Treatment>>>() {
             @Override
             public void onSuccess(Headers headers, ApiResponse<List<Treatment>> body) {
-                if (body != null && body.isStatus()){
-                    dataTreatment = new ArrayList();
-                    treatmentId = new ArrayList();
-                    List<Treatment> data = body.getData();
-                    for (int i = 0; i < data.size(); i++){
-                        dataTreatment.add(data.get(i).getName());
-                        treatmentId.add(data.get(i).getId());
-                        Log.d("Treatment"+" "+i, data.get(i).getName());
+                try {
+                    if (body != null && body.isStatus()){
+                        dataTreatment = new ArrayList();
+                        treatmentId = new ArrayList();
+                        List<Treatment> data = body.getData();
+                        for (int i = 0; i < data.size(); i++){
+                            dataTreatment.add(data.get(i).getName());
+                            treatmentId.add(data.get(i).getId());
+                            Log.d("Treatment"+" "+i, data.get(i).getName());
+                        }
+
+                        // Creating adapter for spinner
+                        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(mContext, R.layout.support_simple_spinner_dropdown_item, dataTreatment);
+
+                        // Drop down layout style - list view with radio button
+                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                        // attaching data adapter to spinner
+                        typeTreatmentSpinner.setAdapter(dataAdapter);
                     }
-
-                    // Creating adapter for spinner
-                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(mContext, R.layout.support_simple_spinner_dropdown_item, dataTreatment);
-
-                    // Drop down layout style - list view with radio button
-                    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                    // attaching data adapter to spinner
-                    typeTreatmentSpinner.setAdapter(dataAdapter);
+                } catch (Exception e){
+                    e.printStackTrace();
                 }
             }
 
@@ -243,24 +252,28 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         TreatmentHelper.getAllInstitution(new RestCallback<ApiResponse<List<Treatment>>>() {
             @Override
             public void onSuccess(Headers headers, ApiResponse<List<Treatment>> body) {
-                if (body != null && body.isStatus()){
-                    dataInstitution = new ArrayList();
-                    institutionId = new ArrayList();
-                    List<Treatment> data = body.getData();
-                    for (int i = 0; i < data.size(); i++){
-                        dataInstitution.add(data.get(i).getName());
-                        institutionId.add(data.get(i).getId());
-                        Log.d("Treatment"+" "+i, data.get(i).getName());
+                try {
+                    if (body != null && body.isStatus()){
+                        dataInstitution = new ArrayList();
+                        institutionId = new ArrayList();
+                        List<Treatment> data = body.getData();
+                        for (int i = 0; i < data.size(); i++){
+                            dataInstitution.add(data.get(i).getName());
+                            institutionId.add(data.get(i).getId());
+                            Log.d("Treatment"+" "+i, data.get(i).getName());
+                        }
+
+                        // Creating adapter for spinner
+                        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(mContext, R.layout.support_simple_spinner_dropdown_item, dataInstitution);
+
+                        // Drop down layout style - list view with radio button
+                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                        // attaching data adapter to spinner
+                        typeInstitutionSpinner.setAdapter(dataAdapter);
                     }
-
-                    // Creating adapter for spinner
-                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(mContext, R.layout.support_simple_spinner_dropdown_item, dataInstitution);
-
-                    // Drop down layout style - list view with radio button
-                    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                    // attaching data adapter to spinner
-                    typeInstitutionSpinner.setAdapter(dataAdapter);
+                } catch (Exception e){
+                    e.printStackTrace();
                 }
             }
 
@@ -337,26 +350,44 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                         .build();
             }
 
-            AuthHelper.register(requestBody, new RestCallback<ApiResponse>() {
+            AuthHelper.register(requestBody, new Callback<ApiResponse>() {
                 @Override
-                public void onSuccess(Headers headers, ApiResponse body) {
+                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                     Loading.hide(getApplicationContext());
-                    Toast.makeText(mContext, "Thanks for signing up! Please login first", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(mContext, LoginActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+                    try {
+                        if (response.isSuccessful()){
+                            Toast.makeText(mContext, "Thanks for signing up! Please login first", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(mContext, LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        } else {
+                            try {
+                                JSONObject jObjError = new JSONObject(Objects.requireNonNull(response.errorBody()).string());
+                                if (jObjError.getString("error").startsWith("Username")){
+                                    Toast.makeText(mContext, "Email already used", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(mContext, jObjError.getString("error"), Toast.LENGTH_LONG).show();
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
 
                 @Override
-                public void onFailed(ErrorResponse error) {
+                public void onFailure(Call<ApiResponse> call, Throwable t) {
                     Loading.hide(getApplicationContext());
-                    Log.d("Error Register", error.getDescription());
-                    Toast.makeText(mContext, error.getHttpStatus().getReasonPhrase(), Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onCanceled() {
-                    Loading.hide(getApplicationContext());
+                    t.printStackTrace();
+                    try {
+                        Toast.makeText(mContext, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
             });
         }

@@ -280,7 +280,6 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                     } else {
 //                        loadingDialog.dismiss();
-                        Toast.makeText(LoginActivity.this, body.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
 

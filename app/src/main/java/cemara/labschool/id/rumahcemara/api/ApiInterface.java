@@ -4,6 +4,7 @@ import java.util.List;
 
 import cemara.labschool.id.rumahcemara.model.ApiResponse;
 import cemara.labschool.id.rumahcemara.model.Article;
+import cemara.labschool.id.rumahcemara.model.Broadcast;
 import cemara.labschool.id.rumahcemara.model.Category;
 import cemara.labschool.id.rumahcemara.model.CategoryModel;
 import cemara.labschool.id.rumahcemara.model.Chat;
@@ -45,7 +46,7 @@ public interface ApiInterface {
 
 //    String BASE_URL = "http://37.72.172.144/rumah-cemara-api/public/api/";
 
-    String BASE_URL = "http://68.183.226.23/rumah-cemara-api/public/api/";
+    String BASE_URL = "http://aplikasiklik.id/rumah-cemara-api/public/api/";
 
     @GET("userLocation/nearMe")
     Call<ApiResponse<List<OutreachNearMeResponse>>> getOutreachListNearMe(@Query("lat") Double latitude, @Query("long") Double longitude, @Query("radius") int radius);
@@ -128,11 +129,20 @@ public interface ApiInterface {
     @GET("article")
     Call<ApiResponse<List<Article>>> getArticleWithCategory(@Query("article_category_id") String articleCategoryId, @Query("status") int status);
 
+    @GET("broadcast")
+    Call<ApiResponse<List<Broadcast>>> getBroadcastWithCategory(@Query("broadcast_category_id") String articleCategoryId, @Query("status") int status);
+
     @GET("article/{article_id}")
     Call<ApiResponse<Article>> getArticleDetail(@Path("article_id") String id);
 
+    @GET("broadcast/{broadcast_id}")
+    Call<ApiResponse<Broadcast>> getBroadcastDetail(@Path("broadcast_id") String id);
+
     @GET("articleCategories")
     Call<ApiResponse<List<CategoryModel>>> getArticleCategories();
+
+    @GET("broadcastCategories")
+    Call<ApiResponse<List<CategoryModel>>> getBroadcastCategories();
 
     /***************** Event API *********************/
     @GET("event")

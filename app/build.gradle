@@ -8,6 +8,7 @@ buildscript {
         classpath "io.realm:realm-gradle-plugin:5.5.0"
     }
 }
+
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 
@@ -17,8 +18,8 @@ android {
         applicationId "cemara.labschool.id.rumahcemara"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0.20"
+        versionCode 5
+        versionName "1.0.24"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
